@@ -1,0 +1,16 @@
+
+#Mac
+\.DS_Store
+
+RCS
+.+,v
+
+
+
+\.git
+\.gitignore
+\.gitmodules
+
+^/README.*
+^/LICENSE.*
+^/COPYING
