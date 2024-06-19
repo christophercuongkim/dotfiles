@@ -100,10 +100,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Exports
+export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 #Aliases
 alias python=python3
 alias vim=nvim
 
 eval "$(starship init zsh)"
-
