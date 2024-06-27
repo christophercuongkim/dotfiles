@@ -73,8 +73,17 @@ alias python=python3
 alias vim=nvim
 alias ls='ls --color'
 
-# Exports
-export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+
+# Exports base on os
+if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ ! -f "~/.1password/agent.sock" ]]; then
+      mkdir -p ~/.1password && ln -s ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
+    fi
+  fi
+  export SSH_AUTH_SOCK=~/.1password/agent.sock
+fi
