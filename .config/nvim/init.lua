@@ -287,6 +287,12 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        pickers = {
+          find_files = {
+            hidden = true,
+            file_ignore_patterns = { '.git/' },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -520,9 +526,39 @@ require('lazy').setup({
             },
           },
         },
-        gopls = {},
+        gopls = {
+          on_attach = function()
+            return require 'custom.configs.autoformat'
+          end,
+          settings = {
+            gopls = {
+              completeUnimported = true,
+              usePlaceholders = true,
+              analyses = {
+                unusedparams = true,
+              },
+            },
+          },
+        },
+        golines = {
+          on_attach = function()
+            return require 'custom.configs.autoformat'
+          end,
+        },
+        goimports = {
+          on_attach = function()
+            return require 'custom.configs.autoformat'
+          end,
+        },
+        gofumpt = {
+          on_attach = function()
+            return require 'custom.configs.autoformat'
+          end,
+        },
         pyright = {
-          on_attach = on_attach,
+          o_attach = function()
+            return require 'custom.configs.autoformat'
+          end,
           capabilities = capabilities,
           on_new_config = function(new_config, root_dir)
             local pipfile_exists = require('lspconfig').util.search_ancestors(root_dir, function(path)
@@ -537,6 +573,13 @@ require('lazy').setup({
             if pipfile_exists then
               new_config.cmd = { 'pipenv', 'run', 'pyright-langserver', '--stdio' }
             end
+          end,
+        },
+        mypy = {},
+        ruff = {},
+        black = {
+          on_attach = function()
+            return require 'custom.configs.autoformat'
           end,
         },
       }
@@ -820,12 +863,12 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
