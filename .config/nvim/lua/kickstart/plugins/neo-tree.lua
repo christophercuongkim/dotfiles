@@ -15,10 +15,14 @@ return {
   },
   opts = {
     filesystem = {
+
       window = {
         mappings = {
           ['\\'] = 'close_window',
         },
+      },
+      filtered_items = {
+        visible = true,
       },
     },
   },
