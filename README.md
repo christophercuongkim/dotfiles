@@ -7,3 +7,6 @@ This is a repo for maintain config files across different development environmen
 - ripgrep
 - fzf
 - zoxide
+
+## Required for nvim
+- npm
