@@ -10,11 +10,18 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
-  type = "session"
-  style = "diamond"
+  type = "os"
+  style = "plain"
   foreground = "#000000"
   background = "#A7C7E7"
-  template = "{{ if .SSHSession }} {{ end }}{{ .UserName }}@{{ .HostName }}"
+  template = " {{.Icon}} "
+
+  [[blocks.segments]]
+  type = "session"
+  style = "powerline"
+  foreground = "#000000"
+  background = "#A7C7E7"
+  template = "{{ if .SSHSession }} 󱘖 {{ end }}{{ .UserName }}@{{ .HostName }}"
 
   [[blocks.segments]]
   type = "git"
