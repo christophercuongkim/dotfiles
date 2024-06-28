@@ -10,7 +10,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
-    type = "session"
+  type = "session"
   style = "diamond"
   foreground = "#ffffff"
   background = "#16161e"

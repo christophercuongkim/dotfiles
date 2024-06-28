@@ -7,6 +7,8 @@ This is a repo for maintain config files across different development environmen
 - ripgrep
 - fzf
 - zoxide
+- pyenv
 
 ## Required for nvim
 - npm
+- pipenv
