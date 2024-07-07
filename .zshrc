@@ -87,3 +87,6 @@ if [[ -z "${SSH_AUTH_SOCK}" ]]; then
   fi
   export SSH_AUTH_SOCK=~/.1password/agent.sock
 fi
+
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
