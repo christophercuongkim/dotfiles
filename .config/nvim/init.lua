@@ -556,10 +556,17 @@ require('lazy').setup({
           end,
         },
         pyright = {
-          o_attach = function()
+          on_attach = function()
             return require 'custom.configs.autoformat'
           end,
           capabilities = capabilities,
+          settings = {
+            python = {
+              analysis = {
+                autoImportCompleteions = true,
+              },
+            },
+          },
           on_new_config = function(new_config, root_dir)
             local pipfile_exists = require('lspconfig').util.search_ancestors(root_dir, function(path)
               local pipfile = require('lspconfig').util.path.join(path, 'Pipfile')
