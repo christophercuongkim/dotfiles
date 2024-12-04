@@ -1,0 +1,98 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+  type = "os"
+  style = "plain"
+  foreground = "#000000"
+  background = "#A7C7E7"
+  template = " {{.Icon}} "
+
+  [[blocks.segments]]
+  type = "session"
+  style = "powerline"
+  foreground = "#000000"
+  background = "#A7C7E7"
+  template = "{{ if .SSHSession }} 󱘖 {{ end }}{{ .UserName }}@{{ .HostName }}"
+
+  [[blocks.segments]]
+  type = "git"
+  style = "powerline"
+  powerline_symbol = ""
+  foreground = "#000000"
+  background = "#A7C7E7"
+  background_templates = [
+    "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}",
+    "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
+    "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
+    "{{ if gt .Behind 0 }}#B388FB{{ end }}"
+  ]
+  template = "{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
+
+  [properties]
+  fetch_status = true
+  fetch_upstream_icon = true
+
+    [properties.untracked_modes]
+    "/Users/user/Projects/oh-my-posh/" = "no"
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'plain'
+    background = 'transparent'
+    foreground = 'blue'
+    template = '{{ .Path }}'
+
+    [blocks.segments.properties]
+      style = 'full'
+ 
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
+    template = '{{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = [
+      "{{if gt .Code 0}}red{{end}}",
+      "{{if eq .Code 0}}magenta{{end}}",
+    ]
+    background = 'transparent'
+    template = '❯'
+
+[transient_prompt]
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}magenta{{end}}",
+  ]
+  background = 'transparent'
+  template = '❯ '
+
+[secondary_prompt]
+  foreground = 'magenta'
+  background = 'transparent'
+  template = '❯❯ '
+

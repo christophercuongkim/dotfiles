@@ -1,8 +1,16 @@
-#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
-
-version = 2
-final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
+version = 3
+final_space = true
+
+[secondary_prompt]
+  template = '❯❯ '
+  foreground = 'magenta'
+  background = 'transparent'
+
+[transient_prompt]
+  template = '❯ '
+  background = 'transparent'
+  foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
 
 [[blocks]]
   type = 'prompt'
@@ -10,62 +18,61 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
-  type = "os"
-  style = "plain"
-  foreground = "#000000"
-  background = "#A7C7E7"
-  template = " {{.Icon}} "
-
-  [[blocks.segments]]
-  type = "session"
-  style = "powerline"
-  foreground = "#000000"
-  background = "#A7C7E7"
-  template = "{{ if .SSHSession }} 󱘖 {{ end }}{{ .UserName }}@{{ .HostName }}"
-
-  [[blocks.segments]]
-  type = "git"
-  style = "powerline"
-  powerline_symbol = ""
-  foreground = "#000000"
-  background = "#A7C7E7"
-  background_templates = [
-    "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}",
-    "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}",
-    "{{ if gt .Ahead 0 }}#B388FF{{ end }}",
-    "{{ if gt .Behind 0 }}#B388FB{{ end }}"
-  ]
-  template = "{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
-
-  [properties]
-  fetch_status = true
-  fetch_upstream_icon = true
-
-    [properties.untracked_modes]
-    "/Users/user/Projects/oh-my-posh/" = "no"
-
-  [[blocks.segments]]
-    type = 'path'
+    template = ' {{.Icon}} '
+    foreground = '#000000'
+    background = '#A7C7E7'
+    type = 'os'
     style = 'plain'
-    background = 'transparent'
-    foreground = 'blue'
-    template = '{{ .Path }}'
 
     [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '{{ if .SSHSession }} 󱘖 {{ end }}{{ .UserName }}@{{ .HostName }}'
+    foreground = '#000000'
+    background = '#A7C7E7'
+    type = 'session'
+    style = 'powerline'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}'
+    foreground = '#000000'
+    powerline_symbol = ''
+    background = '#A7C7E7'
+    type = 'git'
+    style = 'powerline'
+    background_templates = ['{{ if or (.Working.Changed) (.Staging.Changed) }}#FFEB3B{{ end }}', '{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}', '{{ if gt .Ahead 0 }}#B388FF{{ end }}', '{{ if gt .Behind 0 }}#B388FB{{ end }}']
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+
+  [[blocks.segments]]
+    template = '{{ .Path }}'
+    foreground = 'blue'
+    background = 'transparent'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
       style = 'full'
- 
+
 [[blocks]]
   type = 'rprompt'
   overflow = 'hidden'
 
   [[blocks.segments]]
-    type = 'executiontime'
-    style = 'plain'
+    template = '{{ .FormattedMs }}'
     foreground = 'yellow'
     background = 'transparent'
-    template = '{{ .FormattedMs }}'
+    type = 'executiontime'
+    style = 'plain'
 
     [blocks.segments.properties]
+      cache_duration = 'none'
       threshold = 5000
 
 [[blocks]]
@@ -74,25 +81,11 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
+    template = '❯'
+    background = 'transparent'
     type = 'text'
     style = 'plain'
-    foreground_templates = [
-      "{{if gt .Code 0}}red{{end}}",
-      "{{if eq .Code 0}}magenta{{end}}",
-    ]
-    background = 'transparent'
-    template = '❯'
+    foreground_templates = ['{{if gt .Code 0}}red{{end}}', '{{if eq .Code 0}}magenta{{end}}']
 
-[transient_prompt]
-  foreground_templates = [
-    "{{if gt .Code 0}}red{{end}}",
-    "{{if eq .Code 0}}magenta{{end}}",
-  ]
-  background = 'transparent'
-  template = '❯ '
-
-[secondary_prompt]
-  foreground = 'magenta'
-  background = 'transparent'
-  template = '❯❯ '
-
+    [blocks.segments.properties]
+      cache_duration = 'none'
