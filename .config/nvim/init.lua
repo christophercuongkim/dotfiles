@@ -493,6 +493,8 @@ require('lazy').setup({
               border = 'rounded',
             },
           }, event.buf)
+
+          require 'custom.configs.autoformat'
         end,
       })
 
@@ -541,9 +543,6 @@ require('lazy').setup({
           },
         },
         gopls = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
           settings = {
             gopls = {
               completeUnimported = true,
@@ -554,55 +553,38 @@ require('lazy').setup({
             },
           },
         },
-        golines = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
-        },
-        goimports = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
-        },
-        gofumpt = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
-        },
+        golines = {},
+        goimports = {},
+        gofumpt = {},
         pyright = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
           capabilities = capabilities,
           settings = {
+            pyright = {
+              disableOrganizeImports = true,
+            },
             python = {
               analysis = {
-                autoImportCompleteions = true,
+                ignore = { '*' },
               },
             },
           },
-          on_new_config = function(new_config, root_dir)
-            local pipfile_exists = require('lspconfig').util.search_ancestors(root_dir, function(path)
-              local pipfile = require('lspconfig').util.path.join(path, 'Pipfile')
-              if require('lspconfig').util.path.is_file(pipfile) then
-                return true
-              else
-                return false
-              end
-            end)
+          --on_new_config = function(new_config, root_dir)
+          --  local pipfile_exists = require('lspconfig').util.search_ancestors(root_dir, function(path)
+          --    local pipfile = require('lspconfig').util.path.join(path, 'Pipfile')
+          --    if require('lspconfig').util.path.is_file(pipfile) then
+          --      return true
+          --    else
+          --      return false
+          --    end
+          --  end)
 
-            if pipfile_exists then
-              new_config.cmd = { 'pipenv', 'run', 'pyright-langserver', '--stdio' }
-            end
-          end,
+          --  if pipfile_exists then
+          --    new_config.cmd = { 'pipenv', 'run', 'pyright-langserver', '--stdio' }
+          --  end
+          --end,
         },
         mypy = {},
         ruff = {},
-        black = {
-          on_attach = function()
-            return require 'custom.configs.autoformat'
-          end,
-        },
       }
 
       -- Ensure the servers and tools above are installed
