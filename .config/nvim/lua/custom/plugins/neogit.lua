@@ -30,10 +30,10 @@ return {
         -- "ascii"   is the graph the git CLI generates
         -- "unicode" is the graph like https://github.com/rbong/vim-flog
         -- "kitty"   is the graph like https://github.com/isakbm/gitgraph.nvim - use https://github.com/rbong/flog-symbols if you don't use Kitty
-        graph_style = 'unicode',
+        graph_style = 'ascii',
         -- Show relative date by default. When set, use `strftime` to display dates
-        commit_date_format = '%Y-%m-%%d',
-        log_date_format = '%Y-%m-%%d',
+        commit_date_format = '%Y-%m-%d',
+        log_date_format = '%Y-%m-%d',
         -- Used to generate URL's for branch popup action "pull request".
         git_services = {
           ['github.com'] = 'https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1',
@@ -89,79 +89,6 @@ return {
         -- Automatically close the console if the process exits with a 0 (success) status
         auto_close_console = true,
         notification_icon = '󰊢',
-        status = {
-          show_head_commit_hash = true,
-          recent_commit_count = 10,
-          HEAD_padding = 10,
-          HEAD_folded = false,
-          mode_padding = 3,
-          mode_text = {
-            M = 'modified',
-            N = 'new file',
-            A = 'added',
-            D = 'deleted',
-            C = 'copied',
-            U = 'updated',
-            R = 'renamed',
-            DD = 'unmerged',
-            AU = 'unmerged',
-            UD = 'unmerged',
-            UA = 'unmerged',
-            DU = 'unmerged',
-            AA = 'unmerged',
-            UU = 'unmerged',
-            ['?'] = '',
-          },
-        },
-        commit_editor = {
-          kind = 'tab',
-          show_staged_diff = true,
-          -- Accepted values:
-          -- "split" to show the staged diff below the commit editor
-          -- "vsplit" to show it to the right
-          -- "split_above" Like :top split
-          -- "vsplit_left" like :vsplit, but open to the left
-          -- "auto" "vsplit" if window would have 80 cols, otherwise "split"
-          staged_diff_split_kind = 'split',
-          spell_check = true,
-        },
-        commit_select_view = {
-          kind = 'tab',
-        },
-        commit_view = {
-          kind = 'vsplit',
-          verify_commit = vim.fn.executable 'gpg' == 1, -- Can be set to true or false, otherwise we try to find the binary
-        },
-        log_view = {
-          kind = 'tab',
-        },
-        rebase_editor = {
-          kind = 'auto',
-        },
-        reflog_view = {
-          kind = 'tab',
-        },
-        merge_editor = {
-          kind = 'auto',
-        },
-        description_editor = {
-          kind = 'auto',
-        },
-        tag_editor = {
-          kind = 'auto',
-        },
-        preview_buffer = {
-          kind = 'floating_console',
-        },
-        popup = {
-          kind = 'split',
-        },
-        stash = {
-          kind = 'tab',
-        },
-        refs_view = {
-          kind = 'tab',
-        },
         signs = {
           -- { CLOSED, OPENED }
           hunk = { '', '' },
@@ -172,188 +99,29 @@ return {
         integrations = {
           -- If enabled, use telescope for menu selection rather than vim.ui.select.
           -- Allows multi-select and some things that vim.ui.select doesn't.
-          telescope = nil,
+          telescope = true,
           -- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `diffview`.
           -- The diffview integration enables the diff popup.
           --
           -- Requires you to have `sindrets/diffview.nvim` installed.
-          diffview = nil,
+          diffview = true,
 
           -- If enabled, uses fzf-lua for menu selection. If the telescope integration
           -- is also selected then telescope is used instead
           -- Requires you to have `ibhagwan/fzf-lua` installed.
-          fzf_lua = nil,
+          fzf_lua = false,
 
           -- If enabled, uses mini.pick for menu selection. If the telescope integration
           -- is also selected then telescope is used instead
           -- Requires you to have `echasnovski/mini.pick` installed.
-          mini_pick = nil,
-        },
-        sections = {
-          -- Reverting/Cherry Picking
-          sequencer = {
-            folded = false,
-            hidden = false,
-          },
-          untracked = {
-            folded = false,
-            hidden = false,
-          },
-          unstaged = {
-            folded = false,
-            hidden = false,
-          },
-          staged = {
-            folded = false,
-            hidden = false,
-          },
-          stashes = {
-            folded = true,
-            hidden = false,
-          },
-          unpulled_upstream = {
-            folded = true,
-            hidden = false,
-          },
-          unmerged_upstream = {
-            folded = false,
-            hidden = false,
-          },
-          unpulled_pushRemote = {
-            folded = true,
-            hidden = false,
-          },
-          unmerged_pushRemote = {
-            folded = false,
-            hidden = false,
-          },
-          recent = {
-            folded = true,
-            hidden = false,
-          },
-          rebase = {
-            folded = true,
-            hidden = false,
-          },
-        },
-        mappings = {
-          commit_editor = {
-            ['q'] = 'Close',
-            ['<c-c><c-c>'] = 'Submit',
-            ['<c-c><c-k>'] = 'Abort',
-            ['<m-p>'] = 'PrevMessage',
-            ['<m-n>'] = 'NextMessage',
-            ['<m-r>'] = 'ResetMessage',
-          },
-          commit_editor_I = {
-            ['<c-c><c-c>'] = 'Submit',
-            ['<c-c><c-k>'] = 'Abort',
-          },
-          rebase_editor = {
-            ['p'] = 'Pick',
-            ['r'] = 'Reword',
-            ['e'] = 'Edit',
-            ['s'] = 'Squash',
-            ['f'] = 'Fixup',
-            ['x'] = 'Execute',
-            ['d'] = 'Drop',
-            ['b'] = 'Break',
-            ['q'] = 'Close',
-            ['<cr>'] = 'OpenCommit',
-            ['gk'] = 'MoveUp',
-            ['gj'] = 'MoveDown',
-            ['<c-c><c-c>'] = 'Submit',
-            ['<c-c><c-k>'] = 'Abort',
-            ['[c'] = 'OpenOrScrollUp',
-            [']c'] = 'OpenOrScrollDown',
-          },
-          rebase_editor_I = {
-            ['<c-c><c-c>'] = 'Submit',
-            ['<c-c><c-k>'] = 'Abort',
-          },
-          finder = {
-            ['<cr>'] = 'Select',
-            ['<c-c>'] = 'Close',
-            ['<esc>'] = 'Close',
-            ['<c-n>'] = 'Next',
-            ['<c-p>'] = 'Previous',
-            ['<down>'] = 'Next',
-            ['<up>'] = 'Previous',
-            ['<tab>'] = 'InsertCompletion',
-            ['<space>'] = 'MultiselectToggleNext',
-            ['<s-space>'] = 'MultiselectTogglePrevious',
-            ['<c-j>'] = 'NOP',
-            ['<ScrollWheelDown>'] = 'ScrollWheelDown',
-            ['<ScrollWheelUp>'] = 'ScrollWheelUp',
-            ['<ScrollWheelLeft>'] = 'NOP',
-            ['<ScrollWheelRight>'] = 'NOP',
-            ['<LeftMouse>'] = 'MouseClick',
-            ['<2-LeftMouse>'] = 'NOP',
-          },
-          -- Setting any of these to `false` will disable the mapping.
-          popup = {
-            ['?'] = 'HelpPopup',
-            ['A'] = 'CherryPickPopup',
-            ['d'] = 'DiffPopup',
-            ['M'] = 'RemotePopup',
-            ['P'] = 'PushPopup',
-            ['X'] = 'ResetPopup',
-            ['Z'] = 'StashPopup',
-            ['i'] = 'IgnorePopup',
-            ['t'] = 'TagPopup',
-            ['b'] = 'BranchPopup',
-            ['B'] = 'BisectPopup',
-            ['w'] = 'WorktreePopup',
-            ['c'] = 'CommitPopup',
-            ['f'] = 'FetchPopup',
-            ['l'] = 'LogPopup',
-            ['m'] = 'MergePopup',
-            ['p'] = 'PullPopup',
-            ['r'] = 'RebasePopup',
-            ['v'] = 'RevertPopup',
-          },
-          status = {
-            ['j'] = 'MoveDown',
-            ['k'] = 'MoveUp',
-            ['o'] = 'OpenTree',
-            ['q'] = 'Close',
-            ['I'] = 'InitRepo',
-            ['1'] = 'Depth1',
-            ['2'] = 'Depth2',
-            ['3'] = 'Depth3',
-            ['4'] = 'Depth4',
-            ['Q'] = 'Command',
-            ['<tab>'] = 'Toggle',
-            ['x'] = 'Discard',
-            ['s'] = 'Stage',
-            ['S'] = 'StageUnstaged',
-            ['<c-s>'] = 'StageAll',
-            ['u'] = 'Unstage',
-            ['K'] = 'Untrack',
-            ['U'] = 'UnstageStaged',
-            ['y'] = 'ShowRefs',
-            ['$'] = 'CommandHistory',
-            ['Y'] = 'YankSelected',
-            ['<c-r>'] = 'RefreshBuffer',
-            ['<cr>'] = 'GoToFile',
-            ['<s-cr>'] = 'PeekFile',
-            ['<c-v>'] = 'VSplitOpen',
-            ['<c-x>'] = 'SplitOpen',
-            ['<c-t>'] = 'TabOpen',
-            ['{'] = 'GoToPreviousHunkHeader',
-            ['}'] = 'GoToNextHunkHeader',
-            ['[c'] = 'OpenOrScrollUp',
-            [']c'] = 'OpenOrScrollDown',
-            ['<c-k>'] = 'PeekUp',
-            ['<c-j>'] = 'PeekDown',
-          },
+          mini_pick = false,
         },
       }
       vim.keymap.set('n', '<leader>ngo', neogit.open, { desc = 'Open Neogit', silent = true, noremap = true })
       vim.keymap.set('n', '<leader>ngc', ':Neogit commit<CR>', { desc = 'Git: commit', silent = true, noremap = true })
       vim.keymap.set('n', '<leader>ngp', ':Neogit pull<CR>', { desc = 'Git: pull', silent = true, noremap = true })
       vim.keymap.set('n', '<leader>ngP', ':Neogit push<CR>', { desc = 'Git: push', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>ngb', ':Telescope git_branches<CR>', { desc = 'Git: commit', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>ngb', ':Telescope git_branches<CR>', { desc = 'Git: branch', silent = true, noremap = true })
     end,
   },
 }
