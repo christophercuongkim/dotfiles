@@ -74,7 +74,6 @@ return {
         goimports = {},
         gofumpt = {},
         pyright = {
-          capabilities = capabilities,
           settings = {
             pyright = {
               disableOrganizeImports = true,
@@ -101,7 +100,27 @@ return {
           --end,
         },
         mypy = {},
-        ruff = {},
+        ruff = {
+          settings = {
+            ruff = {
+              lineLength = 88,
+              fixAll = true,
+              organizeImports = true,
+
+              lint = {
+                enable = true,
+              },
+              codeAction = {
+                fixViolation = {
+                  enable = false,
+                },
+              },
+              format = {
+                preview = true,
+              },
+            },
+          },
+        },
       },
     },
     config = function(_, opts)
@@ -224,6 +243,11 @@ return {
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, '[T]oggle Inlay [H]ints')
+          end
+
+          if client.name == 'ruff' then
+            -- Disable hover in favor of Pyright
+            client.server_capabilities.hoverProvider = false
           end
 
           -- require('lsp_signature').on_attach({
