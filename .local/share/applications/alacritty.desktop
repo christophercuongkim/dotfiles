@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Alacritty
+Comment=GPU-accelerated terminal emulator
+Exec=$HOME/.nix-profile/bin/alacritty
+Terminal=false
+Type=Application
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
+
