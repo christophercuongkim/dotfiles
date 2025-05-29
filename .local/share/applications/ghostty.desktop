@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Ghostty
+Comment=GPU-accelerated terminal emulator
+Exec=$HOME/.nix-profile/bin/ghostty
+Terminal=false
+Type=Application
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
+
