@@ -24,6 +24,7 @@
         pkgs.zoxide
         pkgs.pyenv
         pkgs.pipenv
+        pkgs.ghostty
       ];
     };
   };
