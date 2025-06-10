@@ -16,7 +16,11 @@ in
     userEmail = "christopher.cuong.kim@gmail.com";
   };
 
-  
+  programs.tmux = {
+    enable = true;
+    shell = "${pkgs.zsh}/bin/zsh";
+    terminal = "tmux-256color";
+  };
 
   home.packages = with pkgs; [
     firefox
@@ -40,6 +44,7 @@ in
     tree
     unzip
     wget
+    wl-clipboard
     zig
     zoxide
     zsh
@@ -76,6 +81,13 @@ in
   
   # Stow ignore file
   home.file.".stow-global-ignore".source = "${dotfiles_path}/.stow-global-ignore";
+
+  # ghostty config
+  home.file.".config/ghostty/config".source = "${dotfiles_path}/.config/ghostty/config";
+
+  
+
+
 
   # Enable GTK theme if needed
   gtk.enable = true;
