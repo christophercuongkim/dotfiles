@@ -5,13 +5,14 @@
 { config, pkgs, ... }:
 
 let
-  dotfiles_path = "/home/chriskim/dotfiles";
+  username = "chriskim";
+  dotfiles_path = "/home/${username}/dotfiles";
 in
 
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
       <home-manager/nixos>
     ];
 
@@ -111,7 +112,7 @@ in
   programs._1password-gui = {
 
     enable = true;
-    polkitPolicyOwners = ["chriskim"];
+    polkitPolicyOwners = ["${username}"];
 
   };
 
