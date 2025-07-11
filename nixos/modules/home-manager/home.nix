@@ -7,7 +7,7 @@ in
 {
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-
+  
   home.stateVersion = "25.11";
 
   programs.zsh.enable = true;
@@ -67,9 +67,39 @@ in
   home.file.".config/oh-my-posh".recursive = true;
   
   # Tmux config
-  home.file.".tmux.conf".source = "${dotfiles_path}/.config/tmux/tmux.conf";
-  home.file.".tmux".source = "${dotfiles_path}/.tmux";
-  
+  home.file.".config/tmux".source = "${dotfiles_path}/.config/tmux";
+  home.file.".config/tmux".recursive = true;
+  home.file.".config/tmux/plugins/catppuccin-tmux".source = pkgs.fetchFromGitHub {
+    owner = "dreamsofcode-io";
+    repo = "catppuccin-tmux";
+    rev = "main";
+    sha256 = "sha256-FJHM6LJkiAwxaLd5pnAoF3a7AE1ZqHWoCpUJE0ncCA8=";
+  };
+  home.file.".config/tmux/plugins/tmux-sensible".source = pkgs.fetchFromGitHub {
+    owner = "tmux-plugins";
+    repo = "tmux-sensible";
+    rev = "master";
+    sha256 = "sha256-hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+  };
+  home.file.".config/tmux/plugins/tmux-yank".source = pkgs.fetchFromGitHub {
+    owner = "tmux-plugins";
+    repo = "tmux-yank";
+    rev = "master";
+    sha256 = "sha256-hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+  };
+  home.file.".config/tmux/plugins/tpm".source = pkgs.fetchFromGitHub {
+    owner = "tmux-plugins";
+    repo = "tpm";
+    rev = "master";
+    sha256 = "sha256-hW8mfwB8F9ZkTQ72WQp/1fy8KL1IIYMZBtZYIwZdMQc=";
+  };
+  home.file.".config/tmux/plugins/vim-tmux-navigator".source = pkgs.fetchFromGitHub {
+    owner = "christoomey";
+    repo = "vim-tmux-navigator";
+    rev = "master";
+    sha256 = "sha256-czhzY1bauNd472osfUZSzsOEoGv9QhQBriF3ULkKNpY=";
+  };
+
   # SSH config
   home.file.".ssh/config".source = "${dotfiles_path}/.ssh/config";
   home.file.".ssh/rc".source = "${dotfiles_path}/.ssh/rc";
