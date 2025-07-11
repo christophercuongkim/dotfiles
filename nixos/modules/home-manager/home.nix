@@ -1,11 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
-  dotfiles_path = "/home/chriskim/dotfiles";
+  username = "chriskim";
+  dotfiles_path = "${inputs.self}";
 in
 {
-  home.username = "chriskim";
-  home.homeDirectory = "/home/chriskim";
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
 
   home.stateVersion = "25.11";
 
@@ -43,6 +44,7 @@ in
     tmux
     tree
     unzip
+    virtualbox
     wget
     wl-clipboard
     zig
@@ -67,7 +69,6 @@ in
   # Tmux config
   home.file.".tmux.conf".source = "${dotfiles_path}/.config/tmux/tmux.conf";
   home.file.".tmux".source = "${dotfiles_path}/.tmux";
-  home.file.".tmux".recursive = true;
   
   # SSH config
   home.file.".ssh/config".source = "${dotfiles_path}/.ssh/config";
@@ -85,6 +86,23 @@ in
   # ghostty config
   home.file.".config/ghostty/config".source = "${dotfiles_path}/.config/ghostty/config";
 
+  # rofi config
+  home.file.".config/rofi/config.rasi".source = "${dotfiles_path}/.config/rofi/config.rasi";
+
+
+  # ghostty desktop app
+  home.file.".local/share/applications/ghostty.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Ghostty
+      Comment=A terminal-based application
+      Exec=ghostty
+      Icon=utilities-terminal  # Change this if you have a custom icon
+      Terminal=true
+      Type=Application
+      Categories=Utility;TerminalEmulator;
+    '';
+  };
   
 
 
@@ -93,6 +111,18 @@ in
   gtk.enable = true;
 
   programs.home-manager.enable = true;
+
+  
+
+  # hyprland
+  home.file.".config/hypr/hyprland.conf".source = "${dotfiles_path}/.config/hypr/hyprland.conf";
+  home.file.".config/hypr/hyprlock.conf".source = "${dotfiles_path}/.config/hypr/hyprlock.conf";
+
+  programs.kitty.enable = true; # required for the default Hyprland config
+
+  # Optional, hint Electron apps to use Wayland:
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
+
 }
 
 

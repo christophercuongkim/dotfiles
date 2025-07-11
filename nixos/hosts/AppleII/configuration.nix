@@ -2,25 +2,29 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
   username = "chriskim";
   dotfiles_path = "/home/${username}/dotfiles";
+  hostname = "AppleII";
 in
 
 {
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-      <home-manager/nixos>
+      ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.default
     ];
+
+  # Enable flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "${hostname}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -46,26 +50,6 @@ in
     LC_PAPER = "en_US.UTF-8";
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
-  };
-
-
-
-
-
-
-
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -128,7 +112,14 @@ in
     ];
   };
 
-  home-manager.users.chriskim = import "${dotfiles_path}/nix/home.nix";
+  home-manager = {
+    extraSpecialArgs = { 
+      inherit inputs;
+    };
+    users = {
+      "chriskim" = import ../../modules/home-manager/home.nix;
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -158,5 +149,49 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
+
+  
+  # system-wide packages
+    environment.systemPackages = with pkgs; [
+    git
+    hyprland
+    hyprlock
+    libnotify
+    neovim
+    newt
+    rofi
+    stow
+    waybar_git
+    util-linux
+  ];
+
+  # hyprland
+
+  services.xserver.enable = false;  # Disable X11
+
+  # Enable wayland and other compositor settings
+  environment.variables = {
+    XDG_SESSION_TYPE = "wayland";
+    QT_QPA_PLATFORM = "wayland";
+    MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland support for Firefox
+  };
+
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
+
+  security.pam.services.hyprlock = {};
+
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_sesstion = {
+        command = "hyprland > /dev/null 2>&1";
+        user = "${username}";
+      };
+      default_session = initial_sesstion;
+    };
+  };
 
 }
