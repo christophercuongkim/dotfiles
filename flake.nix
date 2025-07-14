@@ -8,9 +8,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     waybar.url = "github:Alexays/Waybar/master";
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, anyrun, nixos-hardware, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -29,6 +34,8 @@
                 (_: _: { waybar_git = inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar; })
             ];
           })
+          {environment.systemPackages = [ anyrun.packages.${system}.anyrun-with-all-plugins ];}
+          nixos-hardware.nixosModules.framework-amd-ai-300-series
         ];
       };
     };

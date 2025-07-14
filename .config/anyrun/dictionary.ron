@@ -1,0 +1,5 @@
+//Type in <prefix><word to define
+Config(
+  prefix: ":def",
+  max_entries: 5,
+)

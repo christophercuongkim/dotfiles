@@ -70,6 +70,7 @@ in
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  services.fwupd.enable = true;
 
   # Tailscale
   services.tailscale.enable = true;
@@ -77,8 +78,22 @@ in
   
 
 
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchDocked = "ignore";  # optional: useful if external monitor/keyboard
+    extraConfig = ''
+      HandleLidSwitchExternalPower=suspend
+    '';
+  };
 
+  services.power-profiles-daemon.enable = true;
 
+  services.blueman.enable = true;
+
+  # For bluetooth in general
+  hardware.bluetooth.enable = true;
+  services.dbus.packages = [ pkgs.blueman ];
+  hardware.bluetooth.powerOnBoot = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -106,7 +121,7 @@ in
     isNormalUser = true;
     description = "Chris Kim";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "plugdev"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -153,17 +168,40 @@ in
   
   # system-wide packages
     environment.systemPackages = with pkgs; [
+    brightnessctl
     git
+    hypridle
     hyprland
     hyprlock
+    hyprpolkitagent
+    hyprpaper
     libnotify
     neovim
+    nerd-fonts.jetbrains-mono
     newt
+    pavucontrol
+    playerctl
     rofi
     stow
-    waybar_git
     util-linux
+    waybar_git
   ];
+
+  fonts = {
+    enableDefaultPackages = false;
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+  
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [  "JetBrainsMono" ];
+        sansSerif = [ "JetBrainsMono" ];
+        monospace = [ "JetBrainsMono" ];
+      };
+    };
+  };
 
   # hyprland
 
@@ -193,5 +231,41 @@ in
       default_session = initial_sesstion;
     };
   };
+
+  # Fingerprint
+  # Start the driver at boot
+  systemd.services.fprintd = {
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "simple";
+  };
+  
+  # Install the driver
+  services.fprintd = {
+    enable = true;
+    # If simply enabling fprintd is not enough, try enabling fprintd.tod...
+    tod.enable = true;
+    # ...and use one of the next four drivers
+    #tod.driver = pkgs.libfprint-2-tod1-goodix; # Goodix driver module
+    tod.driver = pkgs.libfprint-2-tod1-elan; # Elan(04f3:0c4b) driver
+    #tod.driver = pkgs.libfprint-2-tod1-vfs0090; # (Marked as broken as of 2025/04/23!) driver for 2016 ThinkPads
+    #tod.driver = pkgs.libfprint-2-tod1-goodix-550a; # Goodix 550a driver (from Lenovo)
+  
+    # however for focaltech 2808:a658, use fprintd with overidden package (without tod)
+    # services.fprintd.package = pkgs.fprintd.override {
+    #   libfprint = pkgs.libfprint-focaltech-2808-a658;
+    # };
+  };
+
+  security.pam.services.login.fprintAuth = false;
+
+  security.polkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id == "net.reactivated.fprint.device.enroll" &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
 }

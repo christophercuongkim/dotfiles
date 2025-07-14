@@ -1,0 +1,111 @@
+
+/* Define your colors as GTK-style variables */
+@define-color bg-color #121212;            /* very dark black */
+@define-color fg-color #ff4c4c;            /* your red */
+@define-color primary-color #ff4c4c;       /* same red */
+@define-color secondary-color #aa0000;     /* darker red for contrast */
+@define-color border-color @primary-color;
+@define-color selected-bg-color @primary-color; /* bright red for selected */
+@define-color selected-fg-color #ffffff;          /* white text on selection */
+
+/* Reset */
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 16px;
+  color: @fg-color;
+}
+
+/* Main window with some transparency */
+#window {
+  background-color: transparent;
+}
+
+/* Main container box */
+box#main {
+  background-color: transparent;
+  border: 0;
+}
+
+/* Search input entry */
+entry#entry {
+  font-size: 24px;
+  background: rgba(0,0,0,0.9);
+  border: 2px solid @primary-color;
+  border-radius: 8px;
+  padding: 10px 14px;
+  caret-color: @primary-color;
+  color: @fg-color;
+  margin-bottom: 8px;
+}
+
+/* List container */
+list#main {
+  background-color: transparent;
+}
+
+/* Each plugin item container */
+#plugin {
+  background-color: rgba(18, 18, 18, 0.9);
+  padding: 8px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  color: @fg-color;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Text that matches search */
+#match {
+  font-size: 16px;
+  padding: 2px 4px;
+  color: #fff; /* white for contrast inside plugin */
+}
+
+/* Match item hover and selection */
+#plugin:selected,
+#plugin:hover {
+  background-color: alpha(@selected-bg-color, 0.95);
+  color: @selected-fg-color;
+  font-weight: bold;
+  box-shadow:
+    0 0 8px 2px rgba(255, 76, 76, 0.8),
+    0 0 15px 5px rgba(255, 76, 76, 0.5);
+  border-left: 6px solid @primary-color;
+  padding-left: 14px;
+}
+
+/* Info label inside matches */
+#match:selected label#info,
+#match:hover label#info {
+  color: @selected-fg-color;
+}
+
+/* Info label inside matches */
+#match:selected label#match-title,
+#match:hover label#match-title {
+  color: @selected-fg-color;
+}
+
+/* Match description inside selected or hovered matches */
+#match:selected label#match-desc,
+#match:hover label#match-desc {
+  color: alpha(@selected-fg-color, 0.9);
+}
+
+/* Default info label */
+#match label#info {
+  color: @fg-color;
+}
+
+/* Description label */
+label#match-desc {
+  font-size: 1rem;
+  color: @fg-color;
+}
+
+/* Plugin label */
+label#plugin {
+  font-size: 16px;
+  color: @fg-color;
+}
+

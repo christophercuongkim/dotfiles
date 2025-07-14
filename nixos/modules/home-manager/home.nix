@@ -3,12 +3,23 @@
 let
   username = "chriskim";
   dotfiles_path = "${inputs.self}";
+  wrappedAnyrun = pkgs.symlinkJoin {
+    name = "anyrun-wrapped";
+    paths = [ inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/anyrun \
+        --set GDK_BACKEND wayland
+    '';
+  };
 in
 {
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   
   home.stateVersion = "25.11";
+
+  nixpkgs.config.allowUnfree = true;
 
   programs.zsh.enable = true;
   programs.git = {
@@ -24,6 +35,7 @@ in
   };
 
   home.packages = with pkgs; [
+    fastfetch
     firefox
     fzf
     gh
@@ -39,7 +51,10 @@ in
     pipenv
     pyenv
     python3
+    rink
     ripgrep
+    spotify
+    steam
     stow
     tmux
     tree
@@ -50,6 +65,12 @@ in
     zig
     zoxide
     zsh
+    gsettings-desktop-schemas
+    gtk3
+    gtk4
+    adwaita-icon-theme
+    gnome-themes-extra
+    gsettings-desktop-schemas
   ];
 
   # Link dotfiles - use relative paths from your dotfiles repo
@@ -116,37 +137,51 @@ in
   # ghostty config
   home.file.".config/ghostty/config".source = "${dotfiles_path}/.config/ghostty/config";
 
+  # anyrun
+
+  programs.anyrun = {
+    enable = true;
+
+    package = wrappedAnyrun;
+
+    config = {
+      width = { fraction = 0.6; };
+      height =  { fraction = 0.2; };
+      x = { fraction = 0.5; };
+      y = { fraction = 0.2; };
+      plugins = [
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libapplications.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libsymbols.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/librink.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libshell.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libtranslate.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libdictionary.so"
+        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libwebsearch.so"
+      ];
+    };
+  };
+
+  home.file.".config/anyrun".source = "${dotfiles_path}/.config/anyrun";
+  home.file.".config/anyrun".recursive = true;
+
+  # waybar
+  home.file.".config/waybar".source = "${dotfiles_path}/.config/waybar";
+  home.file.".config/waybar".recursive = true;
+
   # rofi config
   home.file.".config/rofi/config.rasi".source = "${dotfiles_path}/.config/rofi/config.rasi";
-
-
-  # ghostty desktop app
-  home.file.".local/share/applications/ghostty.desktop" = {
-    text = ''
-      [Desktop Entry]
-      Name=Ghostty
-      Comment=A terminal-based application
-      Exec=ghostty
-      Icon=utilities-terminal  # Change this if you have a custom icon
-      Terminal=true
-      Type=Application
-      Categories=Utility;TerminalEmulator;
-    '';
-  };
-  
-
-
 
   # Enable GTK theme if needed
   gtk.enable = true;
 
   programs.home-manager.enable = true;
 
-  
-
   # hyprland
-  home.file.".config/hypr/hyprland.conf".source = "${dotfiles_path}/.config/hypr/hyprland.conf";
-  home.file.".config/hypr/hyprlock.conf".source = "${dotfiles_path}/.config/hypr/hyprlock.conf";
+  home.file.".config/hypr".source = "${dotfiles_path}/.config/hypr";
+  home.file.".config/hypr".recursive = true;
+
+  #waybar
+  programs.waybar.enable = true;
 
   programs.kitty.enable = true; # required for the default Hyprland config
 

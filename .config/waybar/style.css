@@ -1,0 +1,81 @@
+/* ~/.config/waybar/style.css */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+  font-size: 13px;
+  border: none;
+  border-radius: 0;
+  padding: 0 6px;
+  min-height: 0;
+  color: white;
+}
+
+window#waybar {
+  background: #000000;
+  color: #ffffff;
+  border-bottom: 2px solid #ff0000;
+}
+
+/* Module containers */
+#workspaces,
+#pulseaudio,
+#network,
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#tray,
+#custom-media,
+#custom-power,
+#idle_inhibitor,
+#keyboard-state,
+#power-profiles-daemon,
+#mpd,
+#backlight {
+  background-color: #111111;
+  margin: 2px 2px;
+  padding: 0 3px;
+  border-radius: 4px;
+}
+
+/* Focused workspace */
+#workspaces button.focused {
+  background-color: #ff0000;
+  color: #000000;
+  font-weight: bold;
+}
+
+/* Urgent workspace */
+#workspaces button.urgent {
+  background-color: #ff4444;
+  color: white;
+}
+
+/* Hover effects */
+#workspaces button:hover,
+#tray:hover,
+#pulseaudio:hover,
+#clock:hover,
+#battery:hover {
+  background-color: #222222;
+  color: #ff0000;
+}
+
+/* MPD playing icon red */
+#mpd.playing {
+  color: #ff0000;
+}
+
+/* Battery warning */
+#battery.warning {
+  color: #ff9900;
+}
+#battery.critical {
+  color: #ff0000;
+}
+
+/* Idle inhibitor active */
+#idle_inhibitor.activated {
+  color: #ff0000;
+}
