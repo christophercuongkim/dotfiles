@@ -1,0 +1,6 @@
+// Type in <prefix><target lang> <text to translate> or <prefix><src lang><language_delimiter><target lang> <text to translate>
+Config(
+  prefix: ":",
+  language_delimiter: ">",
+  max_entries: 3,
+)

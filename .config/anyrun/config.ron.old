@@ -1,0 +1,29 @@
+Config(
+    plugins: [
+        "./lib/applications",
+        "./lib/symbols",
+        "./lib/rink",
+        "./lib/shell",
+        "./lib/translate",
+        "./lib/kidex",
+        "./lib/randr",
+        "./lib/dictionary",
+        "./lib/websearch",
+    ],
+    window: WindowConfig(
+        width: Some(600.0),
+        height: Some(400.0),
+        x: None,
+        y: None,
+        anchor: "center",
+
+    ),
+    style: StyleConfig(
+        theme: "style.css",
+    ),
+    plugin_dirs:[
+        "/nix/store/l7yk7khx8s73xv0vy9bvw4clnndaxpw8-anyrun-0.1.0/plugins"
+    ],
+    hotkey: Some("Super+Space"),
+)
+
