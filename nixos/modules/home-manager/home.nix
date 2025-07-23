@@ -19,13 +19,18 @@ in
   
   home.stateVersion = "25.11";
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   programs.zsh.enable = true;
   programs.git = {
     enable = true;
     userName = "Chris Kim";
     userEmail = "christopher.cuong.kim@gmail.com";
+    extraConfig = {
+      core.editor = "nvim";
+    };
   };
 
   programs.tmux = {
@@ -35,14 +40,21 @@ in
   };
 
   home.packages = with pkgs; [
+    adwaita-icon-theme
     fastfetch
     firefox
+    flutter
     fzf
     gh
     ghostty
     git
     github-desktop
+    gnome-themes-extra
     go
+    gsettings-desktop-schemas
+    gsettings-desktop-schemas
+    gtk3
+    gtk4
     lua
     luarocks
     neovim
@@ -53,24 +65,18 @@ in
     python3
     rink
     ripgrep
+    slack
     spotify
     steam
     stow
     tmux
     tree
     unzip
-    virtualbox
     wget
     wl-clipboard
     zig
     zoxide
     zsh
-    gsettings-desktop-schemas
-    gtk3
-    gtk4
-    adwaita-icon-theme
-    gnome-themes-extra
-    gsettings-desktop-schemas
   ];
 
   # Link dotfiles - use relative paths from your dotfiles repo
@@ -185,8 +191,12 @@ in
 
   programs.kitty.enable = true; # required for the default Hyprland config
 
-  # Optional, hint Electron apps to use Wayland:
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+  home.sessionVariables = {
+    # Optional, hint Electron apps to use Wayland:
+    NIXOS_OZONE_WL = "1";
+
+  };
+
 
 }
 
