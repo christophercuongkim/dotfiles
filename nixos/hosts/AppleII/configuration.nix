@@ -104,7 +104,15 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   # Install firefox.
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    policies = {
+      # Prevent Firefox from automatically exposing the protocol
+      "ProtocolHandlers" = {
+        "Exclude" = [ "myapp" ];  # Replace with your custom scheme (e.g. "slack", "zoommtg", etc.)
+      };
+    };
+  };
 
   # install 1password
   programs._1password.enable = true;
@@ -121,7 +129,7 @@ in
     isNormalUser = true;
     description = "Chris Kim";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "input" "plugdev"];
+    extraGroups = [ "networkmanager" "wheel" "input" "vboxusers" "docker"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -173,18 +181,23 @@ in
     hypridle
     hyprland
     hyprlock
-    hyprpolkitagent
     hyprpaper
+    hyprpolkitagent
     libnotify
     neovim
     nerd-fonts.jetbrains-mono
     newt
     pavucontrol
     playerctl
+    qimgv
     rofi
     stow
     util-linux
     waybar_git
+    xdg-utils
+    xdg-desktop-portal
+    xdg-desktop-portal-wlr
+    xdg-desktop-portal-gtk
   ];
 
   fonts = {
@@ -268,4 +281,27 @@ in
     });
   '';
 
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ];
+  boot.kernelModules = [ "vboxguest" "vboxsf" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    virtualboxGuestAdditions
+  ];
+
+
+  virtualisation.docker = {
+    enable = true;
+  };
+
+
+
+
+  services.dbus.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.wlr.enable = true;
+
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
+  ];
 }
