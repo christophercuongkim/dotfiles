@@ -51,6 +51,7 @@ in
     github-desktop
     gnome-themes-extra
     go
+    google-chrome
     gsettings-desktop-schemas
     gsettings-desktop-schemas
     gtk3
