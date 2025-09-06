@@ -61,6 +61,7 @@ in
     neovim
     nodejs
     oh-my-posh
+    p7zip
     pipenv
     pyenv
     python3
@@ -74,6 +75,7 @@ in
     tree
     unzip
     wget
+    wireshark
     wl-clipboard
     zig
     zoxide
@@ -195,6 +197,7 @@ in
   home.sessionVariables = {
     # Optional, hint Electron apps to use Wayland:
     NIXOS_OZONE_WL = "1";
+    HYPRSHOT_DIR = "/home/chriskim/Pictures";
 
   };
 
