@@ -183,6 +183,12 @@ in
     hyprlock
     hyprpaper
     hyprpolkitagent
+    kdePackages.dolphin
+    kdePackages.kde-cli-tools
+    kdePackages.kio-extras #extra protocols support (sftp, fish and more)
+    kdePackages.kio-fuse #to mount remote filesystems via FUSE
+    kdePackages.kservice
+    kdePackages.qtsvg
     libnotify
     neovim
     nerd-fonts.jetbrains-mono
@@ -194,10 +200,16 @@ in
     stow
     util-linux
     waybar_git
-    xdg-utils
     xdg-desktop-portal
-    xdg-desktop-portal-wlr
     xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
+    xdg-utils
+    #hyprshot stuff
+    hyprshot
+    grim
+    jq
+    slurp
+    wl-clipboard
   ];
 
   fonts = {
