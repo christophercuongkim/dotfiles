@@ -15,7 +15,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, anyrun, nixos-hardware, ... }@inputs:
+  outputs = { self, nixpkgs, anyrun, nixos-hardware, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -37,6 +37,17 @@
           {environment.systemPackages = [ anyrun.packages.${system}.anyrun-with-all-plugins ];}
           nixos-hardware.nixosModules.framework-amd-ai-300-series
         ];
+      };
+      homeConfigurations = {
+        chriskim = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+	  inherit pkgs;
+	  modules = [
+	    ./nixos/modules/home-manager/home.nix
+	  ];
+	};
       };
     };
 }

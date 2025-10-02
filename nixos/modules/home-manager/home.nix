@@ -3,15 +3,6 @@
 let
   username = "chriskim";
   dotfiles_path = "${inputs.self}";
-  wrappedAnyrun = pkgs.symlinkJoin {
-    name = "anyrun-wrapped";
-    paths = [ inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/anyrun \
-        --set GDK_BACKEND wayland
-    '';
-  };
 in
 {
   home.username = "${username}";
@@ -48,13 +39,7 @@ in
     gh
     ghostty
     git
-    github-desktop
-    gnome-themes-extra
     go
-    gsettings-desktop-schemas
-    gsettings-desktop-schemas
-    gtk3
-    gtk4
     lua
     luarocks
     neovim
@@ -73,7 +58,6 @@ in
     tree
     unzip
     wget
-    wl-clipboard
     zig
     zoxide
     zsh
@@ -124,7 +108,7 @@ in
     owner = "christoomey";
     repo = "vim-tmux-navigator";
     rev = "master";
-    sha256 = "sha256-czhzY1bauNd472osfUZSzsOEoGv9QhQBriF3ULkKNpY=";
+    sha256 = "sha256-IEPnr/GdsAnHzdTjFnXCuMyoNLm3/Jz4cBAM0AJBrj8=";
   };
 
   # SSH config
@@ -143,53 +127,8 @@ in
   # ghostty config
   home.file.".config/ghostty/config".source = "${dotfiles_path}/.config/ghostty/config";
 
-  # anyrun
-
-  programs.anyrun = {
-    enable = true;
-
-    package = wrappedAnyrun;
-
-    config = {
-      width = { fraction = 0.6; };
-      height =  { fraction = 0.2; };
-      x = { fraction = 0.5; };
-      y = { fraction = 0.2; };
-      plugins = [
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libapplications.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libsymbols.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/librink.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libshell.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libtranslate.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libdictionary.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libwebsearch.so"
-      ];
-    };
-  };
-
-  home.file.".config/anyrun".source = "${dotfiles_path}/.config/anyrun";
-  home.file.".config/anyrun".recursive = true;
-
-  # waybar
-  home.file.".config/waybar".source = "${dotfiles_path}/.config/waybar";
-  home.file.".config/waybar".recursive = true;
-
-  # rofi config
-  home.file.".config/rofi/config.rasi".source = "${dotfiles_path}/.config/rofi/config.rasi";
-
-  # Enable GTK theme if needed
-  gtk.enable = true;
 
   programs.home-manager.enable = true;
-
-  # hyprland
-  home.file.".config/hypr".source = "${dotfiles_path}/.config/hypr";
-  home.file.".config/hypr".recursive = true;
-
-  #waybar
-  programs.waybar.enable = true;
-
-  programs.kitty.enable = true; # required for the default Hyprland config
 
   home.sessionVariables = {
     # Optional, hint Electron apps to use Wayland:

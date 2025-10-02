@@ -88,6 +88,7 @@ if [[ -z "${SSH_AUTH_SOCK}" ]]; then
   export SSH_AUTH_SOCK=~/.1password/agent.sock
 fi
 
+export TERM=xterm-256color
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export PATH=$HOME/development/flutter/bin:$PATH
