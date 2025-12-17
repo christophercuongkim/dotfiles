@@ -92,4 +92,6 @@ export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export PATH=$HOME/development/flutter/bin:$PATH
 
+export HYPRSHOT_DIR="/home/chriskim/Pictures/screen_shots"
+
 fastfetch

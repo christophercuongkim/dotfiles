@@ -47,6 +47,7 @@ in
     fzf
     gh
     ghostty
+    gimp
     git
     github-desktop
     gnome-themes-extra
@@ -59,10 +60,12 @@ in
     lua
     luarocks
     neovim
+    nmap
     nodejs
     oh-my-posh
     p7zip
     pipenv
+    protonvpn-gui
     pyenv
     python3
     rink
@@ -73,6 +76,7 @@ in
     stow
     tmux
     tree
+    unrar
     unzip
     wget
     wireshark
