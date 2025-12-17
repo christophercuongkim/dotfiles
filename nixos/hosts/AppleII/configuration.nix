@@ -32,7 +32,20 @@ in
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+    wifi.powersave = false;
+  };
+  
+  networking.wireless.iwd = {
+    enable = true;
+    settings.General = {
+      EnableNetworkConfiguration = true;
+      PowerSave = false;
+    };
+  };
+
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -316,4 +329,34 @@ in
   xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gtk
   ];
+
+  systemd.services.NetworkManager.serviceConfig.LimitNOFILE = 65535;
+  systemd.services.wpa_supplicant.serviceConfig.LimitNOFILE = 65535;
+
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "65535";
+    }
+    {
+      domain = "*";
+      type = "hard";
+      item = "nofile";
+      value = "65535";
+    }
+  ];
+
+  # Method 1: Using udev rules (recommended)
+
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev %k set power_save off"
+  '';
+
+
+  boot.extraModprobeConfig = ''
+    options mt7925e disable_aspm=1
+    options mt7925e disable_pm=1
+  ''; 
 }
