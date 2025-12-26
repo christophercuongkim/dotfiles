@@ -3,15 +3,6 @@
 let
   username = "chriskim";
   dotfiles_path = "${inputs.self}";
-  wrappedAnyrun = pkgs.symlinkJoin {
-    name = "anyrun-wrapped";
-    paths = [ inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/anyrun \
-        --set GDK_BACKEND wayland
-    '';
-  };
 in
 {
   home.username = "${username}";
@@ -23,12 +14,11 @@ in
     allowUnfree = true;
   };
 
-  programs.zsh.enable = true;
   programs.git = {
     enable = true;
-    userName = "Chris Kim";
-    userEmail = "christopher.cuong.kim@gmail.com";
-    extraConfig = {
+    settings = {
+      user.name = "Chris Kim";
+      user.email = "christopher.cuong.kim@gmail.com";
       core.editor = "nvim";
     };
   };
@@ -41,6 +31,8 @@ in
 
   home.packages = with pkgs; [
     adwaita-icon-theme
+    brave
+    claude-code
     fastfetch
     firefox
     flutter
@@ -62,10 +54,10 @@ in
     neovim
     nmap
     nodejs
+    obs-studio
     oh-my-posh
     p7zip
     pipenv
-    protonvpn-gui
     pyenv
     python3
     rink
@@ -152,27 +144,25 @@ in
 
   # anyrun
 
-  programs.anyrun = {
-    enable = true;
-
-    package = wrappedAnyrun;
-
-    config = {
-      width = { fraction = 0.6; };
-      height =  { fraction = 0.2; };
-      x = { fraction = 0.5; };
-      y = { fraction = 0.2; };
-      plugins = [
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libapplications.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libsymbols.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/librink.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libshell.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libtranslate.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libdictionary.so"
-        "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libwebsearch.so"
-      ];
-    };
-  };
+    #programs.anyrun = {
+    #  enable = true;
+    #
+    #  config = {
+    #    width = { fraction = 0.6; };
+    #    height = { fraction = 0.2; };
+    #    x = { fraction = 0.5; };
+    #    y = { fraction = 0.2; };
+    #    plugins = [
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libapplications.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libsymbols.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/librink.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libshell.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libtranslate.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libdictionary.so"
+    #      "${inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins}/lib/libwebsearch.so"
+    #    ];
+    #  };
+    #};
 
   home.file.".config/anyrun".source = "${dotfiles_path}/.config/anyrun";
   home.file.".config/anyrun".recursive = true;
@@ -202,7 +192,7 @@ in
     # Optional, hint Electron apps to use Wayland:
     NIXOS_OZONE_WL = "1";
     HYPRSHOT_DIR = "/home/chriskim/Pictures";
-
+    GDK_BACKEND = "wayland";
   };
 
 

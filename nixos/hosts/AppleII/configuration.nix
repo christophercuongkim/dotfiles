@@ -31,11 +31,21 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+
+  # ProtonVPN configuration
+  services.resolved.enable = true;
+
   # Enable networking
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
     wifi.powersave = false;
+    # NEW way to add VPN plugins
+    plugins = with pkgs; [
+      networkmanager-openvpn
+      networkmanager-openconnect
+      networkmanager-strongswan
+    ];
   };
   
   networking.wireless.iwd = {
@@ -48,7 +58,8 @@ in
 
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  #time.timeZone = "America/New_York";
+  time.timeZone = "America/Los_Angeles";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -92,11 +103,13 @@ in
 
 
   services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";  # optional: useful if external monitor/keyboard
-    extraConfig = ''
-      HandleLidSwitchExternalPower=suspend
-    '';
+    settings = {
+      Login = {
+        HandleLidSwitch = "suspend";
+        HandleLidSwitchDocked = "ignore";
+        HandleLidSwitchExternalPower = "suspend";
+      };
+    };
   };
 
   services.power-profiles-daemon.enable = true;
@@ -217,6 +230,9 @@ in
     xdg-desktop-portal-gtk
     xdg-desktop-portal-wlr
     xdg-utils
+    # VPN stuff
+    protonvpn-gui  # GUI version
+    openvpn
     #hyprshot stuff
     hyprshot
     grim
