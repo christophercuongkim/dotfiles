@@ -34,7 +34,7 @@
                 (_: _: { waybar_git = inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar; })
             ];
           })
-          {environment.systemPackages = [ anyrun.packages.${system}.anyrun-with-all-plugins ];}
+          {environment.systemPackages = [ anyrun.packages.${pkgs.stdenv.hostPlatform.system}.anyrun-with-all-plugins ];}
           nixos-hardware.nixosModules.framework-amd-ai-300-series
         ];
       };
