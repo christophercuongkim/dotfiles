@@ -38,7 +38,6 @@ in
   # Enable networking
   networking.networkmanager = {
     enable = true;
-    wifi.backend = "iwd";
     wifi.powersave = false;
     # NEW way to add VPN plugins
     plugins = with pkgs; [
@@ -47,15 +46,20 @@ in
       networkmanager-strongswan
     ];
   };
-  
+
   networking.wireless.iwd = {
     enable = true;
-    settings.General = {
+    settings = {
+      General = {
       EnableNetworkConfiguration = true;
-      PowerSave = false;
+      };
     };
   };
 
+
+  # Also add keyring support:
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   # Set your time zone.
   #time.timeZone = "America/New_York";
@@ -75,9 +79,6 @@ in
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -155,7 +156,7 @@ in
     isNormalUser = true;
     description = "Chris Kim";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "input" "vboxusers" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "input" "vboxusers" "docker" "lpadmin"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -375,4 +376,19 @@ in
     options mt7925e disable_aspm=1
     options mt7925e disable_pm=1
   ''; 
+
+
+
+  #printing
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.gutenprint ];  # Common driver package
+  };
+  
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
 }

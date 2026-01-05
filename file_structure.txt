@@ -1,0 +1,955 @@
+.
+├── .config
+│   ├── 1Password
+│   │   └── ssh
+│   │       └── agent.toml
+│   ├── alacritty
+│   │   └── alacritty.toml
+│   ├── anyrun
+│   │   ├── applications.ron
+│   │   ├── config.ron.old
+│   │   ├── dictionary.ron
+│   │   ├── shell.ron
+│   │   ├── style.css
+│   │   ├── symbols.ron
+│   │   ├── translate.ron
+│   │   └── websearch.ron
+│   ├── ghostty
+│   │   └── config
+│   ├── hypr
+│   │   ├── hypridle.conf
+│   │   ├── hyprland.conf
+│   │   ├── hyprlock.conf
+│   │   └── hyprpaper.conf
+│   ├── nix
+│   │   └── nix.conf
+│   ├── nvim
+│   │   ├── backup-init.lua
+│   │   ├── doc
+│   │   │   ├── kickstart.txt
+│   │   │   └── tags
+│   │   ├── init.lua
+│   │   ├── lazy-lock.json
+│   │   ├── LICENSE.md
+│   │   ├── lua
+│   │   │   ├── custom
+│   │   │   │   ├── configs
+│   │   │   │   │   ├── autoformat.lua
+│   │   │   │   │   ├── basic_keymap.lua
+│   │   │   │   │   ├── hl-yank.lua
+│   │   │   │   │   └── options.lua
+│   │   │   │   └── plugins
+│   │   │   │       ├── alpha.lua
+│   │   │   │       ├── blink.lua
+│   │   │   │       ├── comment.lua
+│   │   │   │       ├── conform.lua
+│   │   │   │       ├── flutter.lua
+│   │   │   │       ├── gitsigns.lua
+│   │   │   │       ├── gopher.lua
+│   │   │   │       ├── grapple.lua
+│   │   │   │       ├── lspconfig.lua
+│   │   │   │       ├── lsp_signature.lua
+│   │   │   │       ├── mini.lua
+│   │   │   │       ├── neogit.lua
+│   │   │   │       ├── nvim-cmp.lua
+│   │   │   │       ├── obsidian.lua
+│   │   │   │       ├── oil.lua
+│   │   │   │       ├── telescope.lua
+│   │   │   │       ├── telescope-undo.lua
+│   │   │   │       ├── tmux-nav.lua
+│   │   │   │       ├── todo-comments.lua
+│   │   │   │       ├── tokyonight.lua
+│   │   │   │       ├── treesitter.lua
+│   │   │   │       ├── vim-sleuth.lua
+│   │   │   │       └── which-key.lua
+│   │   │   └── kickstart
+│   │   │       ├── health.lua
+│   │   │       └── plugins
+│   │   │           ├── autopairs.lua
+│   │   │           ├── debug.lua
+│   │   │           ├── gitsigns.lua
+│   │   │           ├── indent_line.lua
+│   │   │           ├── lint.lua
+│   │   │           └── neo-tree.lua
+│   │   ├── README.md
+│   │   └── .stylua.toml
+│   ├── oh-my-posh
+│   │   ├── zen.toml
+│   │   └── zen.toml.bak
+│   ├── rofi
+│   │   └── config.rasi
+│   ├── tmux
+│   │   ├── plugins
+│   │   │   ├── catppuccin-tmux
+│   │   │   │   ├── .git
+│   │   │   │   └── tmux.conf
+│   │   │   ├── tmux-sensible
+│   │   │   │   ├── CHANGELOG.md
+│   │   │   │   ├── .git
+│   │   │   │   ├── .gitattributes
+│   │   │   │   ├── LICENSE.md
+│   │   │   │   ├── README.md
+│   │   │   │   └── sensible.tmux
+│   │   │   ├── tmux-yank
+│   │   │   │   ├── CHANGELOG.md
+│   │   │   │   ├── citest
+│   │   │   │   ├── _config.yml
+│   │   │   │   ├── .editorconfig
+│   │   │   │   ├── .git
+│   │   │   │   ├── .gitattributes
+│   │   │   │   ├── .gitignore
+│   │   │   │   ├── LICENSE.md
+│   │   │   │   ├── README.md
+│   │   │   │   ├── scripts
+│   │   │   │   │   ├── copy_line.sh
+│   │   │   │   │   ├── copy_pane_pwd.sh
+│   │   │   │   │   └── helpers.sh
+│   │   │   │   ├── .travis.yml
+│   │   │   │   ├── Vagrantfile
+│   │   │   │   ├── vagrant_provisioning.sh
+│   │   │   │   ├── video
+│   │   │   │   │   ├── README.md
+│   │   │   │   │   ├── screencast_img.png
+│   │   │   │   │   └── script.md
+│   │   │   │   └── yank.tmux
+│   │   │   ├── tpm
+│   │   │   │   ├── bin
+│   │   │   │   │   ├── clean_plugins
+│   │   │   │   │   ├── install_plugins
+│   │   │   │   │   └── update_plugins
+│   │   │   │   ├── bindings
+│   │   │   │   │   ├── clean_plugins
+│   │   │   │   │   ├── install_plugins
+│   │   │   │   │   └── update_plugins
+│   │   │   │   ├── CHANGELOG.md
+│   │   │   │   ├── docs
+│   │   │   │   │   ├── automatic_tpm_installation.md
+│   │   │   │   │   ├── changing_plugins_install_dir.md
+│   │   │   │   │   ├── how_to_create_plugin.md
+│   │   │   │   │   ├── managing_plugins_via_cmd_line.md
+│   │   │   │   │   └── tpm_not_working.md
+│   │   │   │   ├── .git
+│   │   │   │   ├── .gitattributes
+│   │   │   │   ├── .gitignore
+│   │   │   │   ├── .gitmodules
+│   │   │   │   ├── HOW_TO_PLUGIN.md
+│   │   │   │   ├── lib
+│   │   │   │   │   └── tmux-test
+│   │   │   │   ├── LICENSE.md
+│   │   │   │   ├── README.md
+│   │   │   │   ├── scripts
+│   │   │   │   │   ├── check_tmux_version.sh
+│   │   │   │   │   ├── clean_plugins.sh
+│   │   │   │   │   ├── helpers
+│   │   │   │   │   │   ├── plugin_functions.sh
+│   │   │   │   │   │   ├── shell_echo_functions.sh
+│   │   │   │   │   │   ├── tmux_echo_functions.sh
+│   │   │   │   │   │   ├── tmux_utils.sh
+│   │   │   │   │   │   └── utility.sh
+│   │   │   │   │   ├── install_plugins.sh
+│   │   │   │   │   ├── source_plugins.sh
+│   │   │   │   │   ├── update_plugin_prompt_handler.sh
+│   │   │   │   │   ├── update_plugin.sh
+│   │   │   │   │   └── variables.sh
+│   │   │   │   ├── tests
+│   │   │   │   │   ├── expect_failed_plugin_download
+│   │   │   │   │   ├── expect_successful_clean_plugins
+│   │   │   │   │   ├── expect_successful_multiple_plugins_download
+│   │   │   │   │   ├── expect_successful_plugin_download
+│   │   │   │   │   ├── expect_successful_update_of_all_plugins
+│   │   │   │   │   ├── expect_successful_update_of_a_single_plugin
+│   │   │   │   │   ├── helpers
+│   │   │   │   │   │   └── tpm.sh
+│   │   │   │   │   ├── test_plugin_clean.sh
+│   │   │   │   │   ├── test_plugin_installation_legacy.sh
+│   │   │   │   │   ├── test_plugin_installation.sh
+│   │   │   │   │   ├── test_plugin_sourcing.sh
+│   │   │   │   │   └── test_plugin_update.sh
+│   │   │   │   ├── tpm
+│   │   │   │   └── .travis.yml
+│   │   │   └── vim-tmux-navigator
+│   │   │       ├── doc
+│   │   │       │   └── tmux-navigator.txt
+│   │   │       ├── .git
+│   │   │       ├── .github
+│   │   │       │   └── workflows
+│   │   │       │       └── main.yml
+│   │   │       ├── .gitignore
+│   │   │       ├── License.md
+│   │   │       ├── pattern-check
+│   │   │       ├── plugin
+│   │   │       │   └── tmux_navigator.vim
+│   │   │       ├── README.md
+│   │   │       └── vim-tmux-navigator.tmux
+│   │   └── tmux.conf
+│   └── waybar
+│       ├── config.jsonc
+│       ├── power_menu.xml
+│       ├── style.css
+│       └── volume_slider.py
+├── file_structure.txt
+├── flake.lock
+├── flake.nix
+├── .git
+│   ├── COMMIT_EDITMSG
+│   ├── config
+│   ├── description
+│   ├── HEAD
+│   ├── hooks
+│   │   ├── applypatch-msg.sample
+│   │   ├── commit-msg.sample
+│   │   ├── fsmonitor-watchman.sample
+│   │   ├── post-update.sample
+│   │   ├── pre-applypatch.sample
+│   │   ├── pre-commit.sample
+│   │   ├── pre-merge-commit.sample
+│   │   ├── prepare-commit-msg.sample
+│   │   ├── pre-push.sample
+│   │   ├── pre-rebase.sample
+│   │   ├── pre-receive.sample
+│   │   ├── push-to-checkout.sample
+│   │   ├── sendemail-validate.sample
+│   │   └── update.sample
+│   ├── index
+│   ├── info
+│   │   └── exclude
+│   ├── logs
+│   │   ├── HEAD
+│   │   └── refs
+│   │       ├── heads
+│   │       │   └── main
+│   │       └── remotes
+│   │           └── origin
+│   │               ├── HEAD
+│   │               └── main
+│   ├── modules
+│   │   ├── .config
+│   │   │   └── tmux
+│   │   │       └── plugins
+│   │   │           ├── catppuccin-tmux
+│   │   │           │   ├── config
+│   │   │           │   ├── description
+│   │   │           │   ├── HEAD
+│   │   │           │   ├── hooks
+│   │   │           │   │   ├── applypatch-msg.sample
+│   │   │           │   │   ├── commit-msg.sample
+│   │   │           │   │   ├── fsmonitor-watchman.sample
+│   │   │           │   │   ├── post-update.sample
+│   │   │           │   │   ├── pre-applypatch.sample
+│   │   │           │   │   ├── pre-commit.sample
+│   │   │           │   │   ├── pre-merge-commit.sample
+│   │   │           │   │   ├── prepare-commit-msg.sample
+│   │   │           │   │   ├── pre-push.sample
+│   │   │           │   │   ├── pre-rebase.sample
+│   │   │           │   │   ├── pre-receive.sample
+│   │   │           │   │   ├── push-to-checkout.sample
+│   │   │           │   │   ├── sendemail-validate.sample
+│   │   │           │   │   └── update.sample
+│   │   │           │   ├── index
+│   │   │           │   ├── info
+│   │   │           │   │   └── exclude
+│   │   │           │   ├── logs
+│   │   │           │   │   ├── HEAD
+│   │   │           │   │   └── refs
+│   │   │           │   │       ├── heads
+│   │   │           │   │       │   └── main
+│   │   │           │   │       └── remotes
+│   │   │           │   │           └── origin
+│   │   │           │   │               └── HEAD
+│   │   │           │   ├── objects
+│   │   │           │   │   ├── info
+│   │   │           │   │   └── pack
+│   │   │           │   │       ├── pack-af03c7bbd1380ab929f463e8ab5616a13d1569f2.idx
+│   │   │           │   │       ├── pack-af03c7bbd1380ab929f463e8ab5616a13d1569f2.pack
+│   │   │           │   │       └── pack-af03c7bbd1380ab929f463e8ab5616a13d1569f2.rev
+│   │   │           │   ├── packed-refs
+│   │   │           │   └── refs
+│   │   │           │       ├── heads
+│   │   │           │       │   └── main
+│   │   │           │       ├── remotes
+│   │   │           │       │   └── origin
+│   │   │           │       │       └── HEAD
+│   │   │           │       └── tags
+│   │   │           ├── tmux-sensible
+│   │   │           │   ├── config
+│   │   │           │   ├── description
+│   │   │           │   ├── HEAD
+│   │   │           │   ├── hooks
+│   │   │           │   │   ├── applypatch-msg.sample
+│   │   │           │   │   ├── commit-msg.sample
+│   │   │           │   │   ├── fsmonitor-watchman.sample
+│   │   │           │   │   ├── post-update.sample
+│   │   │           │   │   ├── pre-applypatch.sample
+│   │   │           │   │   ├── pre-commit.sample
+│   │   │           │   │   ├── pre-merge-commit.sample
+│   │   │           │   │   ├── prepare-commit-msg.sample
+│   │   │           │   │   ├── pre-push.sample
+│   │   │           │   │   ├── pre-rebase.sample
+│   │   │           │   │   ├── pre-receive.sample
+│   │   │           │   │   ├── push-to-checkout.sample
+│   │   │           │   │   ├── sendemail-validate.sample
+│   │   │           │   │   └── update.sample
+│   │   │           │   ├── index
+│   │   │           │   ├── info
+│   │   │           │   │   └── exclude
+│   │   │           │   ├── logs
+│   │   │           │   │   ├── HEAD
+│   │   │           │   │   └── refs
+│   │   │           │   │       ├── heads
+│   │   │           │   │       │   └── master
+│   │   │           │   │       └── remotes
+│   │   │           │   │           └── origin
+│   │   │           │   │               └── HEAD
+│   │   │           │   ├── objects
+│   │   │           │   │   ├── info
+│   │   │           │   │   └── pack
+│   │   │           │   │       ├── pack-3cdcf5e268e757c4a01f72c95be8971bfe38d95e.idx
+│   │   │           │   │       ├── pack-3cdcf5e268e757c4a01f72c95be8971bfe38d95e.pack
+│   │   │           │   │       └── pack-3cdcf5e268e757c4a01f72c95be8971bfe38d95e.rev
+│   │   │           │   ├── packed-refs
+│   │   │           │   └── refs
+│   │   │           │       ├── heads
+│   │   │           │       │   └── master
+│   │   │           │       ├── remotes
+│   │   │           │       │   └── origin
+│   │   │           │       │       └── HEAD
+│   │   │           │       └── tags
+│   │   │           ├── tmux-yank
+│   │   │           │   ├── config
+│   │   │           │   ├── description
+│   │   │           │   ├── HEAD
+│   │   │           │   ├── hooks
+│   │   │           │   │   ├── applypatch-msg.sample
+│   │   │           │   │   ├── commit-msg.sample
+│   │   │           │   │   ├── fsmonitor-watchman.sample
+│   │   │           │   │   ├── post-update.sample
+│   │   │           │   │   ├── pre-applypatch.sample
+│   │   │           │   │   ├── pre-commit.sample
+│   │   │           │   │   ├── pre-merge-commit.sample
+│   │   │           │   │   ├── prepare-commit-msg.sample
+│   │   │           │   │   ├── pre-push.sample
+│   │   │           │   │   ├── pre-rebase.sample
+│   │   │           │   │   ├── pre-receive.sample
+│   │   │           │   │   ├── push-to-checkout.sample
+│   │   │           │   │   ├── sendemail-validate.sample
+│   │   │           │   │   └── update.sample
+│   │   │           │   ├── index
+│   │   │           │   ├── info
+│   │   │           │   │   └── exclude
+│   │   │           │   ├── logs
+│   │   │           │   │   ├── HEAD
+│   │   │           │   │   └── refs
+│   │   │           │   │       ├── heads
+│   │   │           │   │       │   └── master
+│   │   │           │   │       └── remotes
+│   │   │           │   │           └── origin
+│   │   │           │   │               └── HEAD
+│   │   │           │   ├── objects
+│   │   │           │   │   ├── info
+│   │   │           │   │   └── pack
+│   │   │           │   │       ├── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.idx
+│   │   │           │   │       ├── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.pack
+│   │   │           │   │       └── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.rev
+│   │   │           │   ├── packed-refs
+│   │   │           │   └── refs
+│   │   │           │       ├── heads
+│   │   │           │       │   └── master
+│   │   │           │       ├── remotes
+│   │   │           │       │   └── origin
+│   │   │           │       │       └── HEAD
+│   │   │           │       └── tags
+│   │   │           ├── tpm
+│   │   │           │   ├── config
+│   │   │           │   ├── description
+│   │   │           │   ├── HEAD
+│   │   │           │   ├── hooks
+│   │   │           │   │   ├── applypatch-msg.sample
+│   │   │           │   │   ├── commit-msg.sample
+│   │   │           │   │   ├── fsmonitor-watchman.sample
+│   │   │           │   │   ├── post-update.sample
+│   │   │           │   │   ├── pre-applypatch.sample
+│   │   │           │   │   ├── pre-commit.sample
+│   │   │           │   │   ├── pre-merge-commit.sample
+│   │   │           │   │   ├── prepare-commit-msg.sample
+│   │   │           │   │   ├── pre-push.sample
+│   │   │           │   │   ├── pre-rebase.sample
+│   │   │           │   │   ├── pre-receive.sample
+│   │   │           │   │   ├── push-to-checkout.sample
+│   │   │           │   │   ├── sendemail-validate.sample
+│   │   │           │   │   └── update.sample
+│   │   │           │   ├── index
+│   │   │           │   ├── info
+│   │   │           │   │   └── exclude
+│   │   │           │   ├── logs
+│   │   │           │   │   ├── HEAD
+│   │   │           │   │   └── refs
+│   │   │           │   │       ├── heads
+│   │   │           │   │       │   └── master
+│   │   │           │   │       └── remotes
+│   │   │           │   │           └── origin
+│   │   │           │   │               └── HEAD
+│   │   │           │   ├── objects
+│   │   │           │   │   ├── info
+│   │   │           │   │   └── pack
+│   │   │           │   │       ├── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.idx
+│   │   │           │   │       ├── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.pack
+│   │   │           │   │       └── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.rev
+│   │   │           │   ├── packed-refs
+│   │   │           │   └── refs
+│   │   │           │       ├── heads
+│   │   │           │       │   └── master
+│   │   │           │       ├── remotes
+│   │   │           │       │   └── origin
+│   │   │           │       │       └── HEAD
+│   │   │           │       └── tags
+│   │   │           └── vim-tmux-navigator
+│   │   │               ├── config
+│   │   │               ├── description
+│   │   │               ├── HEAD
+│   │   │               ├── hooks
+│   │   │               │   ├── applypatch-msg.sample
+│   │   │               │   ├── commit-msg.sample
+│   │   │               │   ├── fsmonitor-watchman.sample
+│   │   │               │   ├── post-update.sample
+│   │   │               │   ├── pre-applypatch.sample
+│   │   │               │   ├── pre-commit.sample
+│   │   │               │   ├── pre-merge-commit.sample
+│   │   │               │   ├── prepare-commit-msg.sample
+│   │   │               │   ├── pre-push.sample
+│   │   │               │   ├── pre-rebase.sample
+│   │   │               │   ├── pre-receive.sample
+│   │   │               │   ├── push-to-checkout.sample
+│   │   │               │   ├── sendemail-validate.sample
+│   │   │               │   └── update.sample
+│   │   │               ├── index
+│   │   │               ├── info
+│   │   │               │   └── exclude
+│   │   │               ├── logs
+│   │   │               │   ├── HEAD
+│   │   │               │   └── refs
+│   │   │               │       ├── heads
+│   │   │               │       │   └── master
+│   │   │               │       └── remotes
+│   │   │               │           └── origin
+│   │   │               │               └── HEAD
+│   │   │               ├── objects
+│   │   │               │   ├── info
+│   │   │               │   └── pack
+│   │   │               │       ├── pack-a6de847ae8553b92e7e8c6d3d6872de3dcfac309.idx
+│   │   │               │       ├── pack-a6de847ae8553b92e7e8c6d3d6872de3dcfac309.pack
+│   │   │               │       └── pack-a6de847ae8553b92e7e8c6d3d6872de3dcfac309.rev
+│   │   │               ├── packed-refs
+│   │   │               └── refs
+│   │   │                   ├── heads
+│   │   │                   │   └── master
+│   │   │                   ├── remotes
+│   │   │                   │   └── origin
+│   │   │                   │       └── HEAD
+│   │   │                   └── tags
+│   │   ├── plugins
+│   │   │   └── tmux-yank
+│   │   │       ├── config
+│   │   │       ├── description
+│   │   │       ├── HEAD
+│   │   │       ├── hooks
+│   │   │       │   ├── applypatch-msg.sample
+│   │   │       │   ├── commit-msg.sample
+│   │   │       │   ├── fsmonitor-watchman.sample
+│   │   │       │   ├── post-update.sample
+│   │   │       │   ├── pre-applypatch.sample
+│   │   │       │   ├── pre-commit.sample
+│   │   │       │   ├── pre-merge-commit.sample
+│   │   │       │   ├── prepare-commit-msg.sample
+│   │   │       │   ├── pre-push.sample
+│   │   │       │   ├── pre-rebase.sample
+│   │   │       │   ├── pre-receive.sample
+│   │   │       │   ├── push-to-checkout.sample
+│   │   │       │   ├── sendemail-validate.sample
+│   │   │       │   └── update.sample
+│   │   │       ├── index
+│   │   │       ├── info
+│   │   │       │   └── exclude
+│   │   │       ├── logs
+│   │   │       │   ├── HEAD
+│   │   │       │   └── refs
+│   │   │       │       ├── heads
+│   │   │       │       │   └── master
+│   │   │       │       └── remotes
+│   │   │       │           └── origin
+│   │   │       │               └── HEAD
+│   │   │       ├── objects
+│   │   │       │   ├── info
+│   │   │       │   └── pack
+│   │   │       │       ├── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.idx
+│   │   │       │       ├── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.pack
+│   │   │       │       └── pack-085700ab28c164b9cc21243e4e4e6c15245190b2.rev
+│   │   │       ├── packed-refs
+│   │   │       └── refs
+│   │   │           ├── heads
+│   │   │           │   └── master
+│   │   │           ├── remotes
+│   │   │           │   └── origin
+│   │   │           │       └── HEAD
+│   │   │           └── tags
+│   │   └── .tmux
+│   │       └── plugins
+│   │           └── tpm
+│   │               ├── config
+│   │               ├── description
+│   │               ├── HEAD
+│   │               ├── hooks
+│   │               │   ├── applypatch-msg.sample
+│   │               │   ├── commit-msg.sample
+│   │               │   ├── fsmonitor-watchman.sample
+│   │               │   ├── post-update.sample
+│   │               │   ├── pre-applypatch.sample
+│   │               │   ├── pre-commit.sample
+│   │               │   ├── pre-merge-commit.sample
+│   │               │   ├── prepare-commit-msg.sample
+│   │               │   ├── pre-push.sample
+│   │               │   ├── pre-rebase.sample
+│   │               │   ├── pre-receive.sample
+│   │               │   ├── push-to-checkout.sample
+│   │               │   ├── sendemail-validate.sample
+│   │               │   └── update.sample
+│   │               ├── index
+│   │               ├── info
+│   │               │   └── exclude
+│   │               ├── logs
+│   │               │   ├── HEAD
+│   │               │   └── refs
+│   │               │       ├── heads
+│   │               │       │   └── master
+│   │               │       └── remotes
+│   │               │           └── origin
+│   │               │               └── HEAD
+│   │               ├── modules
+│   │               │   └── lib
+│   │               │       └── tmux-test
+│   │               │           ├── config
+│   │               │           ├── description
+│   │               │           ├── HEAD
+│   │               │           ├── hooks
+│   │               │           │   ├── applypatch-msg.sample
+│   │               │           │   ├── commit-msg.sample
+│   │               │           │   ├── fsmonitor-watchman.sample
+│   │               │           │   ├── post-update.sample
+│   │               │           │   ├── pre-applypatch.sample
+│   │               │           │   ├── pre-commit.sample
+│   │               │           │   ├── pre-merge-commit.sample
+│   │               │           │   ├── prepare-commit-msg.sample
+│   │               │           │   ├── pre-push.sample
+│   │               │           │   ├── pre-rebase.sample
+│   │               │           │   ├── pre-receive.sample
+│   │               │           │   ├── push-to-checkout.sample
+│   │               │           │   ├── sendemail-validate.sample
+│   │               │           │   └── update.sample
+│   │               │           ├── index
+│   │               │           ├── info
+│   │               │           │   └── exclude
+│   │               │           ├── logs
+│   │               │           │   ├── HEAD
+│   │               │           │   └── refs
+│   │               │           │       ├── heads
+│   │               │           │       │   └── master
+│   │               │           │       └── remotes
+│   │               │           │           └── origin
+│   │               │           │               └── HEAD
+│   │               │           ├── objects
+│   │               │           │   ├── info
+│   │               │           │   └── pack
+│   │               │           │       ├── pack-8789db9967af1d9c04fcb713c848d6802fd7e4cb.idx
+│   │               │           │       ├── pack-8789db9967af1d9c04fcb713c848d6802fd7e4cb.pack
+│   │               │           │       └── pack-8789db9967af1d9c04fcb713c848d6802fd7e4cb.rev
+│   │               │           ├── packed-refs
+│   │               │           └── refs
+│   │               │               ├── heads
+│   │               │               │   └── master
+│   │               │               ├── remotes
+│   │               │               │   └── origin
+│   │               │               │       └── HEAD
+│   │               │               └── tags
+│   │               ├── objects
+│   │               │   ├── info
+│   │               │   └── pack
+│   │               │       ├── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.idx
+│   │               │       ├── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.pack
+│   │               │       └── pack-1f8e91c4b0c2fd3de85deb1de59db344d5af0319.rev
+│   │               ├── packed-refs
+│   │               └── refs
+│   │                   ├── heads
+│   │                   │   └── master
+│   │                   ├── remotes
+│   │                   │   └── origin
+│   │                   │       └── HEAD
+│   │                   └── tags
+│   ├── objects
+│   │   ├── 00
+│   │   │   ├── 2e2a4885ead7be3b1bf49d5d8bf19a738b1e60
+│   │   │   └── e53f25bd2e5064f279c7e1911581ce0353e21e
+│   │   ├── 02
+│   │   │   └── 00e47e3aa780ec757b37d329226a307a7eced4
+│   │   ├── 03
+│   │   │   └── 89a5e8714de69664e13500c5315d2b3afd5baf
+│   │   ├── 05
+│   │   │   └── 11d9a7fb0cd6599747061e7fb35a6833199b2f
+│   │   ├── 07
+│   │   │   └── 26946d53f281cc2953ef308edf91a8e5ada700
+│   │   ├── 09
+│   │   │   └── 63727f9e7b335e2dd0d7207628f568813bfe76
+│   │   ├── 0d
+│   │   │   └── 2e493ddfe76218c3c7e67be1f3d2af455bd547
+│   │   ├── 0e
+│   │   │   └── e7963b125dc5392dd6a5092c8038b1fec50486
+│   │   ├── 12
+│   │   │   ├── 129cc7cbbb0e0ce542c4a2a4dc2f8ea949f521
+│   │   │   ├── 2df067a7a2a10db9e294829045bcf68dfdee5b
+│   │   │   ├── 4dbb3123ff094742a7179da0889f8cc4658dd0
+│   │   │   └── 715faaf13a52317084789a2e821c06f1bdf85a
+│   │   ├── 16
+│   │   │   └── b15054764cf7473efb6638512573349ebf41ae
+│   │   ├── 17
+│   │   │   ├── 86e7fec615f8a1c08ffb7bb5e771c75f251067
+│   │   │   ├── 8fb928963cd9111b8eebf8612b1c9f3a76001f
+│   │   │   └── aebd4efaf1f065b716bfc378a9c2cb45175934
+│   │   ├── 19
+│   │   │   └── 1de43b11ba5d87ba4ecd9711c54a389f4063eb
+│   │   ├── 1a
+│   │   │   ├── 35577c9adad25a7c7cbe973094d5f7e8ee3c2f
+│   │   │   └── 7a76c5a75fd590348697c1f1b3f8a909227887
+│   │   ├── 1b
+│   │   │   └── 645238922c3001f330e93fb2aa8f74438e80a8
+│   │   ├── 1d
+│   │   │   └── 5b2bcbb5c678de3a6932d6a5810c33abec86a4
+│   │   ├── 1e
+│   │   │   ├── 4a17554f63fdc5295dabc41c3359ab4d542784
+│   │   │   └── bc6fd142b4f81d71cf9cf110dc3e7170a7d03f
+│   │   ├── 1f
+│   │   │   └── fdac487d81574e23f17851e80045f0c677f803
+│   │   ├── 20
+│   │   │   └── 6f316fdb54299a8d4f22e473345cc4e2e8e017
+│   │   ├── 22
+│   │   │   └── 0202600e34d3e24c1127085feb79a867405c25
+│   │   ├── 23
+│   │   │   └── 2ff4f72654f422bc0144adb9b2b009e4f473f3
+│   │   ├── 24
+│   │   │   ├── 541a69bb2c3cf7d1b0658618ef174e814d7dd8
+│   │   │   └── 601da962d5291b9ef76d88cfb724bcb7596af3
+│   │   ├── 27
+│   │   │   ├── a886df780c7acb076f3e6d99044a4f60bcb470
+│   │   │   ├── b9c088b02461759e28c7ee60e2d080be3dc06d
+│   │   │   └── da1637d0b858bd7d6411b8f402a7bb323b3472
+│   │   ├── 2b
+│   │   │   ├── effc67dec842fb5c81117e2cd5b22c7bfae57c
+│   │   │   └── f8c91d37ccf5140c8b3d1167356715102f7b5b
+│   │   ├── 2c
+│   │   │   ├── 9a8384280b97ceca55008d28d2fafb8816184e
+│   │   │   └── bada7989a8491bb56aad6d546e5fad6ab07d7a
+│   │   ├── 2d
+│   │   │   ├── 91d17cf35e29de24807db0df179b8509f6e569
+│   │   │   └── effc392d8e365876307656cd4aef7060bb7686
+│   │   ├── 2e
+│   │   │   ├── a715c7fc97bf30d4d7a99a34061b498817f0a6
+│   │   │   └── ed686a0cf95e5ef782b4cf88f3f7997e5e8b62
+│   │   ├── 31
+│   │   │   ├── f60458d1b3f50be13c101b52f6d6a21e0ac78f
+│   │   │   └── f996b8b82e9193b91c0ec2b12407d0486c0f5d
+│   │   ├── 32
+│   │   │   └── e370490b7c9b8309b8b1c8b7419921883de625
+│   │   ├── 34
+│   │   │   ├── 614c15feaa10cbdb25cdb487181b63819c303e
+│   │   │   ├── 90373a30b35930eb9f0c6b8389d147d8a59779
+│   │   │   └── e897788b2ca8427a0bae7470e4521bc2fa0089
+│   │   ├── 36
+│   │   │   └── 72684861d3f1cb647427080b1d074ce2374898
+│   │   ├── 37
+│   │   │   └── 4039bc882e8e01dc66ecbfb9ed5361732d0026
+│   │   ├── 39
+│   │   │   ├── 5c7156323a9c60be4c810208540060cb309f1f
+│   │   │   └── ba06a91557285de665c4f834540196a6d94911
+│   │   ├── 3a
+│   │   │   ├── b33fb97171797d0208eea31e717b0863828ec8
+│   │   │   └── fde9d2b2cf6a63420b9204234f6736230f3aa5
+│   │   ├── 41
+│   │   │   └── b411991ad7304196c8dcbdf52e0432b6e366b5
+│   │   ├── 46
+│   │   │   └── d81b80af95293373229ce573c418cde46c4ff5
+│   │   ├── 49
+│   │   │   ├── 5590c0432ceb8fe738be8cbaf0f09df2f05088
+│   │   │   └── a57d903501e873241f5521db503a2c644158af
+│   │   ├── 4c
+│   │   │   ├── 0f8c6336cc6aa42b11b503ab2b579bb37a934d
+│   │   │   └── 6c275a55cf2e95b6072056768e4e08597c6bd4
+│   │   ├── 4d
+│   │   │   └── 5a9592e7190850e52967cb51d2a98d3ad7c648
+│   │   ├── 4e
+│   │   │   └── 069bc8e172eea353e81d696b155f04f571fbee
+│   │   ├── 4f
+│   │   │   └── 0e505936a76ce7bd5f16f226f70f509bc93014
+│   │   ├── 50
+│   │   │   ├── 2dfbc0665e5c863104bdfdf6ec8bc386776807
+│   │   │   └── e825cf4075faa91de2481884816a86f51be5e2
+│   │   ├── 53
+│   │   │   └── 2353f2e0714eb1956f1c2fb24ae7f71a64be13
+│   │   ├── 56
+│   │   │   ├── 03e28dade8039e55ce03b9e1824254bae3d1a7
+│   │   │   └── d7f37e87a2babc7d44f8a5aef733cf7acfb7b4
+│   │   ├── 59
+│   │   │   ├── 5b6c04cdc071d15972d276283307ad814ae048
+│   │   │   └── b1e8783b5b9008e244422327020c3502fdc7fc
+│   │   ├── 5a
+│   │   │   ├── 1d78e7e9c111b0c7150a1a7b57e4ad2b162e25
+│   │   │   ├── 9055f8bc0cf60d309d6cd34bac989c0538305e
+│   │   │   └── e1430a13d204d2eb460739e3748a0dbc503a59
+│   │   ├── 5b
+│   │   │   ├── 373f395087346d0b4cef3e32e283daebec4da5
+│   │   │   └── 81ed995df0f4510909983f7afc87c0735d2e2a
+│   │   ├── 5e
+│   │   │   └── 511529775e90de9e920638645f818b75ab0a58
+│   │   ├── 60
+│   │   │   └── 7810b4dac73a46d2ccf3364508f0a441ae5c93
+│   │   ├── 61
+│   │   │   └── baedaebbf7c32e293a49bd731a7494bb9695ae
+│   │   ├── 62
+│   │   │   ├── 5e59c22cd21253e9bbb921dcb16ab58d1c1724
+│   │   │   └── 881dc511221b5d723c0918896903dd080c29ff
+│   │   ├── 64
+│   │   │   ├── 58cb638d1e826552a48d57cce64f7a81b35696
+│   │   │   └── d7d3f467cd4a7dd2572ffc057baff36c85376f
+│   │   ├── 65
+│   │   │   └── 22e61ad8e1d2ec36abcf3c113c1565a7fe26e6
+│   │   ├── 66
+│   │   │   └── 589e4169e19f5a5c764f40932bc545faa647be
+│   │   ├── 67
+│   │   │   ├── 418f5279fbb01de19cb9393329150b5cd5c549
+│   │   │   ├── 8480e96a8d2c7fd09d9b94694a8a05c0aa9acc
+│   │   │   └── d5ff5b9d0aa78b51d6f144a48a39ce67f78b9f
+│   │   ├── 68
+│   │   │   └── f29954d05fcf231a01da0da33d3cf9b5f15afc
+│   │   ├── 6a
+│   │   │   ├── 3643d730cb6b6253a25bfdb311714d10f73956
+│   │   │   └── b2dd7309850bc0866b4211507c4cdbb6bcee78
+│   │   ├── 6c
+│   │   │   └── fb7ea68bb78d96f3e70de84462023fd659fcf7
+│   │   ├── 70
+│   │   │   └── ac3a8e97d41fd9381fa7fbac01f34c1db83b63
+│   │   ├── 71
+│   │   │   ├── 63e880400228817d7a2cce6f24e7dac7da5a7d
+│   │   │   ├── 7af2eae9226b4b242e9b06c8c72286575aa6bd
+│   │   │   └── 921ce2675d7b8c275133878341f6c1043313be
+│   │   ├── 72
+│   │   │   ├── 28c82057a3960114ea2b1ddc1b7e75397de493
+│   │   │   └── dd30a02b4cebb41e1e1daa3acf2b820c6c3696
+│   │   ├── 73
+│   │   │   └── 31c9be04bd3610cc8c7ece1d6363fb5d956c95
+│   │   ├── 74
+│   │   │   └── 5beebfa7861e130b835b7274b87025b2ee2745
+│   │   ├── 75
+│   │   │   └── 8c11598fa4d17dc6aee187bffb1e295a5f164d
+│   │   ├── 76
+│   │   │   ├── 551c6f3f85c3e81e496c6766b964c065db62ab
+│   │   │   └── 6924575b596c2072871601eb8c1c2c16eef421
+│   │   ├── 77
+│   │   │   └── a7a118f76842c1d57cf2c6fc7c7521f12ef2b4
+│   │   ├── 79
+│   │   │   └── 074f69ef9ab0f194baf4b2828011e305d728e1
+│   │   ├── 7a
+│   │   │   └── 8f8837cba18a7c14a1f56566675b7686f20390
+│   │   ├── 7f
+│   │   │   ├── 5ead6ced900c2b0386f5fe013467c126d0b8d5
+│   │   │   ├── 7a567064a96b9668dc016ddd3b38df6cccaaf2
+│   │   │   └── b177a9fa0dc0e736a00c2858dd94580b3638ab
+│   │   ├── 81
+│   │   │   └── a7e1f7c0dee1582797d69ea1efa0b912546437
+│   │   ├── 83
+│   │   │   └── 016d7f2161495d93aa84abd197f11ead2a7dc0
+│   │   ├── 84
+│   │   │   └── cf1afa9d25767ae69f425966bee5a3dbd13015
+│   │   ├── 86
+│   │   │   └── 1ff91f3943910808e36fdd928e1a8329723df6
+│   │   ├── 89
+│   │   │   └── cc98c6be0adc95e27c2be145597ca50d3a45be
+│   │   ├── 8c
+│   │   │   └── 56dd4d42746b74c6f374d823a4d54e0d6f1fec
+│   │   ├── 8e
+│   │   │   └── f65bcda04e8fbc60a8442f5e45f1f6d15991f6
+│   │   ├── 90
+│   │   │   └── 7f83b534445b9ec88e5b46b24e9025ba358fa2
+│   │   ├── 93
+│   │   │   └── efe0818d298abc9f1a0cb4c28b2ee12f68cd63
+│   │   ├── 94
+│   │   │   ├── 490b19636e8541a0e4c1ed9f4f68a829f1417a
+│   │   │   └── b887eb0fde10d8077a9a061ee14e149f2a0c42
+│   │   ├── 95
+│   │   │   └── b3e1b22ca55e92de964375ca124e6278ef5310
+│   │   ├── 96
+│   │   │   └── b690b32261088a0845ad180e20026dfd9f4874
+│   │   ├── 97
+│   │   │   └── 1f5fc4832ca386570cfbbea6675541cbfd711c
+│   │   ├── 9b
+│   │   │   └── 870c98078fe966a596a91868c6c8946b68117d
+│   │   ├── 9c
+│   │   │   └── 4eb3b3df7dd0eee039d57ede416400f6050edf
+│   │   ├── 9e
+│   │   │   └── 04430e123c0c57c3b4b6c49171d76cd944d8e2
+│   │   ├── 9f
+│   │   │   └── 014e2e30be4ed705d6d52a07ca1babd7e95f3c
+│   │   ├── a1
+│   │   │   ├── 978152295cfcd24f82e75d25cd606cd6706445
+│   │   │   └── c6279f786694b06614f13040bc60c97f2d771c
+│   │   ├── a3
+│   │   │   ├── 88ee0b7249e09014a6a684cf1b9c44237f5282
+│   │   │   └── 890036f51401cac1a228d920278c77578806e4
+│   │   ├── a4
+│   │   │   ├── 55703643e640fdcb31c774a3924144a768bedb
+│   │   │   └── d5287bd1044f1a94ea72273c84b073bc8080d9
+│   │   ├── a5
+│   │   │   └── 3c4e1e96872a08a504b6e795fc80a9f0c6266d
+│   │   ├── a6
+│   │   │   ├── 1c2ab9bf9a7f8a2806582f4c5d552717907bc4
+│   │   │   └── 70527e5a88d5ea9296933be64c7ca505a61473
+│   │   ├── a7
+│   │   │   └── d0bc02ae4039de2c69ba5353ed7eae446eaeca
+│   │   ├── aa
+│   │   │   └── 2a42cae07eeaa6c260d857d9fdda308e25807f
+│   │   ├── ab
+│   │   │   ├── 376011337f61c1f008b4c8e11fe29f146f59c8
+│   │   │   └── e8e09e1c0dfbba196333c500a84027e4ea3619
+│   │   ├── ae
+│   │   │   └── 95bac73b71a324809e872e84836c03f78a5c2c
+│   │   ├── b0
+│   │   │   └── f1bae1b9d2873586dddbc502365c1e712afd6d
+│   │   ├── b6
+│   │   │   └── 879ad820bb860f6c256c261db4a1ee0652b4e0
+│   │   ├── b8
+│   │   │   └── 13ee3cf579bcc1cf73740480f8916f95987506
+│   │   ├── b9
+│   │   │   └── 852e92dad2a1cce330b44091267cdc918d8efc
+│   │   ├── bc
+│   │   │   └── 07bc331158f1806aa4831b33d8f22c2f7bb0ac
+│   │   ├── bf
+│   │   │   └── bd243240c7482554824d42b74db79ec6ad8829
+│   │   ├── c0
+│   │   │   └── acd94042970b333b6371766d730c79753d9e33
+│   │   ├── c9
+│   │   │   └── e783ce0ec531c2d693620f05684266a0e28077
+│   │   ├── ca
+│   │   │   └── 14c3415c9d80232c40923e8dc38ec5510ee5a2
+│   │   ├── d0
+│   │   │   └── 71eaa71c1d9203439654b4e72354ef4bd6e407
+│   │   ├── d1
+│   │   │   ├── 3f7870e0074d5f59ae83e69f47b760b5589e30
+│   │   │   └── 9531d7422928f7943667b9fd590d59a6bffefb
+│   │   ├── d5
+│   │   │   ├── 4e2f1b9204ce28bea2a5cdc538e6e5085b3a5b
+│   │   │   ├── 600abc2f6e9d185acd5cdae238d33f0c9f0a2f
+│   │   │   └── fe75d811fcb24bedb74ab02ea578776fa689ed
+│   │   ├── d7
+│   │   │   ├── 0786eae2df66aad9118c3f7326f23bf9750e6a
+│   │   │   └── 87a89cd9384d4a0c01b8e5413b033c0af801f1
+│   │   ├── d9
+│   │   │   └── 00de4c8f962f0d65f67cbdc4860706b542086c
+│   │   ├── dd
+│   │   │   └── 30c037b020d14cfb0b7544690c38ff7bea6e99
+│   │   ├── de
+│   │   │   └── 8af611b1b56a1209f92bb16660339c472b05c1
+│   │   ├── df
+│   │   │   └── 5019b474bf43924d73c35e97bc3b5f348aed4a
+│   │   ├── e0
+│   │   │   └── 8c22711fab0f7d1742f4f9a23e359e6ee2e86c
+│   │   ├── e1
+│   │   │   ├── 2417ad5f7a2e58b7613768e3a62e8d96fd5aef
+│   │   │   └── 4c4f23b9974e2ffdf29c1338fdfd5eb0e50654
+│   │   ├── e2
+│   │   │   ├── 2e198fa93b35dca10d96b5416e9cca3ac342ff
+│   │   │   ├── 93a0710d3985ce00e733dcaef0d046f01aefae
+│   │   │   ├── c5f6883630161c010292e8e7800f678aa500a9
+│   │   │   └── ecb306fc227f8d2fe167c391088ef3c4cf2cf4
+│   │   ├── e3
+│   │   │   └── efcdefb09a9db6580e2d38a8079144266c8ce4
+│   │   ├── e4
+│   │   │   └── d7841013ae35c9c32103d68509190ac73f43b1
+│   │   ├── e6
+│   │   │   ├── 659c01e9b01fe3a429dd6e26c894bf5251b4ed
+│   │   │   ├── 6de0442d9453c00e036f9e562967bfce2f8581
+│   │   │   └── 9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+│   │   ├── e7
+│   │   │   ├── 526295c59d19438f3dabeedddfd64ce249ce38
+│   │   │   └── 6b16ad97b7c6f329612d7cde8f3b4e7d56b749
+│   │   ├── e8
+│   │   │   └── 1a2fad2d8d67c86d288a5b9b7f8c6d09e864a1
+│   │   ├── ea
+│   │   │   └── 9df38ac44b61ef3b53d5b27ded862213429b59
+│   │   ├── eb
+│   │   │   └── f345a9263dc96036010e190ae0ef4f99382649
+│   │   ├── ec
+│   │   │   ├── 63fb3422e0beffa3fb056592c42ff573cf1ba7
+│   │   │   └── ae07739945431a8d8220a44cce21d3cd9b0c24
+│   │   ├── ed
+│   │   │   └── 6d2f53132daba167ca10a0f1e27b98b4893178
+│   │   ├── ee
+│   │   │   ├── 74aaf438d4fe48dbf7fcff1638fe900c8e3c7d
+│   │   │   └── b802dcf0de107d5bc0617c325e671e188f8ee2
+│   │   ├── f0
+│   │   │   └── 1064cc27535c286901ad9ad65e7783fb450d26
+│   │   ├── f1
+│   │   │   └── ca97f0cd8988c1fb65d8cae584e268bfc1f890
+│   │   ├── f3
+│   │   │   ├── 0d3b3d3dcf02f340dea53a1834fca9a04a8d33
+│   │   │   ├── 1a0bac65610e715ea4b393ec2de39cff34f05d
+│   │   │   └── 6671e4cc7b0d781af30e92cba464272c29bba6
+│   │   ├── f4
+│   │   │   ├── 2420b462a431f243af95aee13a4050df620d93
+│   │   │   └── 2f4d93ad8d952cac450287d5910d8801296efd
+│   │   ├── f5
+│   │   │   └── bb17d38b7c56034584b08210c1ec0eac878d33
+│   │   ├── f8
+│   │   │   ├── 34a3352ade61b94ce8d57584c093298e9cda67
+│   │   │   └── 867640ff5e4e25b59d3ef77fa1f41b15ee86d0
+│   │   ├── f9
+│   │   │   └── fb5daf3c2692d8bf161d376b3899695eece1db
+│   │   ├── fa
+│   │   │   ├── 0f316c525cba730ff96183c438b87e2bcc7448
+│   │   │   └── 523b390f987b02a97ab0ca576aa4b9fa05a12f
+│   │   ├── fd
+│   │   │   ├── 207c4a92014f58ec158d8a3c22231e6b12d5a2
+│   │   │   └── 39cb3045c4bd9eabd89cd86fffd9acfb3ed8c0
+│   │   ├── fe
+│   │   │   └── 1803d9b1bcc6a1de4a038e3019b04bcddbf077
+│   │   ├── info
+│   │   └── pack
+│   │       ├── pack-4afd22bde4da846105efa6825663ba101818035c.idx
+│   │       ├── pack-4afd22bde4da846105efa6825663ba101818035c.pack
+│   │       └── pack-4afd22bde4da846105efa6825663ba101818035c.rev
+│   ├── packed-refs
+│   └── refs
+│       ├── heads
+│       │   └── main
+│       ├── remotes
+│       │   └── origin
+│       │       ├── HEAD
+│       │       └── main
+│       └── tags
+├── .gitmodules
+├── .local
+│   └── share
+│       ├── applications
+│       │   ├── alacritty.desktop
+│       │   └── ghostty.desktop
+│       └── icons
+├── nixos
+│   ├── hosts
+│   │   └── AppleII
+│   │       ├── configuration.nix
+│   │       └── hardware-configuration.nix
+│   └── modules
+│       └── home-manager
+│           └── home.nix
+├── README.md
+├── .ssh
+│   ├── config
+│   └── rc
+├── .stow-global-ignore
+└── .zshrc
+
+339 directories, 614 files

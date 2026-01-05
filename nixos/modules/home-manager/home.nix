@@ -54,6 +54,7 @@ in
     neovim
     nmap
     nodejs
+    obsidian
     obs-studio
     oh-my-posh
     p7zip
@@ -195,6 +196,7 @@ in
     GDK_BACKEND = "wayland";
   };
 
+  services.network-manager-applet.enable = true;
 
 }
 
