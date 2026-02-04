@@ -47,14 +47,18 @@ in
     ];
   };
 
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      General = {
-      EnableNetworkConfiguration = true;
-      };
-    };
-  };
+    #networking.wireless.iwd = {
+    #  enable = true;
+    #  settings = {
+    #    General = {
+    #      EnableNetworkConfiguration = true;
+    #      PowerSave = false;
+    #      RoamThreshold = -70;      # Only roam when signal drops to -70 dBm
+    #      RoamThreshold5G = -76;    # 5GHz threshold
+    #      RoamRetryInterval = 60;   # Wait 60 seconds between roam attempts
+    #    };
+    #  };
+    #};
 
 
   # Also add keyring support:
@@ -62,8 +66,8 @@ in
   security.pam.services.login.enableGnomeKeyring = true;
 
   # Set your time zone.
-  #time.timeZone = "America/New_York";
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "America/New_York";
+  #time.timeZone = "America/Los_Angeles";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -156,7 +160,7 @@ in
     isNormalUser = true;
     description = "Chris Kim";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "input" "vboxusers" "docker" "lpadmin"];
+    extraGroups = [ "networkmanager" "wheel" "input" "vboxusers" "docker" "lpadmin" "video"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -218,6 +222,9 @@ in
     kdePackages.qtsvg
     libnotify
     neovim
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
     nerd-fonts.jetbrains-mono
     newt
     pavucontrol
@@ -240,20 +247,28 @@ in
     jq
     slurp
     wl-clipboard
+    # Webcam/video tools:
+    v4l-utils      # v4l2-ctl
+    cheese         # Simple webcam viewer GUI
   ];
 
   fonts = {
-    enableDefaultPackages = false;
+    enableDefaultPackages = true;  # Re-enable default fonts (includes basic emoji support)
+    
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji  # ← This is the key one for emoji!
     ];
   
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [  "JetBrainsMono" ];
-        sansSerif = [ "JetBrainsMono" ];
+        serif = [ "Noto Serif" "JetBrainsMono" ];
+        sansSerif = [ "Noto Sans" "JetBrainsMono" ];
         monospace = [ "JetBrainsMono" ];
+        emoji = [ "Noto Color Emoji" ];  # ← Explicitly set emoji font
       };
     };
   };
@@ -325,7 +340,13 @@ in
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
-  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ];
+  boot.kernelParams = [
+    "kvm.enable_virt_at_load=0"
+    # HDMI card fix
+    "usbcore.autosuspend=-1"
+    "xhci_hcd.quirks=0x200"
+    "pcie_aspm=off"
+  ];
   boot.kernelModules = [ "vboxguest" "vboxsf" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [
     virtualboxGuestAdditions
@@ -339,13 +360,25 @@ in
 
 
 
-  services.dbus.enable = true;
-  xdg.portal.enable = true;
-  xdg.portal.wlr.enable = true;
-
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
-  ];
+  # Configure portals properly:
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+    ];
+    
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+      };
+    };
+  };
 
   systemd.services.NetworkManager.serviceConfig.LimitNOFILE = 65535;
   systemd.services.wpa_supplicant.serviceConfig.LimitNOFILE = 65535;
@@ -366,11 +399,11 @@ in
   ];
 
   # Method 1: Using udev rules (recommended)
-
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev %k set power_save off"
-  '';
 
+    ACTION=="add", SUBSYSTEM=="usb", KERNEL=="usb[0-9]*", ATTR{power/control}="on"
+  '';
 
   boot.extraModprobeConfig = ''
     options mt7925e disable_aspm=1

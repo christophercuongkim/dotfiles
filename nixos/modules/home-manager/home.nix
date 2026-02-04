@@ -31,6 +31,7 @@ in
 
   home.packages = with pkgs; [
     adwaita-icon-theme
+    ani-cli
     brave
     claude-code
     fastfetch
