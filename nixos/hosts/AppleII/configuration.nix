@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed onconfigur
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -99,6 +99,11 @@ in
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+
+  # Enable WirePlumber for camera support
+  services.pipewire.wireplumber.enable = true;
+
   services.fwupd.enable = true;
 
   # Tailscale
@@ -125,6 +130,27 @@ in
   hardware.bluetooth.enable = true;
   services.dbus.packages = [ pkgs.blueman ];
   hardware.bluetooth.powerOnBoot = true;
+
+  
+  # Webcam Support for Framewok Laptops
+  hardware.enableRedistributableFirmware = true;
+  hardware.firmware = with pkgs; [ linux-firmware ];
+
+  # Load webcam modules Explicitly
+  boot.kernelModules = [ "uvcvideo"];
+
+  # Webcam power management fix for framework
+  boot.extraModprobeConfig = ''
+    # wifi power management
+    options mt7925e disable_aspm=1
+    options mt7925e disable_pm=1
+    # framework camera quirks: 384 = SKIP_PTS_PACKETS (128) + POBE_MINMAX (256)
+    # PROBE_MINMAX prevents firmware timeout during stream initialization
+    #options uvcvideo quirks=512
+  '';
+
+
+
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -343,15 +369,10 @@ in
   boot.kernelParams = [
     "kvm.enable_virt_at_load=0"
     # HDMI card fix
-    "usbcore.autosuspend=-1"
-    "xhci_hcd.quirks=0x200"
+    #"usbcore.autosuspend=2"
+    #"xhci_hcd.quirks=0x200"
     "pcie_aspm=off"
   ];
-  boot.kernelModules = [ "vboxguest" "vboxsf" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    virtualboxGuestAdditions
-  ];
-
 
   virtualisation.docker = {
     enable = true;
@@ -376,6 +397,7 @@ in
       };
       hyprland = {
         default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.Camera" = [ "gtk" ];
       };
     };
   };
@@ -400,14 +422,15 @@ in
 
   # Method 1: Using udev rules (recommended)
   services.udev.extraRules = ''
+    # Wifi power saving off
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", RUN+="${pkgs.iw}/bin/iw dev %k set power_save off"
 
-    ACTION=="add", SUBSYSTEM=="usb", KERNEL=="usb[0-9]*", ATTR{power/control}="on"
-  '';
-
-  boot.extraModprobeConfig = ''
-    options mt7925e disable_aspm=1
-    options mt7925e disable_pm=1
+    # Camer-specific power management
+    # common framework vendors: omnivision (0x5986), sunplus (0x1c4f)
+    ACTION=="add", SUBSYSTEM=="video4linux", ATTR{index}=="0", RUN+="${pkgs.bash}/bin/bash -c 'echo on > /sys$devpath/device/power/control'"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="32ac", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="5986", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1c4f", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
   ''; 
 
 

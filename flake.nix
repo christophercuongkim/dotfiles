@@ -1,5 +1,4 @@
 {
-
   inputs = {
     # NixOS official package source, using the nixos-25.05 branch here
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
