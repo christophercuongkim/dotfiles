@@ -428,9 +428,9 @@ in
     # Camer-specific power management
     # common framework vendors: omnivision (0x5986), sunplus (0x1c4f)
     ACTION=="add", SUBSYSTEM=="video4linux", ATTR{index}=="0", RUN+="${pkgs.bash}/bin/bash -c 'echo on > /sys$devpath/device/power/control'"
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="32ac", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="5986", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1c4f", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="5986", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="1c4f", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
   ''; 
 
 
