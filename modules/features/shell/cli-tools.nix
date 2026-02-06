@@ -9,6 +9,7 @@
       stow
       util-linux
       fastfetch
+      fd            # Fast file finder (telescope)
       fzf
       p7zip
       ripgrep
