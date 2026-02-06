@@ -79,6 +79,13 @@ in
     zig
     zoxide
     zsh
+    # LSP servers from lspconfig.lua
+    lua-language-server    # for lua_ls
+    gopls                  # for gopls
+    golines               # Go formatter
+    goimports-reviser     # or gotools (contains goimports)
+    ruff                  # for ruff
+    ty
   ];
 
   # Link dotfiles - use relative paths from your dotfiles repo
