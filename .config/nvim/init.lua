@@ -2,7 +2,7 @@
 require 'custom.configs.options'
 
 -- [[ Basic Keymaps ]]
-require 'custom.configs.basic_keymap'
+require 'custom.configs.keymaps'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -32,8 +32,12 @@ require('lazy').setup({
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.gitsigns',
-  { import = 'custom.plugins' },
+  { import = 'custom.plugins.editor' },
+  { import = 'custom.plugins.lsp' },
+  { import = 'custom.plugins.git' },
+  { import = 'custom.plugins.lang' },
+  { import = 'custom.plugins.ui' },
+  { import = 'custom.plugins.nav' },
 }, {
   ui = {
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
