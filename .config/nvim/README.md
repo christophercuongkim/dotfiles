@@ -186,6 +186,42 @@ Run `:Telescope keymaps` or press a key and wait for which-key hints.
 | `:LspInfo` | LSP status |
 | `:checkhealth` | Diagnose issues |
 
+## NixOS Package Requirements
+
+On NixOS, Mason is disabled. External tools must be installed via Nix in `modules/features/development/lsp.nix`.
+
+| Nvim Feature | Nix Package | Config Location |
+|--------------|-------------|-----------------|
+| **LSP Servers** | | |
+| Lua LSP | `lua-language-server` | `lsp.nix` |
+| Go LSP | `gopls` | `lsp.nix` |
+| Python linter | `ruff` | `lsp.nix` |
+| Python types | `ty` | `lsp.nix` |
+| Dart/Flutter | `flutter` | `flutter.nix` |
+| **Formatters** | | |
+| Lua | `stylua` | `lsp.nix` |
+| Go | `golines`, `goimports-reviser` | `lsp.nix` |
+| **Debug Adapters** | | |
+| Go | `delve` | `lsp.nix` |
+| Python | `python3Packages.debugpy` | `lsp.nix` |
+| **Treesitter** | | |
+| Parser compilation | `gcc`, `gnumake` | `lsp.nix` |
+| **Telescope** | | |
+| File search | `fd` | `cli-tools.nix` |
+| Grep search | `ripgrep` | `cli-tools.nix` |
+
+### Adding a New Tool
+
+1. Add nvim config (plugin/LSP/formatter)
+2. Add Nix package to appropriate module:
+   ```nix
+   # modules/features/development/lsp.nix
+   environment.systemPackages = with pkgs; [
+     new-tool-package
+   ];
+   ```
+3. Rebuild: `sudo nixos-rebuild switch --flake .`
+
 ## Troubleshooting
 
 **Plugins not loading?**
