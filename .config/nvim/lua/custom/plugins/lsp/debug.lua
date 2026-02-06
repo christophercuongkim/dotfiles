@@ -213,29 +213,22 @@ return {
     end, { desc = 'Debug: Go Last Test' })
 
     -- Python-specific setup
-    local dap_python = require('dap-python')
     if platform.use_mason then
-      -- Non-Nix: Mason installs debugpy into system Python
+      -- Non-Nix: Use nvim-dap-python with Mason-installed debugpy
+      local dap_python = require('dap-python')
       dap_python.setup('python')
-    else
-      -- NixOS: debugpy-adapter is available, but we need to tell dap-python
-      -- to use our custom adapter. Setting up with 'debugpy' binary works
-      -- because it's a wrapper that includes the correct Python with debugpy.
-      dap_python.setup('debugpy')
-      -- Override the adapter to use debugpy-adapter directly
-      dap_python.resolve_python = function()
-        return 'python'
-      end
-    end
 
-    vim.keymap.set('n', '<leader>dpt', function()
-      dap_python.test_method()
-    end, { desc = 'Debug: Python Test Method' })
-    vim.keymap.set('n', '<leader>dpc', function()
-      dap_python.test_class()
-    end, { desc = 'Debug: Python Test Class' })
-    vim.keymap.set('v', '<leader>dps', function()
-      dap_python.debug_selection()
-    end, { desc = 'Debug: Python Selection' })
+      vim.keymap.set('n', '<leader>dpt', function()
+        dap_python.test_method()
+      end, { desc = 'Debug: Python Test Method' })
+      vim.keymap.set('n', '<leader>dpc', function()
+        dap_python.test_class()
+      end, { desc = 'Debug: Python Test Class' })
+      vim.keymap.set('v', '<leader>dps', function()
+        dap_python.debug_selection()
+      end, { desc = 'Debug: Python Selection' })
+    end
+    -- On NixOS: Python adapter and configs are set up manually above
+    -- Use <leader>dc to start debugging Python files
   end,
 }
