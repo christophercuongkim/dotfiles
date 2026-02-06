@@ -85,7 +85,7 @@ return {
         },
       }
 
-      -- Python (debugpy)
+      -- Python (debugpy) - use debugpy-adapter binary on NixOS
       dap.adapters.python = function(cb, config)
         if config.request == 'attach' then
           local port = (config.connect or config).port
@@ -101,8 +101,8 @@ return {
         else
           cb({
             type = 'executable',
-            command = 'python',
-            args = { '-m', 'debugpy.adapter' },
+            command = 'debugpy-adapter',
+            args = {},
             options = {
               source_filetype = 'python',
             },
@@ -214,8 +214,19 @@ return {
 
     -- Python-specific setup
     local dap_python = require('dap-python')
-    -- Use system python with debugpy
-    dap_python.setup('python')
+    if platform.use_mason then
+      -- Non-Nix: Mason installs debugpy into system Python
+      dap_python.setup('python')
+    else
+      -- NixOS: debugpy-adapter is available, but we need to tell dap-python
+      -- to use our custom adapter. Setting up with 'debugpy' binary works
+      -- because it's a wrapper that includes the correct Python with debugpy.
+      dap_python.setup('debugpy')
+      -- Override the adapter to use debugpy-adapter directly
+      dap_python.resolve_python = function()
+        return 'python'
+      end
+    end
 
     vim.keymap.set('n', '<leader>dpt', function()
       dap_python.test_method()
