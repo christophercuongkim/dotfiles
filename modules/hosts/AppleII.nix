@@ -80,6 +80,7 @@ in
         nixos.lua
         nixos.zig
         nixos.flutter
+        nixos.java
 
         # Apps
         nixos.firefox
