@@ -22,7 +22,10 @@ return {
 
     -- Language-specific extensions
     'leoluz/nvim-dap-go',
-    'mfussenegger/nvim-dap-python',
+    {
+      'mfussenegger/nvim-dap-python',
+      enabled = platform.use_mason,  -- Only needed for non-Nix systems
+    },
   },
 
   keys = {
@@ -110,6 +113,10 @@ return {
         end
       end
 
+      -- Find debugpy site-packages path for PYTHONPATH
+      local debugpy_path = vim.fn.system('dirname $(dirname $(realpath $(which debugpy)))'):gsub('\n', '')
+        .. '/lib/python3.13/site-packages'
+
       dap.configurations.python = {
         {
           type = 'python',
@@ -117,13 +124,15 @@ return {
           name = 'Launch file',
           program = '${file}',
           pythonPath = function()
-            -- Use activated virtualenv or fall back to system python
             local venv = os.getenv('VIRTUAL_ENV')
             if venv then
               return venv .. '/bin/python'
             end
             return 'python'
           end,
+          env = {
+            PYTHONPATH = debugpy_path,
+          },
         },
         {
           type = 'python',
@@ -141,6 +150,9 @@ return {
             end
             return 'python'
           end,
+          env = {
+            PYTHONPATH = debugpy_path,
+          },
         },
         {
           type = 'python',
