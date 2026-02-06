@@ -29,7 +29,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  require 'kickstart.plugins.debug',
+  -- Debug config moved to custom.plugins.lsp.debug
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.autopairs',
   { import = 'custom.plugins.editor' },
