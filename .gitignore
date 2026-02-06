@@ -1,0 +1,10 @@
+# Build output
+build_output.txt
+
+# Editor
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
