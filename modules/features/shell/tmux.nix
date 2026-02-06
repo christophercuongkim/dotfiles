@@ -1,8 +1,7 @@
 # Tmux terminal multiplexer
-# TEMPORARILY DISABLED - home-manager contributions
+# Config and plugins managed via dotfiles symlink in symlinks.nix
 { ... }:
 {
-  # Just install tmux via NixOS for now
   flake.modules.nixos.tmux = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [ tmux ];
   };

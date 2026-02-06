@@ -15,4 +15,8 @@
     systemd.services.NetworkManager.serviceConfig.LimitNOFILE = 65535;
     systemd.services.wpa_supplicant.serviceConfig.LimitNOFILE = 65535;
   };
+
+  flake.modules.homeManager.networkmanager = {
+    services.network-manager-applet.enable = true;
+  };
 }

@@ -18,6 +18,7 @@
       wget
       zoxide
       oh-my-posh
+      rink
     ];
   };
 }

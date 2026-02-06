@@ -38,6 +38,9 @@ in
           topLevel.config.flake.modules.homeManager.symlinks
           topLevel.config.flake.modules.homeManager.git
           topLevel.config.flake.modules.homeManager.gtk
+          topLevel.config.flake.modules.homeManager.waybar
+          topLevel.config.flake.modules.homeManager.terminals
+          topLevel.config.flake.modules.homeManager.networkmanager
         ];
       };
     };

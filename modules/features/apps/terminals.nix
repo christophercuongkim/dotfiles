@@ -1,5 +1,4 @@
 # Terminal emulators
-# TEMPORARILY DISABLED - home-manager contributions
 { ... }:
 {
   flake.modules.nixos.terminals = { pkgs, ... }: {
@@ -7,5 +6,10 @@
       kitty
       ghostty
     ];
+  };
+
+  # Kitty is required for default Hyprland config
+  flake.modules.homeManager.terminals = {
+    programs.kitty.enable = true;
   };
 }

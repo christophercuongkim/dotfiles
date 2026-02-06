@@ -17,7 +17,7 @@
       # Shell prompt
       ".config/oh-my-posh".source = "${dotfilesPath}/.config/oh-my-posh";
 
-      # Tmux
+      # Tmux (whole directory including plugins)
       ".config/tmux".source = "${dotfilesPath}/.config/tmux";
 
       # SSH

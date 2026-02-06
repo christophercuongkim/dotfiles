@@ -11,5 +11,8 @@
     ];
   };
 
-  # Config is managed via dotfiles symlink, no home-manager waybar program needed
+  # Enable waybar via home-manager (config managed via dotfiles symlink)
+  flake.modules.homeManager.waybar = {
+    programs.waybar.enable = true;
+  };
 }
