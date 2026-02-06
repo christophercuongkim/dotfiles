@@ -68,6 +68,7 @@ in
         nixos.zsh
         nixos.cli-tools
         nixos.tmux
+        nixos.direnv
 
         # Development
         nixos.git
