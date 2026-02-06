@@ -72,6 +72,7 @@ in
     tree
     unrar
     unzip
+    uv
     wget
     wireshark
     wl-clipboard
