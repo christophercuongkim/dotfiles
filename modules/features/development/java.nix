@@ -2,11 +2,9 @@
 { ... }:
 {
   flake.modules.nixos.java = { pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
-      jdk21  # LTS version, good for PySpark
-    ];
-
-    # Set JAVA_HOME system-wide
-    environment.variables.JAVA_HOME = "${pkgs.jdk21}";
+    programs.java = {
+      enable = true;
+      package = pkgs.jdk21;  # Sets JAVA_HOME automatically
+    };
   };
 }
