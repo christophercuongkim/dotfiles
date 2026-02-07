@@ -1,3 +1,6 @@
+# Global configuration options for this dotfiles setup.
+# These are intentionally hardcoded for single-user use.
+# To use on another machine, update the defaults below.
 { lib, ... }:
 {
   options = {

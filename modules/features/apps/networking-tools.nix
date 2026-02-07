@@ -1,5 +1,4 @@
-# Network analysis tools
-# TEMPORARILY DISABLED - home-manager contributions
+# Network analysis and security tools
 { ... }:
 {
   flake.modules.nixos.networking-tools = { pkgs, ... }: {

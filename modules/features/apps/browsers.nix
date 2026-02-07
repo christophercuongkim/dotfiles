@@ -1,5 +1,4 @@
-# Other browsers (Brave, Chrome)
-# TEMPORARILY DISABLED - home-manager contributions
+# Chromium-based browsers (Brave, Chrome)
 { ... }:
 {
   flake.modules.nixos.browsers = { pkgs, ... }: {
