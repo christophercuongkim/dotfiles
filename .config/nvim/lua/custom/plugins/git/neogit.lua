@@ -36,10 +36,21 @@ return {
         log_date_format = '%Y-%m-%d',
         -- Used to generate URL's for branch popup action "pull request".
         git_services = {
-          ['github.com'] = 'https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1',
-          ['bitbucket.org'] = 'https://bitbucket.org/${owner}/${repository}/pull-requests/new?source=${branch_name}&t=1',
-          ['gitlab.com'] = 'https://gitlab.com/${owner}/${repository}/merge_requests/new?merge_request[source_branch]=${branch_name}',
-          ['azure.com'] = 'https://dev.azure.com/${owner}/_git/${repository}/pullrequestcreate?sourceRef=${branch_name}&targetRef=${target}',
+          ['github.com'] = {
+            tree = 'https://github.com/${owner}/${repository}/tree/${branch_name}',
+            commit = 'https://github.com/${owner}/${repository}/commit/${commit}',
+            pull_request = 'https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1',
+          },
+          ['bitbucket.org'] = {
+            tree = 'https://bitbucket.org/${owner}/${repository}/src/${branch_name}',
+            commit = 'https://bitbucket.org/${owner}/${repository}/commits/${commit}',
+            pull_request = 'https://bitbucket.org/${owner}/${repository}/pull-requests/new?source=${branch_name}&t=1',
+          },
+          ['gitlab.com'] = {
+            tree = 'https://gitlab.com/${owner}/${repository}/-/tree/${branch_name}',
+            commit = 'https://gitlab.com/${owner}/${repository}/-/commit/${commit}',
+            pull_request = 'https://gitlab.com/${owner}/${repository}/merge_requests/new?merge_request[source_branch]=${branch_name}',
+          },
         },
         -- Allows a different telescope sorter. Defaults to 'fuzzy_with_index_bias'. The example below will use the native fzf
         -- sorter instead. By default, this function returns `nil`.

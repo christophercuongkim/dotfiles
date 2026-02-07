@@ -14,6 +14,13 @@
       golines       # Go line length formatter
       goimports-reviser
 
+      # Linters (for nvim-lint)
+      golangci-lint # Go linter
+      shellcheck    # Shell script linter
+
+      # Test tools
+      gotestsum     # Go test runner (for neotest)
+
       # Debug adapters (DAP)
       delve                     # Go debugger (dlv)
       python3Packages.debugpy   # Python debugger

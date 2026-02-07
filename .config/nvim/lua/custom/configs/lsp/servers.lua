@@ -31,6 +31,9 @@ M.servers = {
   },
 
   ty = {
+    cmd = { 'ty', 'server' },
+    filetypes = { 'python' },
+    root_markers = { 'pyproject.toml', '.git' },
     settings = {
       ty = {
         diagnosticMode = 'openFilesOnly',
@@ -68,22 +71,5 @@ M.servers = {
 M.mason_tools = {
   'stylua',
 }
-
--- Manual LSP configurations (servers not in lspconfig)
-function M.setup_manual_servers(lspconfig)
-  local configs = require('lspconfig.configs')
-
-  -- ty (Python type checker) - not in lspconfig yet
-  if not configs.ty then
-    configs.ty = {
-      default_config = {
-        cmd = { 'ty', 'server' },
-        filetypes = { 'python' },
-        root_dir = lspconfig.util.root_pattern('pyproject.toml', '.git'),
-        settings = {},
-      },
-    }
-  end
-end
 
 return M

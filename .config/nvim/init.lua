@@ -39,6 +39,8 @@ require('lazy').setup({
   { import = 'custom.plugins.ui' },
   { import = 'custom.plugins.nav' },
 }, {
+  -- Store lockfile in writable location (config dir is read-only on NixOS)
+  lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
   ui = {
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
