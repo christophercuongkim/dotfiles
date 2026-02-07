@@ -95,7 +95,7 @@ final_space = true
   # Execution time
   [[blocks.segments]]
     template = ' 󱎫 {{ .FormattedMs }} '
-    foreground = '#ff9900'
+    foreground = '#888888'
     background = 'transparent'
     type = 'executiontime'
     style = 'plain'
@@ -107,7 +107,7 @@ final_space = true
   # Python version
   [[blocks.segments]]
     template = '  {{ .Full }} '
-    foreground = '#ffcc00'
+    foreground = '#aaaaaa'
     background = 'transparent'
     type = 'python'
     style = 'plain'
