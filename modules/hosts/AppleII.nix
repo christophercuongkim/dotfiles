@@ -38,6 +38,7 @@ in
         nixos.tailscale
         nixos.resolved
         nixos.vpn
+        nixos.firewall
 
         # Audio/Bluetooth
         nixos.pipewire
