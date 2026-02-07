@@ -32,9 +32,6 @@ zinit snippet OMZP::aws
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  zinit snippet OMZP::archlinux
-fi
 
 # Load completions
 autoload -Uz compinit && compinit -u
@@ -78,20 +75,25 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
 
-# Exports base on os
+# 1Password SSH agent
 if [[ -z "${SSH_AUTH_SOCK}" ]]; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    if [[ ! -f "~/.1password/agent.sock" ]]; then
-      mkdir -p ~/.1password && ln -s ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
+    if [[ ! -S "$HOME/.1password/agent.sock" ]]; then
+      mkdir -p "$HOME/.1password" && ln -sf "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" "$HOME/.1password/agent.sock"
     fi
+    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+  elif [[ -S "$HOME/.1password/agent.sock" ]]; then
+    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
   fi
-  export SSH_AUTH_SOCK=~/.1password/agent.sock
 fi
 
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export PATH=$HOME/development/flutter/bin:$PATH
 
-export HYPRSHOT_DIR="/home/chriskim/Pictures/screen_shots"
+export HYPRSHOT_DIR="$HOME/Pictures/screen_shots"
 
-fastfetch
+# Show system info on login shells only
+if [[ -o login ]]; then
+  fastfetch
+fi
