@@ -1,4 +1,11 @@
-# Git version control
+# Git version control with GitHub integration
+#
+# Packages:
+#   - git: Core version control
+#   - gh: GitHub CLI for PRs, issues, etc.
+#   - github-desktop: GUI for git operations
+#
+# Home-manager configures user identity and default editor.
 { ... }:
 {
   flake.modules.nixos.git = { pkgs, ... }: {
