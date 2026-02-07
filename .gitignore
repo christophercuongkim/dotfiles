@@ -8,3 +8,6 @@ build_output.txt
 
 # OS
 .DS_Store
+
+# Tmux plugins (installed by TPM)
+.config/tmux/plugins/
