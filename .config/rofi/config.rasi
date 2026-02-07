@@ -6,7 +6,7 @@
     bg-alt:                 #111111;
     bg-selected:            #222222;
     fg:                     #ffffff;
-    fg-alt:                 #888888;
+    fg-alt:                 #aaaaaa;
     red:                    #ff0000;
     red-dark:               #cc0000;
     urgent:                 #ff4444;
@@ -88,6 +88,7 @@ element {
 element normal.normal,
 element alternate.normal {
     background-color:       transparent;
+    text-color:             @fg;
 }
 
 element selected.normal {
@@ -141,7 +142,7 @@ mode-switcher {
 button {
     padding:                8px 16px;
     background-color:       @bg-alt;
-    text-color:             @fg-alt;
+    text-color:             @fg;
     border-radius:          6px;
 }
 
