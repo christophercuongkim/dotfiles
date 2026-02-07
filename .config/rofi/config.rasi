@@ -92,7 +92,7 @@ element alternate.normal {
 
 element selected.normal {
     background-color:       @red;
-    text-color:             @bg;
+    text-color:             @fg;
 }
 
 element normal.urgent,
@@ -102,7 +102,7 @@ element alternate.urgent {
 
 element selected.urgent {
     background-color:       @urgent;
-    text-color:             @bg;
+    text-color:             @fg;
 }
 
 element normal.active,
@@ -112,7 +112,7 @@ element alternate.active {
 
 element selected.active {
     background-color:       @red;
-    text-color:             @bg;
+    text-color:             @fg;
 }
 
 element-icon {
@@ -147,5 +147,5 @@ button {
 
 button selected {
     background-color:       @red;
-    text-color:             @bg;
+    text-color:             @fg;
 }

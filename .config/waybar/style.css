@@ -47,7 +47,7 @@ window#waybar {
 
 #workspaces button.active {
     background-color: #ff0000;
-    color: #000000;
+    color: #ffffff;
     font-weight: bold;
 }
 
@@ -64,7 +64,7 @@ window#waybar {
 /* Submap indicator */
 #submap {
     background-color: #ff0000;
-    color: #000000;
+    color: #ffffff;
     font-weight: bold;
 }
 
@@ -86,7 +86,7 @@ window#waybar {
 
 #battery.critical {
     background-color: #ff0000;
-    color: #000000;
+    color: #ffffff;
     animation: blink 0.5s linear infinite alternate;
 }
 

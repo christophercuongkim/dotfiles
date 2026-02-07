@@ -20,7 +20,7 @@ final_space = true
 
   [[blocks.segments]]
     template = ' {{.Icon}} '
-    foreground = '#000000'
+    foreground = '#ffffff'
     background = '#ff0000'
     type = 'os'
     style = 'diamond'
@@ -63,7 +63,7 @@ final_space = true
   # Nix shell indicator (only shows in nix develop/nix-shell)
   [[blocks.segments]]
     template = '  nix '
-    foreground = '#000000'
+    foreground = '#ffffff'
     background = '#7eb0d8'
     type = 'envvar'
     style = 'powerline'
