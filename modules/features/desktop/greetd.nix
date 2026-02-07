@@ -5,11 +5,11 @@
     services.greetd = {
       enable = true;
       settings = rec {
-        initial_sesstion = {
-          command = "hyprland > /dev/null 2>&1";
+        initial_session = {
+          command = "uwsm start hyprland-uwsm.desktop";
           user = config.username;
         };
-        default_session = initial_sesstion;
+        default_session = initial_session;
       };
     };
   };

@@ -38,6 +38,7 @@
       ".config/waybar".source = "${dotfilesPath}/.config/waybar";
       ".config/rofi".source = "${dotfilesPath}/.config/rofi";
       ".config/hypr".source = "${dotfilesPath}/.config/hypr";
+      ".config/hyprpaper/hyprpaper.conf".source = "${dotfilesPath}/.config/hypr/hyprpaper.conf";
     };
   };
 }
