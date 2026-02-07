@@ -18,6 +18,8 @@ in
       NIXOS_OZONE_WL = "1";
       HYPRSHOT_DIR = "/home/${username}/Pictures";
       GDK_BACKEND = "wayland";
+      QT_QPA_PLATFORM = "wayland";
+      CLUTTER_BACKEND = "wayland";
     };
   };
 
