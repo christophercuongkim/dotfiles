@@ -12,7 +12,7 @@ return {
     mode = 'cursor',
   },
   keys = {
-    { '<leader>tC', '<cmd>TSContextToggle<cr>', desc = 'Toggle Treesitter Context' },
+    { '<leader>tx', '<cmd>TSContext toggle<cr>', desc = 'Toggle Treesitter Context' },
     {
       '[c',
       function()
