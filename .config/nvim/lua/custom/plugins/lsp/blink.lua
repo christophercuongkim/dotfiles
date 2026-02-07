@@ -1,3 +1,12 @@
+-- Global toggle for completion (used by blink.cmp)
+vim.g.cmp_enabled = true
+
+-- Toggle autocomplete on/off
+vim.keymap.set('n', '<leader>tc', function()
+  vim.g.cmp_enabled = not vim.g.cmp_enabled
+  vim.notify('Autocomplete ' .. (vim.g.cmp_enabled and 'enabled' or 'disabled'))
+end, { desc = 'Toggle autocomplete' })
+
 return {
   {
     'saghen/blink.cmp',
@@ -14,6 +23,10 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
+      -- Check global toggle
+      enabled = function()
+        return vim.g.cmp_enabled
+      end,
       -- 'default' for mappings similar to built-in completion
       -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept

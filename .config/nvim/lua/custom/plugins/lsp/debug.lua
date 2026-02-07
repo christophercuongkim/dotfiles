@@ -113,9 +113,30 @@ return {
         end
       end
 
-      -- Find debugpy site-packages path for PYTHONPATH
-      local debugpy_path = vim.fn.system('dirname $(dirname $(realpath $(which debugpy)))'):gsub('\n', '')
-        .. '/lib/python3.13/site-packages'
+      -- Helper to find project venv python (works with UV's .venv structure)
+      local function get_python_path()
+        -- Check VIRTUAL_ENV first (if venv is activated)
+        local venv = os.getenv('VIRTUAL_ENV')
+        if venv then
+          return venv .. '/bin/python'
+        end
+        -- Check for .venv in current working directory (UV/standard venv)
+        local cwd_venv = vim.fn.getcwd() .. '/.venv/bin/python'
+        if vim.fn.executable(cwd_venv) == 1 then
+          return cwd_venv
+        end
+        -- Walk up from current file to find .venv in parent directories
+        local file_dir = vim.fn.expand('%:p:h')
+        local dir = file_dir
+        while dir ~= '/' do
+          local venv_python = dir .. '/.venv/bin/python'
+          if vim.fn.executable(venv_python) == 1 then
+            return venv_python
+          end
+          dir = vim.fn.fnamemodify(dir, ':h')
+        end
+        return 'python'
+      end
 
       dap.configurations.python = {
         {
@@ -123,16 +144,8 @@ return {
           request = 'launch',
           name = 'Launch file',
           program = '${file}',
-          pythonPath = function()
-            local venv = os.getenv('VIRTUAL_ENV')
-            if venv then
-              return venv .. '/bin/python'
-            end
-            return 'python'
-          end,
-          env = {
-            PYTHONPATH = debugpy_path,
-          },
+          pythonPath = get_python_path,
+          -- No PYTHONPATH override - let venv python handle imports normally
         },
         {
           type = 'python',
@@ -143,16 +156,7 @@ return {
             local args_string = vim.fn.input('Arguments: ')
             return vim.split(args_string, ' +')
           end,
-          pythonPath = function()
-            local venv = os.getenv('VIRTUAL_ENV')
-            if venv then
-              return venv .. '/bin/python'
-            end
-            return 'python'
-          end,
-          env = {
-            PYTHONPATH = debugpy_path,
-          },
+          pythonPath = get_python_path,
         },
         {
           type = 'python',
