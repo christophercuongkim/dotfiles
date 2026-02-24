@@ -4,22 +4,24 @@
   flake.modules.nixos.cli-tools = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       brightnessctl
-      libnotify
-      newt
-      stow
-      util-linux
       fastfetch
       fd            # Fast file finder (telescope)
       fzf
+      libnotify
+      newt
+      oh-my-posh
       p7zip
+      pdftk
+      qpdf
+      rink
       ripgrep
+      stow
       tree
       unrar
       unzip
+      util-linux
       wget
       zoxide
-      oh-my-posh
-      rink
     ];
   };
 }

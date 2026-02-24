@@ -89,6 +89,7 @@ in
         nixos.browsers
         nixos.terminals
         nixos.media
+        nixos.music
         nixos.productivity
         nixos.gaming
         nixos.gtk

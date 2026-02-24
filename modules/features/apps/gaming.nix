@@ -3,6 +3,9 @@
 { ... }:
 {
   flake.modules.nixos.gaming = { pkgs, ... }: {
-    environment.systemPackages = with pkgs; [ steam ];
+    environment.systemPackages = with pkgs; [ 
+      steam
+      discord
+    ];
   };
 }

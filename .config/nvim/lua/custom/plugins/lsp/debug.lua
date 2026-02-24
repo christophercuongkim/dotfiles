@@ -186,6 +186,32 @@ return {
     end, { desc = 'Debug: Log Point' })
     vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Open REPL' })
     vim.keymap.set('n', '<leader>dx', dap.terminate, { desc = 'Debug: Terminate' })
+    vim.keymap.set('n', '<leader>dE', function()
+      dap.set_exception_breakpoints({ 'raised', 'uncaught' })
+      vim.notify('Exception breakpoints: all exceptions')
+    end, { desc = 'Debug: Break on all exceptions' })
+    vim.keymap.set('n', '<leader>dU', function()
+      dap.set_exception_breakpoints({ 'uncaught' })
+      vim.notify('Exception breakpoints: uncaught only')
+    end, { desc = 'Debug: Break on uncaught exceptions' })
+    vim.keymap.set('n', '<leader>dX', function()
+      local session = dap.session()
+      if session then
+        session:request('exceptionInfo', { threadId = session.stopped_thread_id }, function(err, response)
+          if err then
+            vim.notify('No exception info: ' .. vim.inspect(err), vim.log.levels.WARN)
+          elseif response then
+            local msg = response.description or response.exceptionId or 'Unknown exception'
+            if response.details and response.details.stackTrace then
+              msg = msg .. '\n\n' .. response.details.stackTrace
+            end
+            vim.notify(msg, vim.log.levels.ERROR)
+          end
+        end)
+      else
+        vim.notify('No active debug session', vim.log.levels.WARN)
+      end
+    end, { desc = 'Debug: Show exception info' })
 
     -- DAP UI setup
     dapui.setup({
@@ -210,9 +236,32 @@ return {
     vim.keymap.set('v', '<leader>de', dapui.eval, { desc = 'Debug: Eval selection' })
 
     -- Auto open/close UI
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open()
+      -- Set exception breakpoints to pause on uncaught exceptions
+      dap.set_exception_breakpoints({ 'uncaught' })
+    end
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    -- Show errors (including syntax errors) prominently
+    dap.listeners.after.event_output['show_errors'] = function(_, body)
+      if body.category == 'stderr' and body.output then
+        -- Show stderr output as error notification
+        local msg = body.output:gsub('%s+$', '') -- trim trailing whitespace
+        if msg ~= '' then
+          vim.notify(msg, vim.log.levels.ERROR, { title = 'Debug Output' })
+        end
+      end
+    end
+
+    -- Show when stopped on exception
+    dap.listeners.after.event_stopped['exception_info'] = function(_, body)
+      if body.reason == 'exception' then
+        local desc = body.description or body.text or 'Exception occurred'
+        vim.notify(desc, vim.log.levels.ERROR, { title = 'Exception' })
+      end
+    end
 
     -- Go-specific setup (nvim-dap-go provides better defaults)
     require('dap-go').setup({
