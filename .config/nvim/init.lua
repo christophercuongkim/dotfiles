@@ -32,15 +32,16 @@ require('lazy').setup({
   -- Debug config moved to custom.plugins.lsp.debug
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.autopairs',
+  { import = 'custom.plugins.db' },
   { import = 'custom.plugins.editor' },
-  { import = 'custom.plugins.lsp' },
   { import = 'custom.plugins.git' },
   { import = 'custom.plugins.lang' },
-  { import = 'custom.plugins.ui' },
+  { import = 'custom.plugins.lsp' },
   { import = 'custom.plugins.nav' },
+  { import = 'custom.plugins.ui' },
 }, {
   -- Store lockfile in writable location (config dir is read-only on NixOS)
-  lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
+  lockfile = vim.fn.stdpath 'data' .. '/lazy-lock.json',
   ui = {
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {

@@ -76,6 +76,7 @@ in
         nixos.neovim
         nixos.lsp
         nixos.python
+        nixos.mysql
         nixos.nodejs
         nixos.go
         nixos.lua
