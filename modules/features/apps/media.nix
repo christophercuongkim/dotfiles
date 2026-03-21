@@ -8,6 +8,7 @@
       gimp
       obs-studio
       spotify
+      poppler-utils
     ];
   };
 }
