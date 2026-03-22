@@ -25,21 +25,21 @@ return {
           action = function()
             return require('obsidian').util.gf_passthrough()
           end,
-          opts = { noremap = false, expr = true, buffer = true },
+          opts = { noremap = false, expr = true, buffer = true, desc = 'Obsidian: follow link' },
         },
         -- Toggle check-boxes.
         ['<leader>ch'] = {
           action = function()
             return require('obsidian').util.toggle_checkbox()
           end,
-          opts = { buffer = true },
+          opts = { buffer = true, desc = 'Obsidian: toggle [C]heckbox' },
         },
         -- Smart action depending on context, either follow link or toggle checkbox.
         ['<cr>'] = {
           action = function()
             return require('obsidian').util.smart_action()
           end,
-          opts = { buffer = true, expr = true },
+          opts = { buffer = true, expr = true, desc = 'Obsidian: smart action' },
         },
       },
       new_notes_location = 'notes_subdir',
@@ -74,10 +74,10 @@ return {
     },
     config = function(_, opts)
       obsidian = require('obsidian').setup(opts)
-      vim.keymap.set('n', '<leader>oqs', '<cmd>ObsidianQuickSwitch<CR>', { desc = 'Open ObsidianQuickSwitch', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>ont', '<cmd>ObsidianNewFromTemplate<CR>', { desc = 'Open new note from template', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = 'Open Links', silent = true, noremap = true })
-      vim.keymap.set('n', '<leader>obl', '<cmd>ObsidianBacklinks<CR>', { desc = 'Open ObsidianQuickSwitch', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>oqs', '<cmd>ObsidianQuickSwitch<CR>', { desc = '[O]bsidian [Q]uick [S]witch', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>ont', '<cmd>ObsidianNewFromTemplate<CR>', { desc = '[O]bsidian [N]ew from [T]emplate', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>ol', '<cmd>ObsidianLinks<CR>', { desc = '[O]bsidian [L]inks', silent = true, noremap = true })
+      vim.keymap.set('n', '<leader>obl', '<cmd>ObsidianBacklinks<CR>', { desc = '[O]bsidian [B]ack[L]inks', silent = true, noremap = true })
     end,
   },
 }

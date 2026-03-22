@@ -1,6 +1,7 @@
 return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     ft = { 'markdown', 'norg', 'rmd', 'org', 'codecompanion' },
     opts = {
       enabled = true,
@@ -11,14 +12,7 @@ return {
     keys = {
       {
         '<leader>rm',
-        function()
-          local m = require 'render-markdown'
-          if m.state.enabled then
-            m.disable()
-          else
-            m.enable()
-          end
-        end,
+        '<cmd>RenderMarkdown toggle<cr>',
         desc = 'Toggle Render Markdown',
       },
     },

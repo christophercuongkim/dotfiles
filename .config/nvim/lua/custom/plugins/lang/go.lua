@@ -33,11 +33,22 @@ return {
       },
     },
     config = function(_, opts)
-      gopher = require('gopher').setup(opts)
-      vim.keymap.set('n', '<leader>gsj', '<cmd> GoTagAdd json <cr>', { desc = 'Struc Tags: json' })
-      vim.keymap.set('n', '<leader>gsy', '<cmd> GoTagAdd yaml <cr>', { desc = 'Struc Tags: yaml' })
-      vim.keymap.set('n', '<leader>gcmt', '<cmd> GoCmt <cr>', { desc = 'Generate comment boilerplate' })
-      vim.keymap.set('n', '<leader>gcmt', '<cmd> GoIfErr <cr>', { desc = 'Generate comment boilerplate' })
+      require('gopher').setup(opts)
+
+      -- Use spaces instead of tabs for Go files
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'go',
+        callback = function()
+          vim.opt_local.expandtab = true
+          vim.opt_local.shiftwidth = 4
+          vim.opt_local.tabstop = 4
+        end,
+      })
+      vim.keymap.set('n', '<leader>gsj', '<cmd> GoTagAdd json <cr>', { desc = '[G]o [S]truct tags: json' })
+      vim.keymap.set('n', '<leader>gsy', '<cmd> GoTagAdd yaml <cr>', { desc = '[G]o [S]truct tags: yaml' })
+      vim.keymap.set('n', '<leader>gst', '<cmd> GoTagAdd toml <cr>', { desc = '[G]o [S]truct tags: toml' })
+      vim.keymap.set('n', '<leader>gc', '<cmd> GoCmt <cr>', { desc = '[G]o [C]omment boilerplate' })
+      vim.keymap.set('n', '<leader>ge', '<cmd> GoIfErr <cr>', { desc = '[G]o if [E]rr snippet' })
     end,
   },
 }
