@@ -83,6 +83,7 @@ in
         nixos.zig
         nixos.flutter
         nixos.java
+        nixos.rust
 
         # Apps
         nixos.firefox
