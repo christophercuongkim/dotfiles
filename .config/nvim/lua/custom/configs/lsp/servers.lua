@@ -7,6 +7,12 @@ local M = {}
 M.servers = {
   dartls = {},
 
+  clangd = {
+    cmd = { 'clangd', '--background-index', '--clang-tidy', '--header-insertion=iwyu' },
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+    root_markers = { 'compile_commands.json', '.clangd', 'Makefile', 'CMakeLists.txt', '.git' },
+  },
+
   lua_ls = {
     settings = {
       Lua = {

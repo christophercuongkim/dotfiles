@@ -25,6 +25,11 @@
       delve                     # Go debugger (dlv)
       python3Packages.debugpy   # Python debugger
 
+      # C/C++ tooling
+      clang-tools   # clangd LSP + clang-format
+      lldb          # lldb-dap debug adapter
+      bear          # generates compile_commands.json from make
+
       # Treesitter dependencies (parser compilation)
       gcc
       gnumake

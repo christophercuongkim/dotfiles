@@ -49,6 +49,44 @@ return {
       })
     else
       -- NixOS: Configure debug adapters manually
+      -- C/C++ (lldb)
+      dap.adapters.lldb = {
+        type = 'executable',
+        command = 'lldb-dap',
+        name = 'lldb',
+      }
+
+      local function c_program()
+        local rebuild = vim.fn.input('Rebuild? [y/N]: ')
+        if rebuild:lower() == 'y' then
+          local cwd = vim.fn.getcwd()
+          local result = vim.fn.system('make -C ' .. vim.fn.shellescape(cwd))
+          if vim.v.shell_error ~= 0 then
+            vim.notify('Build failed:\n' .. result, vim.log.levels.ERROR)
+            return nil
+          end
+          vim.notify('Build OK', vim.log.levels.INFO)
+        end
+        return vim.fn.input('Executable: ', vim.fn.getcwd() .. '/', 'file')
+      end
+
+      local c_config = {
+        {
+          name = 'Launch',
+          type = 'lldb',
+          request = 'launch',
+          program = c_program,
+          args = function()
+            local input = vim.fn.input('Args: ')
+            return vim.split(input, ' ', { trimempty = true })
+          end,
+          cwd = '${workspaceFolder}',
+          stopOnEntry = false,
+        },
+      }
+      dap.configurations.c = c_config
+      dap.configurations.cpp = c_config
+
       -- Go (delve)
       dap.adapters.delve = {
         type = 'server',

@@ -22,6 +22,7 @@
         "docker"
         "lpadmin"
         "video"
+        "plugdev"
       ];
     };
   };

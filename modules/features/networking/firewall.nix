@@ -15,6 +15,7 @@
         # 22    # SSH (if you want external access)
         # 80    # HTTP
         # 443   # HTTPS
+        9090
       ];
       allowedUDPPorts = [
         # Add ports as needed

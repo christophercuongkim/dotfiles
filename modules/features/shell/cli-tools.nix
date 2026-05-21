@@ -21,6 +21,7 @@
       unzip
       util-linux
       wget
+      zip
       zoxide
     ];
   };
