@@ -32,6 +32,7 @@ in
         nixos.wayland
         nixos.hyprshot
         nixos.anyrun
+        nixos.mako
 
         # Networking
         nixos.networkmanager
