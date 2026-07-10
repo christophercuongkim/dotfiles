@@ -4,6 +4,7 @@
 {
   flake.modules.nixos.media = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
+      ffmpeg
       ani-cli
       gimp
       obs-studio

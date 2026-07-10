@@ -84,6 +84,8 @@ in
         nixos.flutter
         nixos.java
         nixos.rust
+        nixos.ollama
+        nixos.android-tools
 
         # Apps
         nixos.firefox

@@ -7,6 +7,7 @@
       obsidian
       slack
       claude-code
+      zotero
     ];
   };
 }
