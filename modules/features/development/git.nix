@@ -4,6 +4,7 @@
 #   - git: Core version control
 #   - gh: GitHub CLI for PRs, issues, etc.
 #   - github-desktop: GUI for git operations
+#   - pre-commit: Manage git pre-commit hooks
 #
 # Home-manager configures user identity and default editor.
 { ... }:
@@ -13,6 +14,7 @@
       git
       gh
       github-desktop
+      pre-commit
     ];
   };
 
