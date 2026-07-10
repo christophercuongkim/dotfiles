@@ -86,6 +86,7 @@ in
         nixos.rust
         nixos.ollama
         nixos.android-tools
+        nixos.nix-ld
 
         # Apps
         nixos.firefox
