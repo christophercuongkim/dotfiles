@@ -1,0 +1,30 @@
+# Mako notifications — Red/Black theme to match desktop (rofi, waybar, ghostty)
+
+# Auto-dismiss after 0.5 seconds
+default-timeout=500
+
+# Colors
+background-color=#000000
+text-color=#ffffff
+border-color=#ff0000
+progress-color=over #cc0000
+
+# Shape (matches hypr rounding=10, waybar 2px red border)
+border-size=2
+border-radius=10
+padding=10
+margin=10
+width=340
+height=120
+font=sans-serif 11
+
+# Position
+anchor=top-right
+layer=overlay
+max-visible=5
+
+# Urgent notifications: brighter red, don't auto-dismiss
+[urgency=critical]
+border-color=#ff4444
+text-color=#ff4444
+default-timeout=0
