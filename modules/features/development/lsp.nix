@@ -13,6 +13,7 @@
       stylua        # Lua formatter
       golines       # Go line length formatter
       goimports-reviser
+      pgformatter   # SQL formatter (pg_format)
 
       # Linters (for nvim-lint)
       golangci-lint # Go linter
