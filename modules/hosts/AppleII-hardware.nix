@@ -26,6 +26,10 @@
       { device = "/dev/disk/by-uuid/54608045-2f05-4a2f-842d-79d7bf571c59"; }
     ];
 
+    # Enable hibernate resume from the swap partition above (swap 102G > 93G RAM).
+    # Without this the kernel has no resume pointer and boots fresh, losing state.
+    boot.resumeDevice = "/dev/disk/by-uuid/54608045-2f05-4a2f-842d-79d7bf571c59";
+
     networking.useDHCP = lib.mkDefault true;
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
