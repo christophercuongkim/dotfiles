@@ -134,3 +134,40 @@ window#waybar {
 #mpris.paused {
     color: #888888;
 }
+
+/* Dropdown menus (custom/power power_menu.xml, tray menus) */
+menu {
+    background-color: #111111;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+menu menuitem {
+    color: #ffffff;
+    background-color: transparent;
+    padding: 6px 14px;
+    border-radius: 4px;
+}
+
+menu menuitem:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+menu separator {
+    background-color: #333333;
+    min-height: 1px;
+    margin: 4px 2px;
+}
+
+/* Tooltips (same white-on-white risk) */
+tooltip {
+    background-color: #111111;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+}
+
+tooltip label {
+    color: #ffffff;
+}
