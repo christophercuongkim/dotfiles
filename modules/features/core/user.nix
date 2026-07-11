@@ -14,6 +14,13 @@
     users.users.${config.username} = {
       isNormalUser = true;
       description = "Chris Kim";
+
+      # SSH public keys permitted to log in as this user (pubkey-only sshd).
+      openssh.authorizedKeys.keys = [
+        # iPhone (iphone171)
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB4idmLg4qp6JFjl8Tdb4JQNO3KcP0p7Va0Pwgp/Xsf iphone"
+      ];
+
       extraGroups = [
         "networkmanager"
         "wheel"
