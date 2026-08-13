@@ -82,6 +82,7 @@ in
         nixos.go
         nixos.lua
         nixos.zig
+        nixos.odin
         nixos.flutter
         nixos.java
         nixos.rust
