@@ -9,7 +9,7 @@
       kdePackages.kio-fuse
       kdePackages.kservice
       kdePackages.qtsvg
-      qimgv
+      kdePackages.gwenview
     ];
   };
 }

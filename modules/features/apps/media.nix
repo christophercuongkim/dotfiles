@@ -9,6 +9,7 @@
       gimp
       obs-studio
       spotify
+      vlc
       poppler-utils
       # DR bundles Qt5 without Wayland plugin — wrap to force XWayland
       (symlinkJoin {

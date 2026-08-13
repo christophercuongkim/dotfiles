@@ -69,7 +69,7 @@
             "class<org.kde.dolphin>": "󰉋",
             "class<gimp>": "󰃣",
             "class<Gimp>": "󰃣",
-            "class<qimgv>": "󰋩",
+            "class<org.kde.gwenview>": "󰋩",
             "class<pavucontrol>": "󰕾",
             "class<org.pulseaudio.pavucontrol>": "󰕾",
             "class<blueman-manager>": "󰂯",
