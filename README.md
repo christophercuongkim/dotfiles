@@ -6,7 +6,7 @@ NixOS configuration using flake-parts dendritic pattern for a Framework AMD AI 3
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone https://github.com/christophercuongkim/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # Build and switch (first time may take a while)
