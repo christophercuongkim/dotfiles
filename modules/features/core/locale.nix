@@ -2,7 +2,9 @@
 { ... }:
 {
   flake.modules.nixos.locale = {
-    time.timeZone = "America/New_York";
+    # Auto-detect timezone via geoclue geolocation (for a laptop that moves).
+    # Do not also set time.timeZone — a static value would conflict.
+    services.automatic-timezoned.enable = true;
 
     i18n.defaultLocale = "en_US.UTF-8";
 
