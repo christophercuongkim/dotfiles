@@ -28,6 +28,12 @@ format_action() {
         fullscreen)           echo "fullscreen" ;;
         togglefloating)       echo "toggle float" ;;
         resizeactive)         echo "resize $arg" ;;
+        mouse)
+            case "$arg" in
+                movewindow)   echo "move floating window (drag)" ;;
+                resizewindow) echo "resize floating window (drag)" ;;
+                *)            echo "$arg" ;;
+            esac ;;
         focusmonitor)         echo "focus monitor $arg" ;;
         movecurrentworkspacetomonitor) echo "workspace → monitor $arg" ;;
         swapactiveworkspaces) echo "swap workspaces: $arg" ;;
@@ -36,11 +42,14 @@ format_action() {
     esac
 }
 
-hyprctl binds -j | jq -r '.[] | select(.mouse == false) | "\(.modmask)\t\(.key)\t\(.dispatcher)\t\(.arg)"' | \
+hyprctl binds -j | jq -r '.[] | select(.mouse == false or ((.modmask % 128) >= 64)) | "\(.modmask)\t\(.key)\t\(.dispatcher)\t\(.arg)"' | \
 while IFS=$'\t' read -r modmask key dispatcher arg; do
     # Skip lid switch and raw keycodes with no useful label
     [[ "$key" == switch:* ]] && continue
-    [[ "$key" == XF86* ]] && label="$key" || label="$key"
+    case "$key" in
+        mouse:272) key="LMB drag" ;;
+        mouse:273) key="RMB drag" ;;
+    esac
 
     mods=$(decode_mods "$modmask")
     action=$(format_action "$dispatcher" "$arg")
