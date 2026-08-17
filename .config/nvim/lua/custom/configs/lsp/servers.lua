@@ -7,6 +7,10 @@ local M = {}
 M.servers = {
   dartls = {},
 
+  -- Odin language server. Uses nvim-lspconfig's default `ols` config; the
+  -- ols/odin binaries come from the Nix `odin` module, not Mason.
+  ols = {},
+
   clangd = {
     cmd = { 'clangd', '--background-index', '--clang-tidy', '--header-insertion=iwyu' },
     filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
