@@ -23,7 +23,9 @@ return {
         enabled = platform.use_mason,
       },
       { 'j-hui/fidget.nvim', opts = {} },
-      { 'folke/neodev.nvim', opts = {} },
+      -- lazydev configures lua_ls for Neovim/plugin development (replaces the
+      -- archived neodev.nvim); the blink source is registered in blink.lua.
+      { 'folke/lazydev.nvim', ft = 'lua', opts = {} },
       { 'saghen/blink.cmp' },
     },
 
