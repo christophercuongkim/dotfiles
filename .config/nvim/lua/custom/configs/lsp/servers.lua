@@ -5,11 +5,16 @@ local M = {}
 
 -- Server configurations
 M.servers = {
-  dartls = {},
+  -- NOTE: dartls is intentionally absent — flutter-tools.nvim sets it up
+  -- itself; enabling it here too would start a second dartls client.
 
   -- Odin language server. Uses nvim-lspconfig's default `ols` config; the
   -- ols/odin binaries come from the Nix `odin` module, not Mason.
   ols = {},
+
+  -- Zig language server. zls binary comes from the Nix `zig` module (or Mason
+  -- on non-Nix). Default nvim-lspconfig `zls` config is sufficient.
+  zls = {},
 
   clangd = {
     cmd = { 'clangd', '--background-index', '--clang-tidy', '--header-insertion=iwyu' },

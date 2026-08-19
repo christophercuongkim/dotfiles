@@ -6,7 +6,8 @@ return {
     local lint = require('lint')
 
     lint.linters_by_ft = {
-      python = { 'ruff' },
+      -- python omitted: the ruff LSP (servers.lua) already lints with fixAll,
+      -- so running ruff via nvim-lint too would double the diagnostics.
       go = { 'golangcilint' },
       sh = { 'shellcheck' },
       bash = { 'shellcheck' },

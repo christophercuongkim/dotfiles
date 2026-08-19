@@ -29,6 +29,8 @@ return {
         python = { 'ruff' },
         c = { 'clang-format' },
         cpp = { 'clang-format' },
+        -- zls does not format on save via LSP here; `zig fmt` (zigfmt) does.
+        zig = { 'zigfmt' },
       },
     },
   },
