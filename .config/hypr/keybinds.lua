@@ -46,16 +46,16 @@ bind(mod .. " + mouse:273", hl.dsp.window.resize(), "Resize floating window (dra
 -- Workspaces - switch and move window
 for i = 1, 5 do
     bind(mod .. " + " .. i,           hl.dsp.focus({ workspace = i }),       "Workspace " .. i)
-    bind(mod .. " SHIFT + " .. i,     hl.dsp.window.move({ workspace = i }), "Window to workspace " .. i)
+    bind(mod .. " + SHIFT + " .. i,     hl.dsp.window.move({ workspace = i }), "Window to workspace " .. i)
 end
 
 -- Workspaces - relative navigation
-bind(mod .. " SHIFT + 9",   hl.dsp.window.move({ workspace = "-1" }), "Window to previous workspace")
-bind(mod .. " SHIFT + 0",   hl.dsp.window.move({ workspace = "+1" }), "Window to next workspace")
+bind(mod .. " + SHIFT + 9",   hl.dsp.window.move({ workspace = "-1" }), "Window to previous workspace")
+bind(mod .. " + SHIFT + 0",   hl.dsp.window.move({ workspace = "+1" }), "Window to next workspace")
 bind(mod .. " + N",         hl.dsp.focus({ workspace = "empty" }),    "First empty workspace")
-bind(mod .. " SHIFT + N",   hl.dsp.focus({ workspace = "empty:-1" }), "Previous empty workspace")
+bind(mod .. " + SHIFT + N",   hl.dsp.focus({ workspace = "empty:-1" }), "Previous empty workspace")
 bind(mod .. " + Tab",       hl.dsp.focus({ workspace = "m+1" }),      "Next workspace on monitor")
-bind(mod .. " SHIFT + Tab", hl.dsp.focus({ workspace = "m-1" }),      "Previous workspace on monitor")
+bind(mod .. " + SHIFT + Tab", hl.dsp.focus({ workspace = "m-1" }),      "Previous workspace on monitor")
 
 -- Monitor selectors are the same strings the old config used: l/r/u/d, +1, -1.
 local mons = {
@@ -67,29 +67,29 @@ local mons = {
 
 for _, m in ipairs(mons) do
     -- Focus monitor
-    bind(mod .. " CTRL + " .. m.key, hl.dsp.focus({ monitor = m.sel }),
+    bind(mod .. " + CTRL + " .. m.key, hl.dsp.focus({ monitor = m.sel }),
         "Focus monitor " .. m.label)
     -- Move window to monitor
-    bind(mod .. " SHIFT + " .. m.key, hl.dsp.window.move({ monitor = m.sel }),
+    bind(mod .. " + SHIFT + " .. m.key, hl.dsp.window.move({ monitor = m.sel }),
         "Window to monitor " .. m.label)
     -- Move workspace to monitor
-    bind(mod .. " ALT + " .. m.key, hl.dsp.workspace.move({ monitor = m.sel }),
+    bind(mod .. " + ALT + " .. m.key, hl.dsp.workspace.move({ monitor = m.sel }),
         "Workspace to monitor " .. m.label)
 end
 
-bind(mod .. " CTRL + Tab",         hl.dsp.focus({ monitor = "+1" }),          "Focus next monitor")
-bind(mod .. " CTRL SHIFT + Tab",   hl.dsp.focus({ monitor = "-1" }),          "Focus previous monitor")
-bind(mod .. " ALT + Tab",          hl.dsp.workspace.move({ monitor = "+1" }), "Workspace to next monitor")
-bind(mod .. " ALT SHIFT + Tab",    hl.dsp.workspace.move({ monitor = "-1" }), "Workspace to previous monitor")
+bind(mod .. " + CTRL + Tab",         hl.dsp.focus({ monitor = "+1" }),          "Focus next monitor")
+bind(mod .. " + CTRL + SHIFT + Tab",   hl.dsp.focus({ monitor = "-1" }),          "Focus previous monitor")
+bind(mod .. " + ALT + Tab",          hl.dsp.workspace.move({ monitor = "+1" }), "Workspace to next monitor")
+bind(mod .. " + ALT + SHIFT + Tab",    hl.dsp.workspace.move({ monitor = "-1" }), "Workspace to previous monitor")
 
 -- Swap workspaces between monitors
-bind(mod .. " ALT SHIFT + M",
+bind(mod .. " + ALT + SHIFT + M",
     hl.dsp.workspace.swap_monitors({ monitor1 = "current", monitor2 = "+1" }),
     "Swap workspaces between monitors")
 
 -- Monitor layout helpers
 bind(mod .. " + M",       hl.dsp.exec_cmd(v.scripts .. "/swap-monitors.sh"),  "Swap monitor positions")
-bind(mod .. " SHIFT + M", hl.dsp.exec_cmd(v.scripts .. "/reset-monitors.sh"), "Reset monitor layout")
+bind(mod .. " + SHIFT + M", hl.dsp.exec_cmd(v.scripts .. "/reset-monitors.sh"), "Reset monitor layout")
 
 for _, p in ipairs({
     { key = "H", where = "left"  },
@@ -97,21 +97,21 @@ for _, p in ipairs({
     { key = "K", where = "above" },
     { key = "J", where = "below" },
 }) do
-    bind(mod .. " SHIFT ALT + " .. p.key,
+    bind(mod .. " + SHIFT + ALT + " .. p.key,
         hl.dsp.exec_cmd(v.scripts .. "/position-monitor.sh " .. p.where),
         "Move monitor " .. p.where)
 end
 
 -- Toggles
-bind(mod .. " SHIFT + T", hl.dsp.exec_cmd(v.scripts .. "/toggle-trackpad.sh"), "Toggle trackpad")
-bind(mod .. " SHIFT + I", hl.dsp.exec_cmd(v.scripts .. "/toggle-idle.sh"),     "Toggle idle lock/sleep")
-bind(mod .. " SHIFT + A", hl.dsp.exec_cmd(v.scripts .. "/toggle-lid.sh"),      "Toggle lid-close suspend")
+bind(mod .. " + SHIFT + T", hl.dsp.exec_cmd(v.scripts .. "/toggle-trackpad.sh"), "Toggle trackpad")
+bind(mod .. " + SHIFT + I", hl.dsp.exec_cmd(v.scripts .. "/toggle-idle.sh"),     "Toggle idle lock/sleep")
+bind(mod .. " + SHIFT + A", hl.dsp.exec_cmd(v.scripts .. "/toggle-lid.sh"),      "Toggle lid-close suspend")
 
 -- Window resizing
-bind(mod .. " CTRL + right", hl.dsp.window.resize({ x =  20, y =   0, relative = true }), "Grow width")
-bind(mod .. " CTRL + left",  hl.dsp.window.resize({ x = -20, y =   0, relative = true }), "Shrink width")
-bind(mod .. " CTRL + up",    hl.dsp.window.resize({ x =   0, y = -20, relative = true }), "Shrink height")
-bind(mod .. " CTRL + down",  hl.dsp.window.resize({ x =   0, y =  20, relative = true }), "Grow height")
+bind(mod .. " + CTRL + right", hl.dsp.window.resize({ x =  20, y =   0, relative = true }), "Grow width")
+bind(mod .. " + CTRL + left",  hl.dsp.window.resize({ x = -20, y =   0, relative = true }), "Shrink width")
+bind(mod .. " + CTRL + up",    hl.dsp.window.resize({ x =   0, y = -20, relative = true }), "Shrink height")
+bind(mod .. " + CTRL + down",  hl.dsp.window.resize({ x =   0, y =  20, relative = true }), "Grow height")
 
 -- Media keys. bindel -> locked + repeating, bindl -> locked.
 local el = { locked = true, repeating = true }
