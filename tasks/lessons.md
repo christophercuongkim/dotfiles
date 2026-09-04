@@ -139,3 +139,32 @@ exec-once = sleep 7 && hyprctl dispatch movetoworkspacesilent 3,class:spotify
 ```
 
 **Key insight:** Don't rely on temporary rules for slow-starting apps. Move them after they exist.
+
+## SUPERSEDED (Lua config): exec rules now work, drop the sleep ladder
+
+The two lessons above — "stagger app launches" and "hyprctl dispatch exec with
+[workspace N silent]" — described a real hyprlang limitation. Under the Lua
+config that limitation is gone.
+
+`hl.exec_cmd` takes a window rule as its second argument, attached to the
+**spawn request** rather than being a temporary global rule that can expire:
+
+```lua
+hl.exec_cmd("brave", { workspace = "2 silent" })
+```
+
+Source: `hlExecCmd` in `LuaBindingsToplevel.cpp` builds the rule via
+`buildRuleFromTable` and passes it into `executor()->spawn(SExecRequest{...})`.
+Because the rule travels with that specific process, a slow-starting app cannot
+outrun it — which was the entire failure mode above.
+
+Verified live: `hl.exec_cmd("kitty", { workspace = "5 silent" })` put kitty on
+workspace 5 with focus never leaving workspace 1.
+
+**So:** no launch stagger, no `sleep N && hyprctl dispatch movetoworkspacesilent`
+second phase. Four lines replace eight, and placement no longer depends on
+guessing how long an app takes to open a window.
+
+Any window-rule effect works in that table, not just `workspace`. An unknown key
+is a hard error (`buildRuleFromTable: unknown effect '...'`), not a silent
+no-op — unusual and welcome in this codebase.

@@ -23,19 +23,20 @@ hl.on("hyprland.start", function()
     -- parser and returns a message instead of an error). Same work via eval.
     hl.exec_cmd([[hyprlock || hyprctl dispatch 'hl.dsp.exit()' && sleep 0.5 && { ext=$(hyprctl monitors -j | jq -r '.[] | select(.name != "eDP-1") | .name' | head -1); mon=${ext:-eDP-1}; for ws in 1 2 3 4; do hyprctl eval "hl.workspace_rule({ workspace = '$ws', monitor = '$mon' })"; done; }]])
 
-    -- Phase 2: launch apps (staggered to avoid races)
-    hl.exec_cmd("sleep 1 && ghostty")
-    hl.exec_cmd("sleep 1.5 && brave")
-    hl.exec_cmd("sleep 2 && spotify")
-    hl.exec_cmd("sleep 2.5 && 1password")
-
-    -- Phase 3: move windows to workspaces after they exist.
+    -- Phase 2: launch apps, each pinned to its workspace.
     --
-    -- TODO: replace these sleeps with a window-open event handler that matches
-    -- on class. The delays are a guess that breaks on a slow boot; Lua event
-    -- handlers make this deterministic. Tracked separately from the port.
-    hl.exec_cmd([[sleep 5 && hyprctl dispatch "hl.dsp.window.move({ workspace = 1, window = 'class:com.mitchellh.ghostty', follow = false })"]])
-    hl.exec_cmd([[sleep 6 && hyprctl dispatch "hl.dsp.window.move({ workspace = 2, window = 'class:brave-browser', follow = false })"]])
-    hl.exec_cmd([[sleep 7 && hyprctl dispatch "hl.dsp.window.move({ workspace = 3, window = 'class:spotify', follow = false })"]])
-    hl.exec_cmd([[sleep 8 && hyprctl dispatch "hl.dsp.window.move({ workspace = 4, window = 'class:1password', follow = false })"]])
+    -- The second argument to hl.exec_cmd is a window rule attached to the spawn
+    -- request and applied when that process's window appears -- so placement is
+    -- deterministic no matter how long an app takes to start.
+    --
+    -- This replaces a two-phase sleep ladder: four staggered launches followed
+    -- by four `sleep 5..8 && hyprctl dispatch movetoworkspacesilent` calls that
+    -- guessed at startup times. On a slow boot the guesses lost and windows
+    -- stayed wherever they opened; on a warm one we idled for eight seconds.
+    --
+    -- "silent" keeps focus where it is rather than following each window.
+    hl.exec_cmd("ghostty",   { workspace = "1 silent" })
+    hl.exec_cmd("brave",     { workspace = "2 silent" })
+    hl.exec_cmd("spotify",   { workspace = "3 silent" })
+    hl.exec_cmd("1password", { workspace = "4 silent" })
 end)

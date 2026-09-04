@@ -304,22 +304,33 @@ workspaces 1-4 are bound to the first external monitor (falling back to
 `eDP-1`). The pinning goes through `hyprctl eval` with `hl.workspace_rule` —
 the old `hyprctl keyword workspace` form is a silent no-op under Lua.
 
-**Phase 3 — app launch** (staggered): `ghostty` 1 s, `brave` 1.5 s,
-`spotify` 2 s, `1password` 2.5 s.
+**Phase 3 — app launch, each pinned to its workspace:**
+```lua
+hl.exec_cmd("ghostty",   { workspace = "1 silent" })
+hl.exec_cmd("brave",     { workspace = "2 silent" })
+hl.exec_cmd("spotify",   { workspace = "3 silent" })
+hl.exec_cmd("1password", { workspace = "4 silent" })
+```
 
-**Phase 4 — move windows to workspaces:** ghostty→1 at 5 s, brave→2 at 6 s,
-spotify→3 at 7 s, 1password→4 at 8 s.
+The second argument to `hl.exec_cmd` is a **window rule attached to the spawn
+request**, applied when that process's window appears. Placement is therefore
+deterministic regardless of how long an app takes to start, and `silent` keeps
+focus where it is instead of following each window.
 
-> Phases 3 and 4 are a straight port of the old `sleep N &&` ladder. The delays
-> are a guess that breaks on a slow boot; replacing them with real window-open
-> event handlers is tracked separately.
+This is worth knowing about because the hyprlang equivalent did not work —
+`hyprctl dispatch exec '[workspace 2 silent] brave'` dropped the rule and the
+app landed on workspace 1, which is why the old config needed a two-phase
+`sleep` ladder (four staggered launches, then four timed
+`movetoworkspacesilent` calls) to place four windows.
+
+Any window-rule effect works here, not just `workspace`.
 
 **Adding a new autostart app** — inside the existing handler:
 ```lua
-hl.exec_cmd("sleep 3 && myapp")
-hl.exec_cmd([[sleep 9 && hyprctl dispatch "hl.dsp.window.move({ workspace = 5, window = 'class:myapp', follow = false })"]])
+hl.exec_cmd("myapp", { workspace = "5 silent" })
 ```
-Use `hyprctl clients -j | jq '.[].class'` to find the window class.
+Use `hyprctl clients -j | jq '.[].class'` if you need the window class for a
+separate rule in `windowrules.lua`.
 
 ---
 
