@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # Show a searchable rofi cheatsheet of all active Hyprland keybindings.
+#
+# Labels come from each bind's own description when it has one. Lua binds all
+# report dispatcher "__lua" with an opaque registry integer as their arg
+# (hl.bind pins kb.handler = "__lua"), so deriving a label from the dispatcher
+# only works for legacy hyprlang binds. keybinds.lua sets a description on
+# every bind; format_action below stays as the fallback for the hyprlang config
+# and for any bind that lacks one.
 
 decode_mods() {
     local mask=$1
@@ -42,8 +49,8 @@ format_action() {
     esac
 }
 
-hyprctl binds -j | jq -r '.[] | select(.mouse == false or ((.modmask % 128) >= 64)) | "\(.modmask)\t\(.key)\t\(.dispatcher)\t\(.arg)"' | \
-while IFS=$'\t' read -r modmask key dispatcher arg; do
+hyprctl binds -j | jq -r '.[] | select(.mouse == false or ((.modmask % 128) >= 64)) | "\(.modmask)\t\(.key)\t\(.dispatcher)\t\(.arg)\t\(.description)"' | \
+while IFS=$'\t' read -r modmask key dispatcher arg description; do
     # Skip lid switch and raw keycodes with no useful label
     [[ "$key" == switch:* ]] && continue
     case "$key" in
@@ -52,7 +59,11 @@ while IFS=$'\t' read -r modmask key dispatcher arg; do
     esac
 
     mods=$(decode_mods "$modmask")
-    action=$(format_action "$dispatcher" "$arg")
+    if [[ -n "$description" ]]; then
+        action="$description"
+    else
+        action=$(format_action "$dispatcher" "$arg")
+    fi
     printf "%-30s  %s\n" "${mods}${key}" "$action"
 done | sort | rofi -dmenu -i \
     -p "Keybinds" \
