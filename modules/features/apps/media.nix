@@ -22,9 +22,7 @@
         '';
       })
       kdePackages.kdenlive
-      (calibre.override {
-        unrarSupport = true;
-      })
+      calibre
       unrar
     ];
 
@@ -35,7 +33,7 @@
 
     # Calibre udev rules for USB e-reader detection
     services.udev.packages = with pkgs; [
-      (calibre.override { unrarSupport = true; })
+      calibre
     ];
 
     # ROCm OpenCL needed for DaVinci Resolve on AMD
