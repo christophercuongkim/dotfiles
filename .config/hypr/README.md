@@ -39,10 +39,15 @@ hyprctl eval 'hl.config({ decoration = { rounding = 8 } })'
 hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1.5 })'
 ```
 
-> **`hyprctl keyword` no longer works.** It is gated on the legacy parser and
-> returns the string `"keyword can't work with non-legacy parsers. Use eval."`
-> **with exit status 0**, so anything calling it appears to succeed while doing
-> nothing. Use `hyprctl eval` instead.
+> **`hyprctl keyword` and `hyprctl dispatch` both changed.**
+>
+> `keyword` is gated on the legacy parser and returns
+> `"keyword can't work with non-legacy parsers. Use eval."` **with exit status
+> 0**, so callers appear to succeed while doing nothing. Use `hyprctl eval`.
+>
+> `dispatch` now parses its argument as **Lua**, so the old syntax is a syntax
+> error: `hyprctl dispatch dpms on` fails with `')' expected near 'on'`.
+> Write `hyprctl dispatch 'hl.dsp.dpms({ action = "on" })'` instead.
 
 ---
 
@@ -424,12 +429,21 @@ hyprctl eval 'return #hl.get_monitors()'
 Changes made via `eval` are **not persistent** — they revert on the next
 reload or restart. Edit the `.lua` files to make them permanent.
 
-**Dispatch a one-off action** (works under both managers):
+**Dispatch a one-off action** — the argument is Lua, not the old syntax:
 ```bash
-hyprctl dispatch exec ghostty
-hyprctl dispatch movetoworkspace 3
-hyprctl dispatch dpms off
+hyprctl dispatch 'hl.dsp.exec_cmd("ghostty")'
+hyprctl dispatch 'hl.dsp.focus({ workspace = 3 })'
+hyprctl dispatch 'hl.dsp.dpms({ action = "off" })'
+
+# move a window by class without following it (the old movetoworkspacesilent)
+hyprctl dispatch 'hl.dsp.window.move({ workspace = 2, window = "class:brave-browser", follow = false })'
 ```
+
+`hl.dsp.dpms` accepts `on`/`enable`, `off`/`disable`, `toggle`, plus an
+optional `monitor`.
+
+From a script, `hypr_dpms on|off [monitor]` in `hypr-lib.sh` picks the right
+form for whichever manager is live.
 
 ### Checking that a config change actually applied
 

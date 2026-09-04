@@ -29,11 +29,11 @@ case "$action" in
         else
             # Sole panel: dpms off (reliably restores), never disable.
             # logind will suspend-then-hibernate right after.
-            hyprctl dispatch dpms off eDP-1
+            hypr_dpms off eDP-1
         fi
         ;;
     open)
         hypr_monitor eDP-1 preferred 0x0 1.5
-        hyprctl dispatch dpms on eDP-1
+        hypr_dpms on eDP-1
         ;;
 esac

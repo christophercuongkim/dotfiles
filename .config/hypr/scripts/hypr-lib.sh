@@ -47,6 +47,29 @@ hypr_monitor_disable() {
     fi
 }
 
+# hypr_dpms <on|off|toggle> [monitor]
+#
+# `hyprctl dispatch` is gated the same way `keyword` is: under a Lua config it
+# parses its argument as Lua, so the legacy `dpms off eDP-1` form fails with a
+# syntax error rather than doing anything.
+hypr_dpms() {
+    local action="$1" monitor="${2:-}"
+
+    if [ "$(hypr_config_kind)" = "lua" ]; then
+        if [ -n "$monitor" ]; then
+            hyprctl dispatch "hl.dsp.dpms({ action = '$action', monitor = '$monitor' })"
+        else
+            hyprctl dispatch "hl.dsp.dpms({ action = '$action' })"
+        fi
+    else
+        if [ -n "$monitor" ]; then
+            hyprctl dispatch dpms "$action" "$monitor"
+        else
+            hyprctl dispatch dpms "$action"
+        fi
+    fi
+}
+
 # hypr_device_enabled <device-name> <true|false>
 hypr_device_enabled() {
     local name="$1" enabled="$2"
