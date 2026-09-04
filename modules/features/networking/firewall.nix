@@ -16,6 +16,7 @@
         # 80    # HTTP
         # 443   # HTTPS
         9090
+        9000 # Calibre content server
       ];
       allowedUDPPorts = [
         # Add ports as needed
