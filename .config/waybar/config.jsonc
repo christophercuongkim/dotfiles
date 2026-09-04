@@ -91,8 +91,8 @@
             "class<rofi>": "󱁴"
         },
         "on-click": "activate",
-        "on-scroll-up": "hyprctl dispatch workspace e-1",
-        "on-scroll-down": "hyprctl dispatch workspace e+1"
+        "on-scroll-up": "~/.config/hypr/scripts/workspace-scroll.sh e-1",
+        "on-scroll-down": "~/.config/hypr/scripts/workspace-scroll.sh e+1"
     },
 
     "hyprland/submap": {

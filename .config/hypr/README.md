@@ -317,7 +317,7 @@ spotify→3 at 7 s, 1password→4 at 8 s.
 **Adding a new autostart app** — inside the existing handler:
 ```lua
 hl.exec_cmd("sleep 3 && myapp")
-hl.exec_cmd("sleep 9 && hyprctl dispatch movetoworkspacesilent 5,class:^(myapp)$")
+hl.exec_cmd([[sleep 9 && hyprctl dispatch "hl.dsp.window.move({ workspace = 5, window = 'class:myapp', follow = false })"]])
 ```
 Use `hyprctl clients -j | jq '.[].class'` to find the window class.
 
@@ -380,7 +380,7 @@ still hyprlang.
 | 2.5 min | Dim screen: `brightnessctl -s set 10` |
 | 2.5 min | Keyboard backlight off |
 | 5 min | Lock screen (skipped if `hyprlock` already running) |
-| 5.5 min | Screen off: `hyprctl dispatch dpms off` |
+| 5.5 min | Screen off: `scripts/dpms.sh off` |
 | 30 min | Suspend: `systemctl suspend` |
 
 State is restored on resume from each timeout.

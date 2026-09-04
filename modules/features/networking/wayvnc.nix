@@ -55,8 +55,9 @@
             echo "wayvnc-headless: failed to create headless output" >&2
             exit 1
           fi
-          hyprctl keyword monitor "$out,1920x1080@60,auto,1"
-          hyprctl keyword monitor "eDP-1,disable"
+          # hyprctl keyword is a no-op under a Lua config; use eval.
+          hyprctl eval "hl.monitor({ output = '$out', mode = '1920x1080@60', position = 'auto', scale = 1 })"
+          hyprctl eval "hl.monitor({ output = 'eDP-1', disabled = true })"
 
           cleanup() {
             [ -n "''${child:-}" ] && kill "$child" 2>/dev/null || true
