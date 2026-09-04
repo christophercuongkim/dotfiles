@@ -29,8 +29,13 @@ hypr_config_kind() {
 hypr_monitor() {
     local output="$1" mode="$2" position="$3" scale="$4"
 
+    # `disabled = false` is required, not decorative. Unlike the hyprlang form,
+    # where giving a mode implicitly re-enables the output, `disabled` is a
+    # separate field in Lua that persists until explicitly cleared -- so
+    # re-applying a mode to a disabled monitor returns ok and leaves it dark.
+    # That is the lid-open black screen this script exists to avoid.
     if [ "$(hypr_config_kind)" = "lua" ]; then
-        hyprctl eval "hl.monitor({ output = '$output', mode = '$mode', position = '$position', scale = $scale })"
+        hyprctl eval "hl.monitor({ output = '$output', disabled = false, mode = '$mode', position = '$position', scale = $scale })"
     else
         hyprctl keyword monitor "$output,$mode,$position,$scale"
     fi
