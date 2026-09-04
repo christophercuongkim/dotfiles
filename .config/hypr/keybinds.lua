@@ -1,7 +1,8 @@
 -- Keybindings
 
-local v   = require("vars")
-local mod = v.mod
+local v       = require("vars")
+local actions = require("actions")
+local mod     = v.mod
 
 -- Every bind carries a description. hyprctl binds -j reports dispatcher
 -- "__lua" and an opaque registry integer for every Lua bind, so
@@ -88,8 +89,8 @@ bind(mod .. " + ALT + SHIFT + M",
     "Swap workspaces between monitors")
 
 -- Monitor layout helpers
-bind(mod .. " + M",       hl.dsp.exec_cmd(v.scripts .. "/swap-monitors.sh"),  "Swap monitor positions")
-bind(mod .. " + SHIFT + M", hl.dsp.exec_cmd(v.scripts .. "/reset-monitors.sh"), "Reset monitor layout")
+bind(mod .. " + M",           actions.swap_monitors,  "Swap monitor positions")
+bind(mod .. " + SHIFT + M",   actions.reset_monitors, "Reset monitor layout")
 
 for _, p in ipairs({
     { key = "H", where = "left"  },
@@ -103,7 +104,7 @@ for _, p in ipairs({
 end
 
 -- Toggles
-bind(mod .. " + SHIFT + T", hl.dsp.exec_cmd(v.scripts .. "/toggle-trackpad.sh"), "Toggle trackpad")
+bind(mod .. " + SHIFT + T",   actions.toggle_trackpad, "Toggle trackpad")
 bind(mod .. " + SHIFT + I", hl.dsp.exec_cmd(v.scripts .. "/toggle-idle.sh"),     "Toggle idle lock/sleep")
 bind(mod .. " + SHIFT + A", hl.dsp.exec_cmd(v.scripts .. "/toggle-lid.sh"),      "Toggle lid-close suspend")
 

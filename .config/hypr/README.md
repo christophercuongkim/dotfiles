@@ -68,10 +68,8 @@ hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0
 | `hyprpaper.conf` | Wallpaper — **hyprlang**, separate app |
 | `scripts/hypr-lib.sh` | Shared helper; routes monitor/device changes to `keyword` or `eval` depending on which config manager is live |
 | `scripts/keybind-help.sh` | Rofi cheatsheet of active binds |
-| `scripts/swap-monitors.sh` | Swaps the x-positions of two external monitors |
+| `actions.lua` | Key actions needing real logic: swap monitors, reset layout, toggle trackpad |
 | `scripts/position-monitor.sh` | Moves focused monitor adjacent to nearest (or chosen) monitor |
-| `scripts/reset-monitors.sh` | Resets all monitors to default layout |
-| `scripts/toggle-trackpad.sh` | Toggles the touchpad enabled state |
 | `scripts/lid-switch.sh` | Lid open/close handling |
 | `scripts/toggle-idle.sh`, `scripts/toggle-lid.sh` | Idle-lock and lid-suspend inhibitors |
 
@@ -125,7 +123,12 @@ hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0
 hyprctl eval 'hl.monitor({ output = "DP-1", mode = "1920x1080@144", position = "1920x0", scale = 1 })'
 ```
 
-From a script, prefer the wrapper — it works under either config manager:
+Inside the config, skip `hyprctl` entirely — `hl.get_monitors()` returns
+`HL.Monitor` objects and `hl.bind` accepts a plain Lua function, so a bind can
+run logic directly. See `actions.lua`. Note the fields are **snake_case**
+(`refresh_rate`, `active_workspace`), unlike the camelCase `hyprctl -j` emits.
+
+From a shell script, prefer the wrapper — it works under either config manager:
 ```bash
 source ~/.config/hypr/scripts/hypr-lib.sh
 hypr_monitor eDP-1 preferred 0x0 1.5
@@ -133,15 +136,15 @@ hypr_monitor_disable HDMI-A-1
 hypr_device_enabled "pixa3854:00-093a:0274-touchpad" false
 ```
 
-**Swap two external monitors** — `Super + M` runs `scripts/swap-monitors.sh`,
-reading current x-positions via `hyprctl monitors -j`. Requires `jq`.
+**Swap two external monitors** — `Super + M` runs `actions.swap_monitors`,
+which exchanges the x positions of the first two externals.
 
 **Reposition a monitor** — `Super + Alt + Shift + H/J/K/L` runs
 `scripts/position-monitor.sh`, moving the focused monitor adjacent to the
 nearest other monitor. With 3+ monitors, rofi prompts for the reference.
 
-**Reset monitor layout** — `Super + Shift + M` runs `scripts/reset-monitors.sh`,
-placing eDP-1 at origin and all externals to the left.
+**Reset monitor layout** — `Super + Shift + M` runs `actions.reset_monitors`,
+placing eDP-1 at the origin and stacking all externals to its left.
 
 ---
 
