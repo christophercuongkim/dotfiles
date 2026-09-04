@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Swap positions of external monitors (relative to laptop eDP-1)
 
+source "$(dirname "${BASH_SOURCE[0]}")/hypr-lib.sh"
+
 # Get external monitor names (everything except eDP-1)
 externals=$(hyprctl monitors -j | jq -r '.[] | select(.name != "eDP-1") | .name')
 count=$(echo "$externals" | wc -l)
@@ -27,7 +29,7 @@ mon1_scale=$(hyprctl monitors -j | jq -r ".[] | select(.name == \"$mon1\") | .sc
 mon2_scale=$(hyprctl monitors -j | jq -r ".[] | select(.name == \"$mon2\") | .scale")
 
 # Swap their x positions
-hyprctl keyword monitor "$mon1,$mon1_res,${mon2_x}x${mon1_y},$mon1_scale"
-hyprctl keyword monitor "$mon2,$mon2_res,${mon1_x}x${mon2_y},$mon2_scale"
+hypr_monitor "$mon1" "$mon1_res" "${mon2_x}x${mon1_y}" "$mon1_scale"
+hypr_monitor "$mon2" "$mon2_res" "${mon1_x}x${mon2_y}" "$mon2_scale"
 
 notify-send "Swap Monitors" "Swapped $mon1 <-> $mon2"

@@ -4,6 +4,8 @@
 # With 3+ monitors: prompts via rofi to pick the reference.
 # Usage: position-monitor.sh <left|right|above|below>
 
+source "$(dirname "${BASH_SOURCE[0]}")/hypr-lib.sh"
+
 direction="${1:-right}"
 monitors=$(hyprctl monitors -j)
 
@@ -83,12 +85,12 @@ case "$direction" in
 esac
 
 # Move the focused monitor
-hyprctl keyword monitor "$focused, preferred, ${new_x}x${new_y}, $f_scale"
+hypr_monitor "$focused" preferred "${new_x}x${new_y}" "$f_scale"
 
 # Re-lock all other monitors at their pre-move positions —
 # moving one monitor causes Hyprland to re-evaluate auto-left for others
 for name in "${other_names[@]}"; do
-    hyprctl keyword monitor "$name, preferred, ${mon_x[$name]}x${mon_y[$name]}, ${mon_scale[$name]}"
+    hypr_monitor "$name" preferred "${mon_x[$name]}x${mon_y[$name]}" "${mon_scale[$name]}"
 done
 
 pkill waybar; waybar &

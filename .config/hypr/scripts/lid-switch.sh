@@ -4,6 +4,8 @@
 # lid open (black screen). With no external monitor, leave the display alone
 # and let logind handle suspend (see modules/features/power/logind.nix).
 
+source "$(dirname "${BASH_SOURCE[0]}")/hypr-lib.sh"
+
 action="$1"   # "close" or "open"
 
 # Count monitors that are not the laptop panel.
@@ -19,7 +21,7 @@ case "$action" in
     close)
         if [ "$externals" -gt 0 ]; then
             # External present: fully disable panel so workspaces relocate.
-            hyprctl keyword monitor "eDP-1, disable"
+            hypr_monitor_disable eDP-1
         elif lid_inhibited; then
             # Sole panel + lid suspend OFF: logind won't suspend, so leave the
             # panel on. Blanking here would strand a running machine black.
@@ -31,7 +33,7 @@ case "$action" in
         fi
         ;;
     open)
-        hyprctl keyword monitor "eDP-1, preferred, 0x0, 1.5"
+        hypr_monitor eDP-1 preferred 0x0 1.5
         hyprctl dispatch dpms on eDP-1
         ;;
 esac
