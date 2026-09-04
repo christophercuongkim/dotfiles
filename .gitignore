@@ -1,6 +1,9 @@
 # Build output
 build_output.txt
 
+# Scratch notes
+temp.txt
+
 # Editor
 *.swp
 *.swo
