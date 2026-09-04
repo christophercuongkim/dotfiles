@@ -207,3 +207,88 @@ Our lock: home-manager `144f4e36` (2026-07-09) — predates the fix.
 nixpkgs bump + the wayvnc work in the tree.
 
 See `tasks/linear-hyprland-lua.md` for the Linear project + ticket breakdown.
+
+---
+
+# CHR-110 findings — Hyprland Lua spike (RESOLVED)
+
+Both answers come from the Hyprland source at **v0.56.2**, the exact tag we run.
+`hyprctl eval` cannot be used to probe this live, because it refuses to run under a
+hyprlang session (`eval is only supported with the lua config manager`), so nothing
+was tested by switching the running desktop.
+
+## Q1 — Lid-switch binds: SUPPORTED, straight translation
+
+`src/config/lua/bindings/LuaBindingsToplevel.cpp:51-56`:
+
+```cpp
+static bool isSymSpecial(std::string_view sv) {
+    if (sv == "mouse_down" || sv == "mouse_up" || sv == "mouse_left" || sv == "mouse_right")
+        return true;
+
+    return sv.starts_with("switch:") || sv.starts_with("mouse:");
+}
+```
+
+`parseKeyString` splits the key string on `+` only and trims each token, so a
+`switch:`-prefixed token is stored verbatim in `kb.key` — the embedded space in
+`Lid Switch` survives. `KeybindManager::onSwitchOnEvent` then dispatches by matching
+that exact string (`KeybindManager.cpp:537-545`), and that code path is shared
+between the hyprlang and Lua config managers.
+
+So the port is direct:
+
+```lua
+hl.bind("switch:on:Lid Switch",  hl.dsp.exec_cmd("~/.config/hypr/scripts/lid-switch.sh close"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/scripts/lid-switch.sh open"),  { locked = true })
+```
+
+`bindl` maps to `{ locked = true }`. No modifier prefix is needed — the legacy empty
+mod slot just disappears.
+
+## Q2 — `hyprctl keyword` under Lua: DEAD. All five monitor/device scripts break.
+
+`src/debug/HyprCtl.cpp:1160-1163`:
+
+```cpp
+static std::string dispatchKeyword(eHyprCtlOutputFormat format, std::string in) {
+
+    if (Config::mgr()->type() != Config::CONFIG_LEGACY)
+        return "keyword can't work with non-legacy parsers. Use eval.";
+```
+
+Note it returns a *string*, not an error — so `hyprctl keyword ...` exits 0 and prints
+that message. Any script that does not check output will look like it succeeded.
+
+Replacement is `hyprctl eval` with the equivalent Lua. Field names confirmed from
+`MONITOR_FIELDS` / `DEVICE_FIELDS` in `LuaBindingsConfigRules.cpp`:
+
+| Current | Lua replacement |
+|---|---|
+| `hyprctl keyword monitor "eDP-1, preferred, 0x0, 1.5"` | `hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "preferred", position = "0x0", scale = 1.5 })'` |
+| `hyprctl keyword monitor "eDP-1, disable"` | `hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = true })'` |
+| `hyprctl keyword "device[$TOUCHPAD]:enabled" false` | `hyprctl eval 'hl.device({ name = "'"$TOUCHPAD"'", enabled = false })'` |
+
+`hyprctl dispatch` and `hyprctl monitors -j` are unaffected — only `keyword` is gated.
+
+## Bonus: keybind-help.sh is confirmed broken, not just suspected
+
+`hl.bind` sets every Lua bind to a fixed handler (`LuaBindingsToplevel.cpp:155-156`):
+
+```cpp
+kb.handler    = "__lua";
+kb.arg        = std::to_string(ref);
+```
+
+`bindsRequest` emits `kb->handler` as `"dispatcher"` and `kb->arg` as `"arg"`
+(`HyprCtl.cpp:1076-1077`). So under a Lua config **every** entry in
+`hyprctl binds -j` reports `"dispatcher": "__lua"` and an opaque Lua registry
+integer as `"arg"`. Every case in the script's `format_action()` falls through.
+
+The fix is to stop deriving labels from the dispatcher. `hl.bind` accepts a
+`description` (alias `desc`) option, surfaced as `"description"` with a
+`"has_description"` flag. Set a description per bind during the keybinds port
+(CHR-114) and rewrite the script's jq to read `.description`.
+
+That makes CHR-114 and CHR-117 coupled: the descriptions have to be written during
+the bind port, not bolted on afterwards.
