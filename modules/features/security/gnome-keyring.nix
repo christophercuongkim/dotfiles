@@ -1,8 +1,14 @@
 # GNOME Keyring
 { ... }:
 {
-  flake.modules.nixos.gnome-keyring = {
+  flake.modules.nixos.gnome-keyring = { pkgs, ... }: {
     services.gnome.gnome-keyring.enable = true;
+
+    # Seahorse ("Passwords and Keys") is the only practical way to change the
+    # keyring's own passphrase -- there is no CLI for re-keying. Needed when the
+    # keyring drifts out of sync with the account password, which the PAM line
+    # below prevents going forward but cannot repair after the fact.
+    environment.systemPackages = [ pkgs.seahorse ];
 
     # Unlocks the login keyring with the login password.
     security.pam.services.login.enableGnomeKeyring = true;
