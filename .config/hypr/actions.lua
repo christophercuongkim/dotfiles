@@ -19,8 +19,11 @@ local function notify(text)
 end
 
 -- waybar loses track of outputs when the layout changes under it.
+--
+-- `pkill waybar; waybar` would orphan it from its systemd unit, so systemd
+-- would think the service had failed and the next restart would fight us.
 local function restart_waybar()
-    hl.exec_cmd("pkill waybar; waybar")
+    hl.exec_cmd("systemctl --user restart waybar")
 end
 
 local function externals()

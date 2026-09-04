@@ -43,6 +43,7 @@ in
           topLevel.config.flake.modules.homeManager.waybar
           topLevel.config.flake.modules.homeManager.terminals
           topLevel.config.flake.modules.homeManager.networkmanager
+          topLevel.config.flake.modules.homeManager.session-services
         ];
       };
     };

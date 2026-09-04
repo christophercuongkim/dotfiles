@@ -45,17 +45,24 @@ hl.on("window.open", function(w)
 end)
 
 hl.on("hyprland.start", function()
-    -- Session setup
-    hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop hyprland-session.target && systemctl --user start hyprland-session.target")
+    -- Session setup.
+    --
+    -- The old version chained this into `systemctl --user stop/start
+    -- hyprland-session.target`. That target does not exist on this system
+    -- (LoadState=not-found) -- UWSM owns the session via
+    -- wayland-session@hyprland-uwsm.desktop.target -- so the `&&` chain broke
+    -- at the stop and the rest never ran. Dropped.
+    hl.exec_cmd("dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 
-    -- System services (start before lock)
+    -- mako, hypridle, hyprpaper, blueman-applet and waybar are systemd user
+    -- units now, started by graphical-session.target. See
+    -- modules/features/desktop/session-services.nix.
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("mako")
-    hl.exec_cmd("hypridle")
+
+    -- Not a unit: gnome-keyring is partly PAM-managed already, and setcursor
+    -- is a one-shot, not a daemon.
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets,ssh")
-    hl.exec_cmd("hyprpaper")
     hl.exec_cmd("setcursor Future-Cyan-Hyprcursor_Theme 40")
-    hl.exec_cmd("blueman-applet")
 
     -- Lock on start, then launch apps after unlock.
     -- Phase 1: lock and bind workspaces to the external monitor if there is one.
