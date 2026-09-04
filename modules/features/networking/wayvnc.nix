@@ -41,11 +41,11 @@
           # serve the virtual output over VNC. Lets us drive the session with
           # the laptop screen fully dark and no monitor attached. On exit we
           # remove the virtual output and `hyprctl reload` to restore eDP-1
-          # from monitors.conf.
+          # from monitors.lua.
           #
           # Order matters: create the headless output BEFORE disabling eDP-1,
           # so eDP-1 is never the sole output (disabling the sole output leaves
-          # it black on the next lid-open — see monitors.conf).
+          # it black on the next lid-open — see monitors.lua).
           before=$(hyprctl monitors all -j | jq -r '.[].name' | sort)
           hyprctl output create headless
           sleep 0.3
@@ -62,7 +62,7 @@
           cleanup() {
             [ -n "''${child:-}" ] && kill "$child" 2>/dev/null || true
             hyprctl output remove "$out" 2>/dev/null || true
-            hyprctl reload 2>/dev/null || true # restore eDP-1 from monitors.conf
+            hyprctl reload 2>/dev/null || true # restore eDP-1 from monitors.lua
           }
           trap 'exit 0' INT TERM
           trap cleanup EXIT

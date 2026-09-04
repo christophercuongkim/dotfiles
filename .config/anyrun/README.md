@@ -15,13 +15,13 @@ Keyboard-driven launcher for Wayland. Dark red/black theme with JetBrainsMono.
 anyrun
 ```
 
-**Switch hyprland from rofi back to anyrun** — in `.config/hypr/keybinds.conf`, change:
-```
-bind = $mod, space, exec, rofi -show drun
+**Switch hyprland from rofi back to anyrun** — in `.config/hypr/keybinds.lua`, change:
+```lua
+bind(mod .. " + space", hl.dsp.exec_cmd("rofi -show drun"), "App launcher")
 ```
 to:
-```
-bind = $mod, space, exec, anyrun
+```lua
+bind(mod .. " + space", hl.dsp.exec_cmd("anyrun"), "App launcher")
 ```
 Then rename `config.ron.old` to `config.ron`.
 
@@ -34,7 +34,7 @@ Then rename `config.ron.old` to `config.ron`.
 | rofi | `$mod, Space` | **active** |
 | anyrun | `Super+Space` (in `config.ron.old`) | inactive — no `config.ron` present |
 
-The hyprland keybind (`keybinds.conf` line 7) currently launches rofi. anyrun is installed and configured but not wired to the hotkey. To switch, see [Quick Start](#quick-start) above.
+The hyprland keybind (`keybinds.lua`, the `Super + space` entry) currently launches rofi. anyrun is installed and configured but not wired to the hotkey. To switch, see [Quick Start](#quick-start) above.
 
 ---
 

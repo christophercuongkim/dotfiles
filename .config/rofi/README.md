@@ -98,14 +98,18 @@ use `@bg-alt`.
 
 ## Keybindings
 
-Rofi is launched from Hyprland via `/home/chriskim/dotfiles/.config/hypr/keybinds.conf`:
+Rofi is launched from Hyprland via `/home/chriskim/dotfiles/.config/hypr/keybinds.lua`:
 
 | Keybind       | Command           | Opens       |
 |---------------|-------------------|-------------|
 | `Super+Space` | `rofi -show drun` | Apps mode   |
 
-To add launchers for the other modes, add lines to `keybinds.conf`:
+To add launchers for the other modes, add lines to `keybinds.lua`:
+```lua
+bind(mod .. " + R", hl.dsp.exec_cmd("rofi -show run"),    "Rofi: run")
+bind(mod .. " + W", hl.dsp.exec_cmd("rofi -show window"), "Rofi: windows")
 ```
-bind = $mod, R, exec, rofi -show run
-bind = $mod, W, exec, rofi -show window
-```
+
+`bind()` is the local wrapper in `keybinds.lua` that adds the description —
+descriptions are what `keybind-help.sh` reads, since Lua binds all report
+dispatcher `__lua`.
