@@ -1,0 +1,11 @@
+-- Window rules
+--
+-- None defined. New rules take the form:
+--
+--   hl.window_rule({
+--       name  = "example",
+--       match = { class = "^foo$" },
+--       float = true,
+--   })
+--
+-- See also hl.layer_rule and hl.workspace_rule.
