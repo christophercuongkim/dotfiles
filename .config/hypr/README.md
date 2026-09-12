@@ -3,10 +3,10 @@
 The compositor config is **Lua**. Hyprland deprecated its old `hyprlang` `.conf`
 format in 0.55 and drops it after 0.56; we run 0.56.2.
 
-The `.conf` files are still in this directory during the migration. Hyprland
-prefers `hyprland.lua` when both exist and picks one **once at startup**, so
-they are dead weight for the compositor but serve as the rollback path. They
-will be deleted once the Lua config has survived a few real logins.
+The compositor `.conf` files are gone — the Lua config has survived real cold
+boots. Hyprland prefers `hyprland.lua` when both exist and picks one **once at
+startup**, so rolling back would mean restoring the `.conf` files from git and
+restarting; a reload is not enough.
 
 `hyprlock.conf`, `hypridle.conf` and `hyprpaper.conf` are **not** affected —
 those are separate hypr\* applications and remain hyprlang.
@@ -284,54 +284,80 @@ more — see the [Hyprland wiki](https://wiki.hypr.land/Configuring/Basics/Windo
 
 ## Autostart
 
-`autostart.lua` registers one handler:
+`autostart.lua` registers two handlers.
+
+**`hyprland.start`** — fired from the compositor event bus at startup, **not**
+on config load, so `hyprctl reload` does not re-run any of it.
+
+*Session setup:* export `DISPLAY`, `WAYLAND_DISPLAY`,
+`HYPRLAND_INSTANCE_SIGNATURE` and `XDG_CURRENT_DESKTOP` into the systemd user
+environment, then start `hyprpolkitagent`, `gnome-keyring-daemon` and the
+cursor theme.
+
+`mako`, `hypridle`, `hyprpaper`, `blueman-applet` and `waybar` are **not**
+started here — they are systemd user units pulled in by
+`graphical-session.target`. See
+`modules/features/desktop/session-services.nix`. `gnome-keyring` and
+`setcursor` stay inline: the first is partly PAM-managed, the second is a
+one-shot rather than a daemon.
+
+There is no `hyprland-session.target` on this system (`LoadState=not-found`) —
+UWSM owns the session via `wayland-session@hyprland-uwsm.desktop.target`. An
+earlier version chained session setup through
+`systemctl --user stop hyprland-session.target && ...`, which broke at the stop
+and silently skipped everything after it.
+
+*Lock and workspace binding:* locks on start; after unlock, workspaces 1-4 are
+bound to the first external monitor (falling back to `eDP-1`). The pinning goes
+through `hyprctl eval` with `hl.workspace_rule` — the old
+`hyprctl keyword workspace` form is a silent no-op under Lua.
+
+*App launch:* `ghostty`, `brave`, `spotify` and `1password`, with no placement
+arguments.
+
+**`window.open`** — startup placement, keyed on window class:
 
 ```lua
-hl.on("hyprland.start", function()
-    hl.exec_cmd("mako")
-    -- ...
+local placements = {
+    ["com.mitchellh.ghostty"] = 1,
+    ["brave-browser"]         = 2,
+    ["spotify"]               = 3,
+    ["1password"]             = 4,
+}
+
+hl.on("window.open", function(w)
+    local ws = placements[w.class]
+    if not ws then return end
+    placements[w.class] = nil          -- one-shot per class
+    hl.dispatch(hl.dsp.window.move({
+        workspace = ws,
+        window    = "address:" .. w.address,
+        follow    = false,
+    }))
 end)
 ```
 
-`hyprland.start` is fired from the compositor event bus at startup, **not** on
-config load — so `hyprctl reload` does not re-run any of this.
+**Why not an exec rule.** `hl.exec_cmd` takes a window rule as its second
+argument (`hl.exec_cmd("brave", { workspace = "2 silent" })`) and it looks like
+the right answer, but the rule is tied to the PID `hl.exec_cmd` spawns. Brave
+launches through a wrapper that re-execs, so its window belongs to a different
+PID, the rule silently misses, and the window lands on whatever workspace has
+focus. ghostty, spotify and 1password are single-process and did match — which
+made exec rules look correct until the first cold boot.
 
-**Phase 1 — session environment and services:** export `DISPLAY`,
-`WAYLAND_DISPLAY`, `HYPRLAND_INSTANCE_SIGNATURE` and `XDG_CURRENT_DESKTOP` into
-the systemd user environment and restart `hyprland-session.target`, then start
-`hyprpolkitagent`, `mako`, `hypridle`, `gnome-keyring-daemon`, `hyprpaper`, the
-cursor theme, and `blueman-applet`.
+Matching the window is PID-independent and works for all four. The cost is that
+placement happens just after the window maps, so there can be a brief flash on
+the wrong workspace. Still far better than the `sleep 5..8` ladder both
+approaches replaced, which left windows misplaced for seconds and lost them
+outright if an app started slowly.
 
-**Phase 2 — lock and workspace binding:** locks on start; after unlock,
-workspaces 1-4 are bound to the first external monitor (falling back to
-`eDP-1`). The pinning goes through `hyprctl eval` with `hl.workspace_rule` —
-the old `hyprctl keyword workspace` form is a silent no-op under Lua.
+Exec rules are still fine for a single-process app, and any window-rule effect
+works in that table, not just `workspace`. An unknown key is a hard error, not
+a silent no-op.
 
-**Phase 3 — app launch, each pinned to its workspace:**
-```lua
-hl.exec_cmd("ghostty",   { workspace = "1 silent" })
-hl.exec_cmd("brave",     { workspace = "2 silent" })
-hl.exec_cmd("spotify",   { workspace = "3 silent" })
-hl.exec_cmd("1password", { workspace = "4 silent" })
-```
-
-The second argument to `hl.exec_cmd` is a **window rule attached to the spawn
-request**, applied when that process's window appears. Placement is therefore
-deterministic regardless of how long an app takes to start, and `silent` keeps
-focus where it is instead of following each window.
-
-This is worth knowing about because the hyprlang equivalent did not work —
-`hyprctl dispatch exec '[workspace 2 silent] brave'` dropped the rule and the
-app landed on workspace 1, which is why the old config needed a two-phase
-`sleep` ladder (four staggered launches, then four timed
-`movetoworkspacesilent` calls) to place four windows.
-
-Any window-rule effect works here, not just `workspace`.
-
-**Adding a new autostart app** — inside the existing handler:
-```lua
-hl.exec_cmd("myapp", { workspace = "5 silent" })
-```
+**Adding a new autostart app** — `hl.exec_cmd("myapp")` inside the
+`hyprland.start` handler, plus an entry in `placements` if it needs a
+workspace.
 Use `hyprctl clients -j | jq '.[].class'` if you need the window class for a
 separate rule in `windowrules.lua`.
 

@@ -165,6 +165,36 @@ workspace 5 with focus never leaving workspace 1.
 second phase. Four lines replace eight, and placement no longer depends on
 guessing how long an app takes to open a window.
 
+**AMENDED — exec rules only work for single-process apps.** The rule is attached
+to the PID `hl.exec_cmd` spawns, so it matches only a window that comes from
+that exact process. Brave launches through a wrapper that re-execs; its window
+belongs to a different PID, the rule silently misses, and the window lands on
+the focused workspace.
+
+The live test above used kitty, which is single-process — as are ghostty,
+spotify and 1password. All four matched, which is why this read as a general
+result. Only a cold boot with brave in the set exposed it.
+
+Startup placement now matches the window instead (`autostart.lua`, commit
+`83c8c5f`):
+
+```lua
+hl.on("window.open", function(w)
+    local ws = placements[w.class]
+    if not ws then return end
+    placements[w.class] = nil          -- one-shot per class
+    hl.dispatch(hl.dsp.window.move({ workspace = ws, window = "address:" .. w.address, follow = false }))
+end)
+```
+
+PID-independent, so it works for all four. Costs a possible brief flash on the
+wrong workspace, since placement lands just after the window maps.
+
+**The general lesson:** verifying a spawn-time rule against a single-process app
+proves nothing about wrapper-launched ones. Electron and browser packages are
+the usual re-exec offenders. Test placement with the awkward app, not the easy
+one.
+
 Any window-rule effect works in that table, not just `workspace`. An unknown key
 is a hard error (`buildRuleFromTable: unknown effect '...'`), not a silent
 no-op — unusual and welcome in this codebase.
