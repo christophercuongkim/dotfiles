@@ -11,6 +11,9 @@
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="5986", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="1c4f", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
+      # Goodix fingerprint reader: autosuspend makes it drop mid-verify
+      # ("device was disconnected"), after which fprintd wedges on a stale claim.
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="27c6", ATTR{power/control}="on", ATTR{power/autosuspend}="-1"
     '';
   };
 }
