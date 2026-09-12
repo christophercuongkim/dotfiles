@@ -1,7 +1,7 @@
 # Mako notifications — Red/Black theme to match desktop (rofi, waybar, ghostty)
 
-# Auto-dismiss after 2 seconds
-default-timeout=2000
+# Auto-dismiss after 1 second
+default-timeout=1000
 
 # Colors
 background-color=#000000
