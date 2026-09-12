@@ -42,15 +42,17 @@ stay.
 
 ## Do this next
 
-- [ ] confirm the magnet with the loop above
-- [x] revert `logind.nix`, `lid-switch.sh`, `toggle-lid.sh` -- done, tree is clean of them
-- [ ] `sudo nixos-rebuild switch --flake .#AppleII` (needs an interactive terminal)
-- [ ] reboot -- still needed for `i8042.reset=1`
-- [ ] `grep -o 'i8042\.reset=1' /proc/cmdline`
-- [ ] drop the temp workaround if still present:
-      `systemctl --user disable --now lid-loop-guard.service && rm ~/.config/systemd/user/lid-loop-guard.service`
-- [ ] commit `boot.nix` + `framework-udev.nix`
-- [ ] ~~Framework support ticket~~ -- not a hardware fault
+- [x] revert `logind.nix`, `lid-switch.sh`, `toggle-lid.sh`
+- [x] `nixos-rebuild switch --flake .#AppleII`
+- [x] reboot -- `i8042.reset=1` confirmed present in `/proc/cmdline`
+- [x] commit `boot.nix` + `framework-udev.nix` (ae648ad, e49072b)
+- [x] remove the temp workaround -- `lid-loop-guard.service` disabled, unit
+      file deleted, inhibitor confirmed gone from `systemd-inhibit --list`.
+      It was holding a permanent `handle-lid-switch` block, which masked the
+      restored `HandleLidSwitch=suspend-then-hibernate`.
+
+- [ ] optional: confirm the magnet with the loop above, for the record
+- [x] ~~Framework support ticket~~ -- not a hardware fault, cancelled
 
 ## Keyboard death (still real, still worth the kernel param)
 
