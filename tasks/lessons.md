@@ -198,3 +198,44 @@ one.
 Any window-rule effect works in that table, not just `workspace`. An unknown key
 is a hard error (`buildRuleFromTable: unknown effect '...'`), not a silent
 no-op — unusual and welcome in this codebase.
+
+## Session daemons are systemd units — never pkill them
+
+**Problem:** `Super + Shift + I` reported "Idle lock OFF" and the screen dimmed
+and locked anyway. `Super + Shift + A` said "Laptop stays awake" and the machine
+suspended half an hour later.
+
+**Root cause, toggle-idle.sh:** `2a36777` moved mako, hypridle, hyprpaper,
+blueman-applet and waybar to home-manager systemd user units. The unit carries
+`Restart=always, RestartSec=10`, so `pkill hypridle` turned idle off for exactly
+ten seconds. The notification fired immediately and was never contradicted.
+
+Worse, the ON branch (`hypridle & disown`) would have spawned a second,
+unmanaged instance next to the unit.
+
+**Fix:** manage the unit, not the process. `systemctl --user stop` is not a
+failure, so the restart policy does not apply to it:
+
+```bash
+if systemctl --user is-active --quiet hypridle; then
+    systemctl --user stop hypridle
+else
+    systemctl --user start hypridle
+fi
+```
+
+`actions.lua` already had this right for waybar and said why in a comment;
+`position-monitor.sh` still had `pkill waybar; waybar &` and got the same fix.
+
+**Root cause, toggle-lid.sh:** different bug, same symptom class. The script
+worked — the inhibitor was just scoped too narrowly. `--what=handle-lid-switch`
+blocks logind acting on the lid and nothing else, while `hypridle.conf`'s
+30-minute listener calls `systemctl suspend` directly. Now
+`--what=handle-lid-switch:sleep`.
+
+**The general lesson:** after moving a daemon under systemd, grep for every
+`pkill`, `pidof` and bare re-spawn of it — those callers do not error, they just
+quietly stop working. And when a toggle inhibits something, check *every* path
+to the behaviour, not just the one the toggle is named after. Both failures here
+announced success with a notification while doing nothing.
+

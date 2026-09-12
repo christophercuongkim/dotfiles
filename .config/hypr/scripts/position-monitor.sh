@@ -93,5 +93,7 @@ for name in "${other_names[@]}"; do
     hypr_monitor "$name" preferred "${mon_x[$name]}x${mon_y[$name]}" "${mon_scale[$name]}"
 done
 
-pkill waybar; waybar &
+# waybar loses track of outputs when the layout changes under it. Restart via
+# systemd -- it is a unit, and pkill would orphan it from that unit.
+systemctl --user restart waybar
 notify-send "Position Monitor" "$focused → $direction of $ref"

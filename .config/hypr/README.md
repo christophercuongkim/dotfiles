@@ -230,7 +230,14 @@ and trims each token, so `"SUPER SHIFT + 1"` is read as a single keysym named
 |---|---|
 | `Super + Shift + T` | Toggle trackpad |
 | `Super + Shift + I` | Toggle idle lock/sleep |
-| `Super + Shift + A` | Toggle lid-close suspend |
+| `Super + Shift + A` | Toggle keep-awake (blocks lid-close *and* idle suspend) |
+
+`Super + Shift + I` stops and starts the `hypridle` **unit**, not the process —
+it has `Restart=always`, so `pkill hypridle` came straight back after ten
+seconds. `Super + Shift + A` holds a `handle-lid-switch:sleep` inhibitor;
+`sleep` is in there because hypridle's 30-minute listener calls
+`systemctl suspend`, which a lid-only inhibitor does not block. While it is on,
+a manual `systemctl suspend` is refused too.
 
 ### Media Keys
 
