@@ -1,6 +1,10 @@
 # Build output
 build_output.txt
 
+# nix build symlinks
+/result
+/result-*
+
 # Scratch notes
 temp.txt
 
