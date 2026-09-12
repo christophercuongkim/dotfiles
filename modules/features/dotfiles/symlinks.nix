@@ -2,7 +2,7 @@
 { ... }:
 {
   # dotfilesPath is passed via extraSpecialArgs in home-manager.nix
-  flake.modules.homeManager.symlinks = { dotfilesPath, ... }: {
+  flake.modules.homeManager.symlinks = { dotfilesPath, pkgs, ... }: {
     home.file = {
       # Shell
       ".zshrc".source = "${dotfilesPath}/.zshrc";
@@ -37,7 +37,14 @@
       ".config/anyrun".source = "${dotfilesPath}/.config/anyrun";
       ".config/waybar".source = "${dotfilesPath}/.config/waybar";
       ".config/rofi".source = "${dotfilesPath}/.config/rofi";
-      ".config/mako".source = "${dotfilesPath}/.config/mako";
+      # mako re-reads its config only when told to. home-manager's own mako
+      # module does exactly this (modules/services/mako.nix, onChange), but only
+      # when it writes the config itself -- which it does not here, because
+      # `settings` is left empty so this symlink wins.
+      ".config/mako" = {
+        source = "${dotfilesPath}/.config/mako";
+        onChange = "${pkgs.mako}/bin/makoctl reload || true";
+      };
       ".config/hypr".source = "${dotfilesPath}/.config/hypr";
       ".config/hyprpaper/hyprpaper.conf".source = "${dotfilesPath}/.config/hypr/hyprpaper.conf";
     };

@@ -239,3 +239,49 @@ quietly stop working. And when a toggle inhibits something, check *every* path
 to the behaviour, not just the one the toggle is named after. Both failures here
 announced success with a notification while doing nothing.
 
+## X-Restart-Triggers only works where home-manager generates the unit
+
+**Problem:** adding `systemd.user.services.mako.Unit.X-Restart-Triggers` made
+`nixos-rebuild switch` fail with
+`org.freedesktop.systemd1.BadUnitSetting: Unit mako.service has a bad unit file
+setting`, and left mako dead. The identical line on hypridle, hyprpaper and
+waybar worked.
+
+**Root cause:** those three have units home-manager generates, so the setting
+merges into a complete unit. `services.mako` does not generate one — it does
+`home.packages = [ cfg.package ]` and the unit ships inside the package at
+`share/systemd/user/mako.service`. So the setting merged with nothing and
+produced a standalone `~/.config/systemd/user/mako.service` containing only:
+
+```
+[Unit]
+X-Restart-Triggers=<hash>
+```
+
+The user unit directory outranks the package's, so that shadowed the real unit
+and systemd saw a service with no `ExecStart`.
+
+**Check before adding one:**
+
+```bash
+nix eval '.#nixosConfigurations.AppleII.config.home-manager.users.chriskim.systemd.user.services' --apply builtins.attrNames
+```
+
+If the service is not in that list, the unit is not home-manager's and a trigger
+will shadow rather than merge.
+
+**For mako, use its own reload hook instead** — `home.file.<path>.onChange`,
+which is what home-manager's mako module does when it owns the config:
+
+```nix
+".config/mako" = {
+  source   = "${dotfilesPath}/.config/mako";
+  onChange = "${pkgs.mako}/bin/makoctl reload || true";
+};
+```
+
+**Wider point:** empty `settings` on a home-manager service means the dotfiles
+symlink wins, which is the intent — but it also opts out of every onChange and
+restart hook the module would have wired up for its own config file. Re-adding
+that hook is a separate step, per service, and nothing warns you.
+

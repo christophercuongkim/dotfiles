@@ -27,6 +27,13 @@
 # Hashing the file rather than interpolating its path matters: dotfilesPath is
 # inputs.self, so a path changes on every commit and would restart every daemon
 # on every rebuild. The hash changes only when that config actually changes.
+#
+# mako is not here. Its unit comes from the package via home.packages, not from
+# systemd.user.services, so setting Unit.X-Restart-Triggers on it does not merge
+# with anything -- it writes a standalone ~/.config/systemd/user/mako.service
+# holding only that line, which shadows the package unit and leaves systemd with
+# no ExecStart (BadUnitSetting, and mako stops). mako reloads via an onChange
+# hook on its home.file entry in dotfiles/symlinks.nix instead.
 { ... }:
 {
   flake.modules.homeManager.session-services = { dotfilesPath, ... }: {
@@ -46,10 +53,6 @@
     systemd.user.services = {
       hypridle.Unit.X-Restart-Triggers = [
         (builtins.hashFile "sha256" "${dotfilesPath}/.config/hypr/hypridle.conf")
-      ];
-
-      mako.Unit.X-Restart-Triggers = [
-        (builtins.hashFile "sha256" "${dotfilesPath}/.config/mako/config")
       ];
 
       # hyprpaper reads .config/hyprpaper/hyprpaper.conf, which symlinks.nix
