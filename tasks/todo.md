@@ -74,3 +74,75 @@ restarting Hyprland does not fix it. The USB fingerprint reader keeps working
 - Recover the keyboard without rebooting:
   `echo -n serio0 > /sys/bus/serio/drivers/atkbd/unbind` then `.../bind` (root).
   A USB keyboard also works immediately.
+
+## Hibernate "stays on" / lid-open black screen (2026-09-20)
+
+Journal timeline, this boot:
+
+| time | event |
+|---|---|
+| 09:02 | lid closed, s2idle suspend; lid open 09:08 resumed fine |
+| 09:08:55 | lid closed, s2idle suspend |
+| 10:08:57 | HibernateDelaySec=60min hit: RTC wake, hibernate, 30 GB image, power off |
+| 10:11:25 | resumed from that image, same session (lid-open event delivered post-resume) |
+
+So lid close works as configured. What the user saw (black screen, power LED
+on, needed the power button) is the machine already hibernated and coming back
+up. Nothing failed today.
+
+Manual `systemctl hibernate` (waybar) is the real problem, and it is
+intermittent. Since Sep 12: 5 resumed fine, 3 never came back. Every failure
+looks the same in the next boot's initrd: `HibernateLocation` EFI var is set
+(systemd got as far as handing off to the kernel) but
+`systemd-hibernate-resume: Unable to resume` / `PM: Image not found (code -22)`
+(no valid image signature in swap). That means the kernel died or was
+force-powered-off between "hibernation entry" and the final swap-header
+commit. Same symptom logind.nix's comment blamed on HibernateMode=platform, so
+that switch was not the root cause.
+
+Failed: Sep 14 14:34, Sep 14 17:52, Sep 17 17:49. OK: Sep 13 00:06, Sep 13
+23:10, Sep 14 21:45, Sep 15 21:21, Sep 16 16:43, plus today's auto one.
+
+Unknowns the log cannot answer: image size on the failed runs (93 GB RAM, so
+a heavy session can mean a 60+ GB write taking minutes with a black screen),
+and how long the user waited before holding the power button.
+
+- [ ] next hang: wait 5 min before forcing off; note it
+- [ ] `echo 1 | sudo tee /sys/power/pm_trace` before `systemctl hibernate`;
+      after the forced reboot `sudo dmesg | grep -A3 'Magic number'` names
+      the last device touched (RTC time gets clobbered, timesyncd fixes it)
+- [ ] `sudo ls /sys/fs/pstore` after a forced reboot, in case it panicked
+- [ ] `Super+Shift+A` / `Super+Shift+I` are keep-awake toggles; they block
+      sleep, they do not cause it. Neither was active today.
+
+---
+
+# ani-cli: nix package -> live git checkout (2026-10-04)
+
+Goal: stop installing `pkgs.ani-cli`, run `~/repos/ani-cli/ani-cli` instead so
+a `git pull` is the whole update path.
+
+The nix `ani-cli` is a wrapper script that injects its deps on PATH internally,
+so dropping it also drops `mpv`, `yt-dlp` and `curl-impersonate` (`fzf`,
+`ffmpeg`, `sed`, `grep` were already system-wide). The bare script would have
+fallen back to `vlc` for playback and lost download mode entirely.
+
+- [x] `modules/features/apps/media.nix`: `ani-cli` -> `mpv`, `yt-dlp`,
+      `curl-impersonate`
+- [x] `modules/features/dotfiles/symlinks.nix`: `.local/bin/ani-cli` via
+      `config.lib.file.mkOutOfStoreSymlink` (store `.source` would copy the
+      repo in and freeze it)
+- [x] `.zshrc`: `~/.local/bin` was not on PATH
+- [ ] `sudo nixos-rebuild switch --flake .#AppleII`
+
+## Review
+
+Verified by eval + build, not by switch:
+
+- `systemPackages` now matches `[ mpv-with-scripts-0.41.0 yt-dlp-2026.08.19
+  curl-impersonate-2.1.1 ]`, no `ani-cli`
+- built the hm entry: `hm_anicli -> /home/chriskim/repos/ani-cli/ani-cli`
+
+`curl-impersonate` matters more than it looks: the script picks
+`curl_firefox135`/`curl_chrome136` over plain `curl` by name, and allanime
+rejects a vanilla curl fingerprint.
