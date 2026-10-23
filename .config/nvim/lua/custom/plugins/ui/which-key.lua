@@ -15,6 +15,7 @@ return {
         { '<leader>f', group = '[F]ormat' },
         { '<leader>g', group = '[G]o' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>j', group = '[J]upyter', mode = { 'n', 'v' } },
         { '<leader>l', group = '[L]int' },
         { '<leader>m', group = '[M]ark' },
         { '<leader>n', group = '[N]avigation' },
