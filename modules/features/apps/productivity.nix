@@ -7,8 +7,10 @@
       obsidian
       slack
       claude-code
+      code-cursor
+      cursor-cli
+      codex
       opencode
-      zotero
     ];
   };
 }
