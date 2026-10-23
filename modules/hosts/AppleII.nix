@@ -40,6 +40,7 @@ in
         nixos.resolved
         nixos.vpn
         nixos.firewall
+        nixos.wayvnc
 
         # Audio/Bluetooth
         nixos.pipewire
