@@ -90,6 +90,7 @@ fi
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export PATH=$HOME/development/flutter/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 export HYPRSHOT_DIR="$HOME/Pictures/screen_shots"
 

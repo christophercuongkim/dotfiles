@@ -2,8 +2,14 @@
 { ... }:
 {
   # dotfilesPath is passed via extraSpecialArgs in home-manager.nix
-  flake.modules.homeManager.symlinks = { dotfilesPath, pkgs, ... }: {
+  flake.modules.homeManager.symlinks = { config, dotfilesPath, pkgs, ... }: {
     home.file = {
+      # ani-cli runs straight out of the git checkout, so this one points at
+      # the live repo rather than the store: a `git pull` takes effect with no
+      # rebuild. Deps (mpv, yt-dlp, curl-impersonate) come from apps/media.nix.
+      ".local/bin/ani-cli".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ani-cli/ani-cli";
+
       # Shell
       ".zshrc".source = "${dotfilesPath}/.zshrc";
 

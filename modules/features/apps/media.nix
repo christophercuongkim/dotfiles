@@ -5,7 +5,10 @@
   flake.modules.nixos.media = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       ffmpeg
-      ani-cli
+      # ani-cli runs from ~/repos/ani-cli; nix provides only its runtime deps
+      mpv
+      yt-dlp
+      curl-impersonate
       gimp
       obs-studio
       spotify
