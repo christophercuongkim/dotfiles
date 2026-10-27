@@ -7,6 +7,7 @@
       obsidian
       slack
       claude-code
+      sox # claude-code voice mode mic capture
       code-cursor
       cursor-cli
       codex
