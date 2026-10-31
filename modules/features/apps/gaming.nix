@@ -6,6 +6,9 @@
     environment.systemPackages = with pkgs; [ 
       steam
       discord
+      faugus-launcher
+      mangohud
     ];
+    programs.gamemode.enable = true;
   };
 }
